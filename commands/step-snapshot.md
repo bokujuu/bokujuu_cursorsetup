@@ -1,19 +1,19 @@
 # ステップスナップショット（手動フロー）
 
 ## まずは自動化スクリプト（推奨）
-- `scripts/step_snapshot.py` を使うと、変更ファイルのコピーと `STEP_DIFFS.md` 追記を自動化できます。
+- `.cursor/step_snapshot.py` を使うと、変更ファイルのコピーと `STEP_DIFFS.md` 追記を自動化できます。
 - 使い方（例）:
   - Git の変更を検出してスナップショット（差分省略）:
     ```bash
-    python3 scripts/step_snapshot.py --git --verbose
+    python3 .cursor/step_snapshot.py --git --verbose
     ```
   - 明示ファイルでスナップショットし、差分も埋め込む:
     ```bash
-    python3 scripts/step_snapshot.py --files commands/step-snapshot.md mcp_enhanced.json --include-diff --message "ドキュメント更新"
+    python3 .cursor/step_snapshot.py --files commands/step-snapshot.md mcp_enhanced.json --include-diff --message "ドキュメント更新"
     ```
   - ドライラン（実行内容のみ表示）:
     ```bash
-    python3 scripts/step_snapshot.py --git --dry-run --verbose
+    python3 .cursor/step_snapshot.py --git --dry-run --verbose
     ```
 - 主なオプション:
   - `--files <paths...>`: 直接対象ファイルを列挙（Git未使用時に便利）
