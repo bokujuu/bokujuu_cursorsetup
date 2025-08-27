@@ -9,7 +9,7 @@
     ```
   - 明示ファイルでスナップショットし、差分も埋め込む:
     ```bash
-    python3 scripts/step_snapshot.py --files commands/step-snapshot.md mcp_enhanced.json --include-diff --message "ドキュメント更新"
+    python3 .cursor/scripts/step_snapshot.py --files .cursor/commands/step-snapshot.md .cursor/mcp_enhanced.json --include-diff --message "ドキュメント更新"
     ```
   - ドライラン（実行内容のみ表示）:
     ```bash
