@@ -42,11 +42,10 @@
       ]
     },
     "github": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ]
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "MY GITHUB PAT"
+      }
     }
   }
 }
