@@ -2,9 +2,10 @@
 
 ## 前提
 
-- Windows（手順は PowerShell 想定）
 - Git
 - Cursor または Codex CLI
+- **Windows**: PowerShell 5.1+
+- **Linux / macOS / WSL**: bash（任意、`install.sh`）
 
 ## 1. クローン
 
@@ -15,40 +16,55 @@ cd bokujuu_cursorsetup
 
 ## 2. Skills をホームへ配置
 
+**Windows**
+
 ```powershell
 .\scripts\install.ps1
 ```
 
-`skills/` 配下が `%USERPROFILE%\.codex\skills\<skill名>\` にコピーされます（既存は上書き）。
+**Linux / macOS / WSL**
 
-Cursor は `.codex\skills` をグローバル skill として読み込みます。
+```bash
+chmod +x scripts/install.sh
+./scripts/install.sh
+```
+
+`skills/` 配下が `~/.codex/skills/<skill名>/` にコピーされます（既存は上書き）。
+
+Cursor / Codex は `.codex/skills` をグローバル skill として読み込みます。
 
 ## 3. User Rules を Cursor に反映
 
-1. `user-rules\` 内の `user-rule-*.md` を開く
-2. Cursor → **Settings → Rules → User Rules**
-3. 運用方針に合わせて貼り付け:
-   - **推奨**: `user-rule-cursor-integrated.md` を軸に、必要な専門ルールを追記または分割参照
-   - またはタスク別に [docs/rule-index.md](docs/rule-index.md) を見て該当ファイルをコピー
+**推奨運用（2 層）** — 詳細は [docs/user-rules-guide.md](docs/user-rules-guide.md):
+
+1. **常時**: `user-rules/user-rule-cursor-integrated.md` のみを Settings → **Rules → User Rules** に貼る
+2. **タスク時**: [docs/rule-index.md](docs/rule-index.md) に従い、必要な専門ルールをチャットで参照させる（全10ファイルの一括貼り付けは非推奨）
 
 GitHub を更新しても **Settings は自動では変わりません**。
 
 ## 4. MCP（任意）
 
-1. `mcp\mcp.template.json` を Cursor の MCP 設定にマージ
-2. `YOUR_GITHUB_PAT_HERE` 等を **自分のキーに置換**（コミットしない）
-3. ローカル専用なら `mcp\mcp.json` として保存（`.gitignore` 済み）
+1. [mcp/README.md](mcp/README.md) を読む
+2. `mcp/mcp.template.json` を `%USERPROFILE%\.cursor\mcp.json`（または Cursor 設定の MCP 欄）にマージ
+3. `YOUR_GITHUB_PAT_HERE` と **filesystem のルートパス**を自分の環境に置換（コミットしない）
+4. 必要なら `mcp/mcp.optional.json` から playwright / serena を追加
+5. ローカル専用の `mcp/mcp.json` として保存してもよい（`.gitignore` 済み）
 
 ## 5. 動作確認
 
 - Cursor を再起動
-- Agent で skill 名（例: `anti-human-bottleneck`）が認識されるか確認
-- 新規チャットで User Rules が効いているか確認
+- Agent で skill 名（例: `web-research-resolve`）が認識されるか確認
+- 新規チャットで User Rules（層 A）が効いているか確認
+
+## 旧構成から移行した場合
+
+`.cursor/commands` や `mcp_enhanced.json` を使っていた場合: [docs/migration-from-legacy.md](docs/migration-from-legacy.md)
 
 ## トラブルシュート
 
 | 現象 | 対処 |
 |------|------|
-| skill が出てこない | `install.ps1` 再実行、Cursor 再起動 |
-| ルールが古い | Settings の User Rules を `user-rules/` で更新 |
-| MCP 認証エラー | `mcp.json` のトークン・URL を確認 |
+| skill が出てこない | `install.ps1` / `install.sh` 再実行、Cursor 再起動 |
+| ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 2 層運用を確認 |
+| MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
+| filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |

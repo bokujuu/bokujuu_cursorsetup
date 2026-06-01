@@ -31,7 +31,8 @@ git push origin main
 
 ## ルール索引
 
-タスク別にどの `user-rule-*.md` を読むか: [docs/rule-index.md](docs/rule-index.md)
+- 適用の考え方: [docs/user-rules-guide.md](docs/user-rules-guide.md)
+- タスク別の組み合わせ: [docs/rule-index.md](docs/rule-index.md)
 
 ## 注意
 

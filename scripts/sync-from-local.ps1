@@ -2,6 +2,14 @@
 <#
 .SYNOPSIS
   ローカルの正（rulemaintenance + .codex/skills）から repo 内容を再生成する。
+
+.DESCRIPTION
+  Windows 専用。rulemaintenance リポジトリと ~/.codex/skills から user-rules / skills を上書きコピーする。
+  本 repo を正とする場合はこのスクリプトを使わず、user-rules/ と skills/ を直接編集すること。
+
+.EXAMPLE
+  .\scripts\sync-from-local.ps1
+  .\scripts\sync-from-local.ps1 -RuleMaintenanceRoot "D:\dev\rulemaintenance"
 #>
 param(
     [string]$RuleMaintenanceRoot = "C:\CursorPJs\rulemaintenance"

@@ -31,4 +31,5 @@ Get-ChildItem $Src -Directory | ForEach-Object {
 }
 
 Write-Host "[OK] Global skills installed under $Dst"
-Write-Host "[NEXT] Apply user-rules/ to Cursor Settings -> Rules -> User Rules (manual)"
+Write-Host "[NEXT] User Rules: see docs\user-rules-guide.md (core: user-rule-cursor-integrated.md only)"
+Write-Host "[NEXT] MCP (optional): see mcp\README.md"
