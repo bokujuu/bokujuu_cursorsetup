@@ -13,7 +13,7 @@
 | スキル | 同期元 |
 |--------|--------|
 | `anti-human-bottleneck` | `%USERPROFILE%\.codex\skills\anti-human-bottleneck` |
-| `codex-session-doc` | `%USERPROFILE%\.codex\skills\codex-session-doc` |
+| `cursor-session-doc` | 本リポジトリ `skills/cursor-session-doc`（Codex ログではなく Cursor jsonl 用） |
 | `empirical-prompt-tuning` | `%USERPROFILE%\.codex\skills\empirical-prompt-tuning` |
 | `implement-with-practices` | `%USERPROFILE%\.codex\skills\implement-with-practices` |
 | `ralph-loop` | `%USERPROFILE%\.codex\skills\ralph-loop` |
