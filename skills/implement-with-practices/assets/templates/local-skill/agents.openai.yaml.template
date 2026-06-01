@@ -1,0 +1,5 @@
+interface:
+  display_name: "{{TITLE}}"
+  short_description: "{{SHORT_DESCRIPTION}}"
+  default_prompt: "{{DEFAULT_PROMPT}}"
+allow_implicit_invocation: false

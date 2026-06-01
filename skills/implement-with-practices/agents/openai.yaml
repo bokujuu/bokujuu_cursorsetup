@@ -1,0 +1,5 @@
+interface:
+  display_name: "Implement With Practices"
+  short_description: "Search repo and primary-source practices before implementation, then capture reusable local patterns as draft skills."
+  default_prompt: "Use $implement-with-practices to implement this task by searching existing practices first and recording successful local patterns when needed."
+allow_implicit_invocation: false

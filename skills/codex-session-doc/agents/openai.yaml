@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session Doc"
+  short_description: "Document a Codex session from a thread id."
+  default_prompt: "Use $codex-session-doc to reconstruct and document a Codex session from a thread ID."

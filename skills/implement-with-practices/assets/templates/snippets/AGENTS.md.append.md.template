@@ -1,0 +1,6 @@
+## Local Practice: {{TITLE}}
+
+- Use the local skill at `{{SKILL_PATH}}` when working on {{SUMMARY}}.
+- Review `{{SKILL_PATH}}/references/observations.md` and `{{SKILL_PATH}}/references/sources.md` before editing this pattern.
+- Validate with:
+{{VERIFICATION_BULLETS}}

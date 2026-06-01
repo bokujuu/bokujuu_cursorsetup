@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+
+# MCP: 実キー入りファイルはコミットしない
+mcp/mcp.json
+mcp/mcp.local.json

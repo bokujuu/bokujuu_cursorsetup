@@ -1,0 +1,22 @@
+---
+name: {{SLUG}}
+description: "{{DESCRIPTION}}"
+---
+
+# {{TITLE}}
+
+Use this repo-local skill when working on {{SUMMARY}} in this repository.
+
+## Workflow
+
+1. Read `references/observations.md` to understand the adopted approach and known pitfalls.
+2. Review `references/sources.md` before changing the pattern.
+3. Run the listed verification commands before claiming completion.
+
+## Trigger Keywords
+
+{{TRIGGER_BULLETS}}
+
+## Verification
+
+{{VERIFICATION_BULLETS}}
