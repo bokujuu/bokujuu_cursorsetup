@@ -13,7 +13,6 @@
 | スキル | 同期元 |
 |--------|--------|
 | `anti-human-bottleneck` | `%USERPROFILE%\.codex\skills\anti-human-bottleneck` |
-| `codex-primary-runtime` | `%USERPROFILE%\.codex\skills\codex-primary-runtime` |
 | `codex-session-doc` | `%USERPROFILE%\.codex\skills\codex-session-doc` |
 | `empirical-prompt-tuning` | `%USERPROFILE%\.codex\skills\empirical-prompt-tuning` |
 | `implement-with-practices` | `%USERPROFILE%\.codex\skills\implement-with-practices` |
@@ -29,6 +28,7 @@
 | 各プロジェクトの `.cursor/skills/` | リポジトリローカル |
 | Obsidian Vault の commands | ワークスペース専用 |
 | 旧 `bokujuu_cursorsetup` の MCP・commands | 廃止 |
+| `codex-primary-runtime`（空ディレクトリ） | 中身なしのため同梱しない |
 
 ## docs/
 
