@@ -33,6 +33,12 @@ chmod +x scripts/install.sh
 
 Cursor / Codex は `.codex/skills` をグローバル skill として読み込みます。
 
+### 2.1 Cursor Hooks（任意）
+
+`install.ps1` は `hooks/handoff-stop-check.py` を `%USERPROFILE%\.cursor\hooks\` にコピーし、**既存の `hooks.json` が無い場合のみ** 新規作成します。既にある場合は [hooks/README.md](hooks/README.md) の手動マージを行ってください。
+
+Hook を入れない場合: `.\scripts\install.ps1 -SkipHooks`
+
 ## 3. User Rules を Cursor に反映
 
 **推奨運用（2 層）** — 詳細は [docs/user-rules-guide.md](docs/user-rules-guide.md):
@@ -55,6 +61,8 @@ GitHub を更新しても **Settings は自動では変わりません**。
 - Cursor を再起動
 - Agent で skill 名（例: `web-research-resolve`）が認識されるか確認
 - 新規チャットで User Rules（層 A）が効いているか確認
+- （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
+- （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
 
 ## 旧構成から移行した場合
 

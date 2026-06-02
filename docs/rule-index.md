@@ -34,8 +34,17 @@
 | **フロント/ブックマークレット** | cursor-integrated → bookmarklet-best-practices → git-policy（必要時） |
 | **ルール作成** | rule-creation-policy → cursor-integrated（スタイル） |
 | **Codex レビュー** | codex-mcp-strategy → cursor-integrated（MCP要約） |
+| **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
 
 長大ファイル（`com-automation` / `cursor-integrated`）は**該当セクションのみ**を渡す。
+
+## グローバル skill（install 後）
+
+| skill | 用途 |
+|-------|------|
+| `agent-handoff-recovery` | Plan/SoT/verify のずれを検知して状況整理 |
+| `cursor-session-doc` | 過去 Cursor セッションの jsonl 要約 |
+| `retrospective-codify` | タスク完了後の学びのルール化 |
 
 ## 旧構成からの移行
 

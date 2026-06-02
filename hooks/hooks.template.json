@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "subagentStop": [
+      {
+        "command": "python \"{{HOOKS_DIR}}/handoff-stop-check.py\" subagentStop",
+        "timeout": 15
+      }
+    ],
+    "stop": [
+      {
+        "command": "python \"{{HOOKS_DIR}}/handoff-stop-check.py\" stop",
+        "timeout": 15,
+        "loop_limit": 1
+      }
+    ]
+  }
+}
