@@ -21,6 +21,21 @@
 | `ralph-loop` | 同上 |
 | `retrospective-codify` | 同上 |
 | `web-research-resolve` | 旧 `.cursor/commands/websearch-resolve` を skill 化 |
+| `agent-handoff-recovery` | 指示ずれ・Plan/verify 折り返し（本 repo 内で管理） |
+
+## hooks/（任意・Windows）
+
+| ファイル | 内容 |
+|----------|------|
+| `handoff-stop-check.py` | Cursor `stop` / `subagentStop` 用 |
+| `hooks.template.json` | `install.ps1` が `%USERPROFILE%\.cursor\hooks.json` に展開 |
+| `README.md` | 手動マージ手順 |
+
+## user-rules/（追加分）
+
+| ファイル | 内容 |
+|----------|------|
+| `user-rule-agent-handoff-recovery.md` | 層 B: ずれ検知時に skill を読む（任意） |
 
 ## docs/
 
@@ -29,6 +44,7 @@
 | `rule-index.md` | タスク別ルール参照 |
 | `user-rules-guide.md` | Settings への貼り方（2 層運用） |
 | `migration-from-legacy.md` | 旧 `.cursor/` からの移行 |
+| `hooks-handoff-recovery.md` | handoff recovery 設計メモ |
 | `pr/` | PR 設計メモ |
 
 ## mcp/

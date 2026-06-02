@@ -14,7 +14,7 @@ Cursor の **Settings → Rules → User Rules** は Git と連携されませ�
 次のいずれかで専門ルールを渡す:
 
 1. チャットで「`user-rules/user-rule-python-coding-policy.md` を読んでから実装して」と明示
-2. 該当 skill を起動（例: `implement-with-practices`）
+2. 該当 skill を起動（例: `implement-with-practices`、`agent-handoff-recovery`）
 3. タスクに合わせて [rule-index.md](rule-index.md) の組み合わせから **2〜3 ファイル**を選び、該当セクションだけコピー
 
 **10 ファイル全貼りは非推奨**（合計約1,300行。コンテキスト上限を超えやすい）。

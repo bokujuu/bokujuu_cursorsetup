@@ -4,6 +4,7 @@ Cursor / Codex 用の **グローバル設定一式** を配布する Private �
 
 - **User Rules 原本**: `user-rules/`
 - **グローバル Skills（自作）**: `skills/` → インストール先は `%USERPROFILE%\.codex\skills\`
+- **Cursor Hooks（任意）**: `hooks/` → `install.ps1` で `%USERPROFILE%\.cursor\hooks\` へ
 - **MCP 雛形**: `mcp/mcp.template.json`（キーは各自で設定）
 
 旧構成（`.cursor/commands`、古い MCP ドキュメント等）は **2026/06 時点で廃止** しました。
