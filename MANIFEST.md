@@ -6,7 +6,7 @@
 
 | ファイル | 同期元（sync 利用時） |
 |----------|------------------------|
-| `user-rule-*.md` (10件) | `C:\CursorPJs\rulemaintenance\user-rule-*.md` |
+| `user-rule-*.md` (8件) | `C:\CursorPJs\rulemaintenance\user-rule-*.md`（COM/VBA は同梱しない） |
 
 **正の編集場所**: 本リポジトリを正とする場合は `user-rules/` を直接編集。
 
@@ -36,6 +36,17 @@
 | ファイル | 内容 |
 |----------|------|
 | `user-rule-agent-handoff-recovery.md` | 層 B: ずれ検知時に skill を読む（任意） |
+
+## templates/project-rules/excel/
+
+| ファイル | 内容 |
+|----------|------|
+| `README.md` | リポへの `.cursor/rules/` コピー手順 |
+| `excel-com-automation.mdc` | win32com 共通（要 globs 調整） |
+| `vba-coding-policy.mdc` | VBA 共通 |
+| `pcaf-excel-agent.mdc.example` | SoT・検証・トークン効率の例 |
+
+**廃止（user-rules から削除）**: `user-rule-com-automation.md`, `user-rule-vba-coding-policy.md`
 
 ## docs/
 

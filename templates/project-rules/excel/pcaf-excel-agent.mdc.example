@@ -1,0 +1,27 @@
+---
+description: 例 — Excel 運用リポのエージェント SoT・検証・トークン効率（コピー後 globs を調整）
+globs: operational/**,scripts/build_*.py,scripts/verify_*_com.py
+alwaysApply: false
+---
+
+# Excel 運用 — エージェント（例: PCAF）
+
+`globs` とパス表をプロジェクトに合わせて編集してから `pcaf-excel-agent.mdc` 等にリネーム。
+
+## SoT（編集先）
+
+| 種別 | パス（例） |
+|------|------------|
+| VBA | `operational/vba/*.bas` |
+| COM ビルド | `scripts/build_*_excel.py` |
+| COM 検証 | `scripts/verify_*_com.py` |
+| 成果物 xlsm | 再ビルドで上書き — **Read しない** |
+
+## 禁止
+
+- 都度 win32com のワンオフスクリプト
+- 生成物の手編集
+
+## 検証
+
+既存の build / verify コマンドのみ。ログは `[SUMMARY]` を優先。

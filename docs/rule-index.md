@@ -11,15 +11,15 @@
 | `user-rule-cursor-integrated.md` | 約210 | コア |
 | `user-rule-git-policy.md` | 約128 | 専門 |
 | `user-rule-python-coding-policy.md` | 約130 | 専門 |
-| `user-rule-vba-coding-policy.md` | 約246 | 専門 |
-| `user-rule-com-automation.md` | 約302 | 専門 |
+| ~~`user-rule-vba-coding-policy.md`~~ | — | **廃止** → `templates/project-rules/excel/` |
+| ~~`user-rule-com-automation.md`~~ | — | **廃止** → 同上 |
 | `user-rule-codex-mcp-strategy.md` | 約48 | 専門 |
 | `user-rule-rule-creation-policy.md` | 約62 | 専門 |
 | `user-rule-jst-date.md` | 約70 | 専門 |
 | `user-rule-bookmarklet-best-practices.md` | 約31 | 専門 |
 | `user-rule-ahkv2-coding-policy.md` | 約81 | 専門 |
 
-**全ファイルを Settings に貼ると約1,300行**になり、エージェントのコンテキスト上限（目安 400–600 行）を超えやすいです。
+**層 B の全ファイルを Settings に貼ると約700行**（COM/VBA 除く）になり、それでも上限に近づきやすいです。
 
 ## タスク別の参照順（上限: 通常 3 ファイル・合計 400–600 行）
 
@@ -28,15 +28,15 @@
 | タスク | 参照順 |
 |--------|--------|
 | **Python** | cursor-integrated → python-coding-policy → git-policy |
-| **COM/Excel** | cursor-integrated → com-automation → python-coding-policy（エンコーディング） |
-| **VBA** | cursor-integrated → vba-coding-policy |
+| **COM/Excel（win32com）** | 対象リポの `.cursor/rules/excel-com-automation.mdc`（雛形: `templates/project-rules/excel/`）。層 B: python-coding-policy |
+| **VBA** | 対象リポの `.cursor/rules/vba-coding-policy.mdc`（同上） |
 | **Git** | git-policy → cursor-integrated（要約のみ） |
 | **フロント/ブックマークレット** | cursor-integrated → bookmarklet-best-practices → git-policy（必要時） |
 | **ルール作成** | rule-creation-policy → cursor-integrated（スタイル） |
 | **Codex レビュー** | codex-mcp-strategy → cursor-integrated（MCP要約） |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
 
-長大ファイル（`com-automation` / `cursor-integrated`）は**該当セクションのみ**を渡す。
+`cursor-integrated` は**該当セクションのみ**渡す。COM/VBA はグローバル User Rules に載せない。
 
 ## グローバル skill（install 後）
 

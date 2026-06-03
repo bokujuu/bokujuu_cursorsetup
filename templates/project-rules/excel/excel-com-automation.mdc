@@ -1,0 +1,72 @@
+---
+description: Python win32com — Excel COM Automation（プロジェクトの COM スクリプト向け）
+globs: scripts/**/*excel*.py,scripts/**/verify_*_com.py
+alwaysApply: false
+---
+
+# COM Automation（Excel / win32com）
+
+Python の `open()` は **encoding='utf-8'**（`PYTHONUTF8=1` 推奨）。エージェント向け SoT があればプロジェクトの `*-excel-agent.mdc` を先に読む。
+
+**セクション**: 0 使い分け / 0.1 並列 / 0.2 パフォーマンス / 1 初期化 / 2 プロパティ / 3 クリーンアップ / 4 エンコーディング / 5 パス / 6 エラーハンドリング
+
+## 0. 使い分け（COM vs Pandas/NumPy）
+
+- **COM**: Excel 固有（構造・書式・保護・VBA Import・数式再計算）
+- **Pandas/NumPy/openpyxl**: データ加工・集計・静的構造チェック（zip 内 XML 等）
+- **1000 行以上**のデータ処理: Pandas 優先
+- 数式の確定値が必要なら COM で再計算 → 保存後に Pandas
+
+## 0.1 並列
+
+- 同一プロセス内の ThreadPool 等は避ける（STA 不安定）
+- 並列時はプロセス分離 + 1 プロセス 1 Excel
+
+## 0.2 パフォーマンス
+
+- **禁止**: セル単位ループの `Cells(i,j)`
+- **推奨**: `Range.Value` の配列一括、`try/finally` で `DisplayAlerts` 等を復元
+
+## 1. 初期化
+
+- **`DispatchEx` 推奨**（新規インスタンス）。失敗時のみ `Dispatch`
+- `GetActiveObject` は状態依存のため非推奨
+
+```python
+try:
+    excel_app = win32com.client.DispatchEx("Excel.Application")
+except Exception:
+    excel_app = win32com.client.Dispatch("Excel.Application")
+```
+
+## 2. プロパティ
+
+Visible / DisplayAlerts 等は **try-except で AttributeError を無視**。
+
+## 3. クリーンアップ
+
+- ワークブックは `Close(SaveChanges=...)`
+- 必ず `Quit`（finally）。プロセス残りは `taskkill /IM EXCEL.EXE /F` 後に再試行
+
+## 4. エンコーディング（COM 特化）
+
+- コンソール出力は **ASCII のみ**（`[OK]` / `[FAIL]`）
+- CSV/ログは `encoding='utf-8-sig'`
+
+## 5. パス
+
+- `pathlib.Path.resolve()` を `Workbooks.Open` に渡す
+
+## 6. エラーハンドリング
+
+- バッチ処理はファイル単位で継続可。起動失敗は中断
+
+## 課題早見表
+
+| 課題 | 対処 |
+|------|------|
+| Workbooks にアクセスできない | `DispatchEx` |
+| プロパティ設定失敗 | try-except |
+| Excel 残留 | `Quit` + taskkill |
+| UnicodeEncodeError | ASCII ログのみ |
+| VBA `MsgBox` で COM 停止 | `*Silent` Sub（プロジェクト skill 参照） |

@@ -17,7 +17,13 @@ Cursor の **Settings → Rules → User Rules** は Git と連携されませ�
 2. 該当 skill を起動（例: `implement-with-practices`、`agent-handoff-recovery`）
 3. タスクに合わせて [rule-index.md](rule-index.md) の組み合わせから **2〜3 ファイル**を選び、該当セクションだけコピー
 
-**10 ファイル全貼りは非推奨**（合計約1,300行。コンテキスト上限を超えやすい）。
+**層 B を全貼りは非推奨**（COM/VBA は含めない。合計目安 700 行以下）。
+
+### Excel / COM / VBA
+
+- **User Rules には載せない**（全セッションで数百行消費するため）
+- Excel 運用があるリポだけ `templates/project-rules/excel/` を `.cursor/rules/` にコピー
+- Settings から旧 `user-rule-com-automation` / `user-rule-vba-coding-policy` を削除
 
 ## 更新手順
 
