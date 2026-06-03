@@ -1,0 +1,37 @@
+---
+description: VBA コーディングポリシー（.bas ソース向け）
+globs: "**/vba/**"
+alwaysApply: false
+---
+
+# VBA コーディングポリシー
+
+## パフォーマンス
+
+| 行数 | 方針 |
+|------|------|
+| 1–10 | For ループ可 |
+| 11–99 | 配列操作推奨 |
+| 100+ | 配列操作必須 |
+
+- 検索 101 行以上: **Find** メソッド
+- コピーは **値のみ**（`Range.Value` 配列）。`Range.Copy` で書式ごとコピーしない
+- 同一値の複数セルは範囲一括代入
+
+## コード品質
+
+- `Option Explicit`
+- `On Error GoTo`（手動 UI）。COM 自動テスト用は `Err.Raise` で Python に伝播
+- マジックナンバーは定数化
+
+## COM 自動テストと UI の分離（推奨）
+
+- COM から呼ぶ Sub に `MsgBox` / `InputBox` / ファイルダイアログを置かない
+- `Private *Core` + `Public Sub *Silent` + 手動 Sub に UI
+
+## チェックリスト
+
+- [ ] 100 行以上で配列操作
+- [ ] Find 検索（該当時）
+- [ ] 値のみコピー
+- [ ] COM 経路にモーダル UI がない

@@ -157,7 +157,7 @@ Python開発を主軸としつつ、以下のコーディングコンセプト�
 ## 各言語への適用指針
 - **HTML**: セマンティックマークアップ（`<h1>`-`<h6>`, `<nav>`, `<main>`, `<article>`等）、`alt`/`aria-label`/`<label>`でアクセシビリティ、論理階層を維持。
 - **CSS**: BEM等の命名、共通スタイルのクラス化（DRY）、モバイルファースト。
-- **VBA**: モジュール化・疎結合、`On Error GoTo`でエラーハンドラ、関数の目的・引数・戻り値をコメントで明記。詳細は [user-rule-vba-coding-policy.md](user-rule-vba-coding-policy.md) を参照。
+- **VBA**: モジュール化・疎結合、`On Error GoTo`でエラーハンドラ。詳細は **プロジェクト**の `.cursor/rules/vba-coding-policy.mdc`（雛形: [bokujuu_cursorsetup/templates/project-rules/excel/](../templates/project-rules/excel/)）。グローバル User Rules には載せない。
 - **M言語（Power Query）**: 列存在確認・nullセーフ・`try...otherwise`、`Table.ColumnNames()`で事前確認。
 - **JavaScript（ブックマークレット）**: 最小化、`try...catch`、クロスブラウザ確認。詳細は [user-rule-bookmarklet-best-practices.md](user-rule-bookmarklet-best-practices.md) を参照。
 
