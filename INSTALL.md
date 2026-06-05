@@ -63,6 +63,7 @@ GitHub を更新しても **Settings は自動では変わりません**。
 - 新規チャットで User Rules（層 A）が効いているか確認
 - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
 - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
+- （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
 
 ## 旧構成から移行した場合
 

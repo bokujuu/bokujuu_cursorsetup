@@ -22,6 +22,8 @@
 | `retrospective-codify` | 同上 |
 | `web-research-resolve` | 旧 `.cursor/commands/websearch-resolve` を skill 化 |
 | `agent-handoff-recovery` | 指示ずれ・Plan/verify 折り返し（本 repo 内で管理） |
+| `skill-lifecycle` | タスクカテゴリ Skill の検索・draft 化・registry・改良 |
+| `system-structure-viz` | 構造・依存の Tier 別可視化（docs / canvas / 静的サイト） |
 
 ## hooks/（任意・Windows）
 
@@ -48,6 +50,23 @@
 
 **廃止（user-rules から削除）**: `user-rule-com-automation.md`, `user-rule-vba-coding-policy.md`
 
+## templates/project-skills/
+
+| ファイル | 内容 |
+|----------|------|
+| `README.md` | 対象リポの `.codex/skills/` 展開手順 |
+| `practice-registry.json` | registry 雛形 |
+| `skill/SKILL.md` | 汎用 repo-local skill 雛形 |
+| `skill/references/skill-memory.md` | skill 単位の経験メモ |
+
+## templates/structure-viz/
+
+| ファイル | 内容 |
+|----------|------|
+| `README.md` | Tier 1 / 3 のコピー手順 |
+| `architecture.md` | Tier 1: Mermaid 置き場 |
+| `site/index.html` | Tier 3: 単一 HTML + Mermaid CDN |
+
 ## docs/
 
 | ファイル | 内容 |
@@ -56,6 +75,7 @@
 | `user-rules-guide.md` | Settings への貼り方（2 層運用） |
 | `migration-from-legacy.md` | 旧 `.cursor/` からの移行 |
 | `hooks-handoff-recovery.md` | handoff recovery 設計メモ |
+| `references/muse-autoskill.md` | MUSE-Autoskill と本 repo の対応表 |
 | `pr/` | PR 設計メモ |
 
 ## mcp/

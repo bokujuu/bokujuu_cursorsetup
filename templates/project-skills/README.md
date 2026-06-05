@@ -1,0 +1,42 @@
+# Project-local skills template
+
+Copy into a **target repository** to start `.codex/skills/` and a practice registry. Used by the global skill `skill-lifecycle`.
+
+## Layout after copy
+
+```
+<target-repo>/
+├── .codex/
+│   ├── practice-registry.json
+│   └── skills/
+│       └── <slug>/
+│           ├── SKILL.md
+│           └── references/
+│               └── skill-memory.md
+```
+
+## Setup
+
+1. Create `.codex/` at the repository root if missing.
+2. Copy `practice-registry.json` → `<target-repo>/.codex/practice-registry.json`.
+3. Copy `skill/` → `<target-repo>/.codex/skills/<slug>/` (rename folder to your slug).
+4. Edit `SKILL.md`: replace `{{SLUG}}`, summary, triggers, verification commands.
+5. Add a registry entry with `status: draft`.
+6. Run verification commands; append outcomes to `references/skill-memory.md`.
+
+## Technology-specific skills
+
+For library/API/framework patterns, prefer `implement-with-practices` and:
+
+```powershell
+python $env:USERPROFILE\.codex\skills\implement-with-practices\scripts\scaffold_local_skill.py `
+  --target <repo-root> --slug <slug> --summary "..." `
+  --trigger-keyword "..." --verification-command "..." --source-url "..."
+```
+
+Do not duplicate that scaffold with this generic template.
+
+## Related
+
+- Global skill: `skill-lifecycle` (install via `scripts/install.ps1`)
+- [docs/references/muse-autoskill.md](../../docs/references/muse-autoskill.md)
