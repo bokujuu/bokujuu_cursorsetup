@@ -14,3 +14,10 @@ This home skill helps Codex implement with an explicit practice-first workflow.
 - `.codex/practice-registry.json` records the local practice inventory.
 - `.codex/skills/<topic-slug>/` stores repo-local skills.
 - `.codex/practice-snippets/<topic-slug>.md` stores append-only AGENTS snippets generated on promotion.
+
+## Related: skill-lifecycle
+
+- **This skill**: technology-specific patterns (library, API, framework) via `scaffold_local_skill.py`.
+- **[skill-lifecycle](../../skill-lifecycle/SKILL.md)**: recurring **task-category** workflows; generic repo-local scaffold at [templates/project-skills/](../../../templates/project-skills/).
+- Do not duplicate scaffold logic—route library work here, route workflow skills to skill-lifecycle.
+- Background: [docs/references/muse-autoskill.md](../../../docs/references/muse-autoskill.md).

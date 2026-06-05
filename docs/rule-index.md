@@ -35,6 +35,8 @@
 | **ルール作成** | rule-creation-policy → cursor-integrated（スタイル） |
 | **Codex レビュー** | codex-mcp-strategy → cursor-integrated（MCP要約） |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
+| **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
+| **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 
 `cursor-integrated` は**該当セクションのみ**渡す。COM/VBA はグローバル User Rules に載せない。
 
@@ -45,6 +47,11 @@
 | `agent-handoff-recovery` | Plan/SoT/verify のずれを検知して状況整理 |
 | `cursor-session-doc` | 過去 Cursor セッションの jsonl 要約 |
 | `retrospective-codify` | タスク完了後の学びのルール化 |
+| `skill-lifecycle` | タスクカテゴリ Skill の検索・作成・registry・改良 |
+| `system-structure-viz` | アーキテクチャ・依存の可視化（Tier 1/2/3） |
+| `implement-with-practices` | ライブラリ/API 特化の repo-local practice（skill-lifecycle と併用） |
+
+外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 
 ## 旧構成からの移行
 

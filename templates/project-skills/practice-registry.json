@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "practices": [
+    {
+      "slug": "{{SLUG}}",
+      "summary": "Short description of when this skill applies.",
+      "trigger_keywords": ["example-keyword"],
+      "verification_commands": ["echo verify-placeholder"],
+      "skill_path": ".codex/skills/{{SLUG}}",
+      "status": "draft"
+    }
+  ]
+}
