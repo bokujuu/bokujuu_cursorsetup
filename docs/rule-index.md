@@ -37,8 +37,12 @@
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
+| **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
+| **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 
 `cursor-integrated` は**該当セクションのみ**渡す。COM/VBA はグローバル User Rules に載せない。
+
+日本語文書 skill の運用: 執筆は `japanese-technical-writing`、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。
 
 ## グローバル skill（install 後）
 
@@ -50,6 +54,8 @@
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・作成・registry・改良 |
 | `system-structure-viz` | アーキテクチャ・依存の可視化（Tier 1/2/3） |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice（skill-lifecycle と併用） |
+| `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
+| `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

@@ -36,6 +36,20 @@ python $env:USERPROFILE\.codex\skills\implement-with-practices\scripts\scaffold_
 
 Do not duplicate that scaffold with this generic template.
 
+## Domain skill examples
+
+For richer repo-local skills (progressive disclosure, fixed output format, template catalog), see the global skills in this repository:
+
+- [skills/japanese-doc-review/](../../skills/japanese-doc-review/) — Japanese prose review
+- [skills/japanese-technical-writing/](../../skills/japanese-technical-writing/) — Japanese technical writing
+
+Deploy to a target repository's `.codex/skills/`:
+
+```powershell
+Copy-Item -Recurse skills/japanese-doc-review <target-repo>/.codex/skills/
+Copy-Item -Recurse skills/japanese-technical-writing <target-repo>/.codex/skills/
+```
+
 ## Related
 
 - Global skill: `skill-lifecycle` (install via `scripts/install.ps1`)

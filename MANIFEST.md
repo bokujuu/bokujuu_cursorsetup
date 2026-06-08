@@ -24,6 +24,8 @@
 | `agent-handoff-recovery` | 指示ずれ・Plan/verify 折り返し（本 repo 内で管理） |
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・draft 化・registry・改良 |
 | `system-structure-viz` | 構造・依存の Tier 別可視化（docs / canvas / 静的サイト） |
+| `japanese-doc-review` | 日本語文書レビュー・校正指摘（[himadajin/skills](https://github.com/himadajin/skills) より取込） |
+| `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
 
 ## hooks/（任意・Windows）
 

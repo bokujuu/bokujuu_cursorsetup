@@ -64,6 +64,8 @@ GitHub を更新しても **Settings は自動では変わりません**。
 - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
 - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
 - （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
+- （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
+- （任意）`japanese-doc-review` で「全観点でレビューして」が動作するか確認
 
 ## 旧構成から移行した場合
 
