@@ -26,6 +26,7 @@
 | `system-structure-viz` | 構造・依存の Tier 別可視化（docs / canvas / 静的サイト） |
 | `japanese-doc-review` | 日本語文書レビュー・校正指摘（[himadajin/skills](https://github.com/himadajin/skills) より取込） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
+| `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |
 
 ## hooks/（任意・Windows）
 

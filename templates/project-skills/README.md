@@ -53,4 +53,5 @@ Copy-Item -Recurse skills/japanese-technical-writing <target-repo>/.codex/skills
 ## Related
 
 - Global skill: `skill-lifecycle` (install via `scripts/install.ps1`)
+- Global skill: `repo-agent-bootstrap` — AGENTS.md + repo-local skill + registry の一括初期構築・メンテナンス（同等の雛形を skill 内 `assets/templates/` に同梱）
 - [docs/references/muse-autoskill.md](../../docs/references/muse-autoskill.md)

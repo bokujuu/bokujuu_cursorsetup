@@ -1,0 +1,62 @@
+# AGENTS.md — {{REPO_NAME}}
+
+更新: {{DATE_JST}}
+
+## このリポジトリの目的
+
+{{PURPOSE_1_3_LINES}}
+
+- 入力: {{INPUT}}
+- 出力: {{OUTPUT}}
+- ルール・仕様の SoT: {{SOT_DOC_LINK}}
+- 経緯: {{BACKGROUND_LINK}} / 進捗: {{STATUS_LINK}}
+
+## 作業前に必ず読むもの
+
+| 作業 | 読むドキュメント |
+|------|------------------|
+| {{TASK_1}} | {{DOC_1}} |
+| {{TASK_2}} | {{DOC_2}} |
+| {{RECURRING_TASK}} | `.cursor/skills/{{SKILL_SLUG}}/SKILL.md`（標準手順） |
+
+## 主要コマンド
+
+```bat
+{{SETUP_COMMAND}}
+{{RUN_COMMAND}}
+{{VERIFY_COMMAND}}
+{{LINT_COMMAND}}
+```
+
+## 重要な不変条件
+
+<!-- 壊してはいけない性質。形式・構造・エンコーディング・数値の扱いなど -->
+
+- {{INVARIANT_1}}
+- {{INVARIANT_2}}
+
+## データ・Git の取り扱い
+
+<!-- 非追跡ファイル、機密データの転記禁止、temp の使い方、更新順序など -->
+
+- {{DATA_RULE_1}}
+- 一時出力は `temp/` へ
+- 変更時の更新順: SoT ドキュメント → 実装 → 再生成 → 検証 → 関連 docs
+
+## コーディング規約
+
+- {{LANGUAGE_AND_TOOLING}}
+- ドキュメントの日付は `Get-Date -Format 'yyyy/MM/dd HH:mm'` で実時刻を取得して記載
+
+## リポジトリローカルスキル
+
+| スキル | 用途 |
+|--------|------|
+| `.cursor/skills/{{SKILL_SLUG}}/` | {{SKILL_SUMMARY}} |
+
+登録簿: `.codex/practice-registry.json`
+
+## 未決事項（変更が来る可能性が高い箇所）
+
+- {{OPEN_ISSUE_1}}
+- {{OPEN_ISSUE_2}}
