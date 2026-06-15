@@ -1,0 +1,33 @@
+# Ralph iteration prompt
+
+You are one **fresh** agent iteration in an outer loop. Read state from disk; do not assume prior chat history.
+
+## Context files
+
+- `ROADMAP.md` — tasks with `passes: true/false` (pick highest-priority incomplete task)
+- `progress.txt` — append one line when done
+- `current-iteration.txt` — current loop number (orchestrator writes this)
+
+## Your job this iteration
+
+1. Read `ROADMAP.md` and pick the **first** task where `passes: false`.
+2. Implement only that task (small, one-context-window scope).
+3. Run verification:
+
+```bat
+{{VERIFY_COMMAND}}
+```
+
+4. If verification passes: mark the task `passes: true` in `ROADMAP.md`, append a line to `progress.txt` (`YYYY/MM/DD HH:MM | exit N | summary`).
+5. If all tasks are `passes: true`, output `<promise>COMPLETE</promise>`.
+6. Otherwise output `<promise>ITERATION_DONE</promise>`.
+
+## Rules
+
+- Do not ask the human for routine approval; use tests/checks as the gate.
+- Follow the target repo's `AGENTS.md` and skills.
+- Model quality: thorough, minimal scope per iteration.
+
+## Optional journal
+
+If `loop-runs.md` exists, append `## Run N` with timestamp and verify result.

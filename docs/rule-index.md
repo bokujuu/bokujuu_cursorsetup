@@ -34,6 +34,8 @@
 | **フロント/ブックマークレット** | cursor-integrated → bookmarklet-best-practices → git-policy（必要時） |
 | **ルール作成** | rule-creation-policy → cursor-integrated（スタイル） |
 | **Codex レビュー** | codex-mcp-strategy → cursor-integrated（MCP要約） |
+| **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。内側は `anti-human-bottleneck` |
+| **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
@@ -54,6 +56,8 @@
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・作成・registry・改良 |
 | `system-structure-viz` | アーキテクチャ・依存の可視化（Tier 1/2/3） |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice（skill-lifecycle と併用） |
+| `ralph-loop` | 外側ループ（Ralph）— `templates/loop-orchestration/` と併用 |
+| `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |
 | `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
 

@@ -70,11 +70,42 @@
 | `architecture.md` | Tier 1: Mermaid 置き場 |
 | `site/index.html` | Tier 3: 単一 HTML + Mermaid CDN |
 
+## templates/loop-orchestration/
+
+| ファイル | 内容 |
+|----------|------|
+| `README.md` | コピー手順・Tier 1–5 スタック・Windows 注意 |
+| `run-once.ps1` / `ralph.ps1` | Tier 1 CLI ループ |
+| `ralph.mjs` | Tier 2 F — `@cursor/sdk` TypeScript |
+| `ralph.sh` | Tier 4 WSL / Linux |
+| `start-bridge.ps1` | Tier 3 手動 Bridge |
+| `PROMPT.md.template` 等 | Ralph 状態ファイル雛形 |
+
+## docs/（追加分）
+
+| ファイル | 内容 |
+|----------|------|
+| `loop-engineering.md` | 4 層スタック・SDK 安定優先（A–F）・Windows 回避 |
+
+## scripts/（追加分）
+
+| ファイル | 内容 |
+|----------|------|
+| `verify_loop_kit.py` | loop-orchestration テンプレ同梱検証 |
+| `sdk-smoke.ps1` | CLI + TS SDK + Python async スモーク |
+
+## skills/ralph-loop/references/
+
+| ファイル | 内容 |
+|----------|------|
+| `operational-guide.md` | bootstrap 接続・展開・スモーク手順 |
+
 ## docs/
 
 | ファイル | 内容 |
 |----------|------|
 | `rule-index.md` | タスク別ルール参照 |
+| `loop-engineering.md` | ループ 4 層・SDK 安定優先（A–F） |
 | `user-rules-guide.md` | Settings への貼り方（2 層運用） |
 | `migration-from-legacy.md` | 旧 `.cursor/` からの移行 |
 | `hooks-handoff-recovery.md` | handoff recovery 設計メモ |
