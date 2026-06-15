@@ -25,18 +25,22 @@ description: >-
    - `description:` は 80 文字以上推奨。`skill-lifecycle`（タスクカテゴリ）と `implement-with-practices`（ライブラリ/API 特化）の境界を守る
    - 外部取込みは `references/sources.md` に upstream URL を記載
 3. **一覧反映** — [MANIFEST.md](../../../MANIFEST.md) の skills 表に行追加。[docs/rule-index.md](../../../docs/rule-index.md) にユーザー向け行を追加（必要時）。[INSTALL.md](../../../INSTALL.md) の動作確認項目を追加（任意 skill の場合は「任意」明記）
-4. **検証**
+4. **インストール**
+
+   ```bat
+   .\scripts\install.ps1
+   ```
+
+   Linux / macOS / WSL: `bash scripts/install.sh`
+
+5. **検証**（install の後。`verify_repo_setup.py` は `~/.codex/skills/` 配置も確認）
 
    ```bat
    python scripts\verify_repo_setup.py
    python scripts\verify_loop_kit.py
    ```
 
-5. **インストール確認**
-
-   ```bat
-   .\scripts\install.ps1
-   ```
+   Linux / Cloud: `python3 scripts/verify_repo_setup.py`（repo のみなら `--repo-only`）
 
 6. **ドキュメント反映** — README / PR 設計メモ（`docs/pr/`）を必要最小限で更新
 
@@ -50,7 +54,7 @@ description: >-
 
 ## 検証の合格基準
 
-- `verify_repo_setup.py` が exit 0（全 skill の frontmatter・MANIFEST 整合）
+- `install.ps1` / `install.sh` 実行後、`verify_repo_setup.py` が exit 0（repo 整合 + 全 skill が `~/.codex/skills/` に配置）
 - `verify_loop_kit.py` が exit 0（loop テンプレ同梱）
 - 新規 skill の `SKILL.md` が存在し、`name:` が slug と一致
 

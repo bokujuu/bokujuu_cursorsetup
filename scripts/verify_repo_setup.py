@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import subprocess
@@ -86,9 +87,10 @@ def verify_agents_and_registry(errors: list[str]) -> None:
     ok("practice-registry.json valid")
     for entry in practices:
         slug = entry.get("slug", "")
-        skill_path = REPO_ROOT / str(entry.get("skill_path", "")).replace("/", "\\")
+        rel = str(entry.get("skill_path", "")).strip()
+        skill_path = (REPO_ROOT / rel).resolve()
         if not skill_path.is_file():
-            errors.append(f"registry skill_path missing: {entry.get('skill_path')}")
+            errors.append(f"registry skill_path missing: {rel}")
         else:
             ok(f"registry skill_path: {slug}")
 
@@ -152,6 +154,27 @@ def verify_templates(errors: list[str]) -> None:
             ok(f"template: {rel}")
 
 
+def verify_installed_skills(errors: list[str], *, repo_only: bool) -> None:
+    if repo_only:
+        ok("installed skills check skipped (--repo-only)")
+        return
+
+    if not SKILLS_DIR.is_dir():
+        return
+
+    codex_skills = Path.home() / ".codex" / "skills"
+    for skill_dir in sorted(p for p in SKILLS_DIR.iterdir() if p.is_dir()):
+        slug = skill_dir.name
+        installed = codex_skills / slug / "SKILL.md"
+        if not installed.is_file():
+            errors.append(
+                f"installed skill missing: ~/.codex/skills/{slug}/SKILL.md "
+                "(run scripts/install.ps1 or scripts/install.sh first)"
+            )
+        else:
+            ok(f"installed: {slug}")
+
+
 def verify_loop_kit_subprocess(errors: list[str]) -> None:
     script = REPO_ROOT / "scripts" / "verify_loop_kit.py"
     if not script.is_file():
@@ -173,13 +196,27 @@ def verify_loop_kit_subprocess(errors: list[str]) -> None:
         ok("verify_loop_kit.py passed")
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Verify bokujuu_cursorsetup agent bootstrap and skill distribution.",
+    )
+    parser.add_argument(
+        "--repo-only",
+        action="store_true",
+        help="Skip ~/.codex/skills/ install checks (repo file integrity only).",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
     errors: list[str] = []
 
     verify_agents_and_registry(errors)
     verify_skills_manifest(errors)
     verify_install_ps1(errors)
     verify_templates(errors)
+    verify_installed_skills(errors, repo_only=args.repo_only)
     verify_loop_kit_subprocess(errors)
 
     if errors:

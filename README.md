@@ -19,11 +19,14 @@ cd bokujuu_cursorsetup
 
 詳細は [INSTALL.md](INSTALL.md)。同梱一覧は [MANIFEST.md](MANIFEST.md)。エージェント向け入口は [AGENTS.md](AGENTS.md)。
 
-検証（skill 追加・更新後）:
+検証（skill 追加・更新後。**install の後**に実行）:
 
 ```powershell
+.\scripts\install.ps1
 python scripts\verify_repo_setup.py
 ```
+
+Linux / Cloud: `bash scripts/install.sh` のあと `python3 scripts/verify_repo_setup.py`
 
 ## 更新（この PC → GitHub）
 

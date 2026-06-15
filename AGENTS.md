@@ -1,6 +1,6 @@
 # AGENTS.md — bokujuu_cursorsetup
 
-更新: 2026/06/15 13:00
+更新: 2026/06/15 13:50
 
 ## このリポジトリの目的
 
@@ -23,11 +23,16 @@ Cursor / Codex 向けの**グローバル設定一式**（User Rules 原本・�
 
 ## 主要コマンド
 
+**推奨順序: install → verify**（`verify_repo_setup.py` は repo 整合と `~/.codex/skills/` への配置を両方確認）
+
 ```bat
 .\scripts\install.ps1
 python scripts\verify_repo_setup.py
 python scripts\verify_loop_kit.py
 ```
+
+Linux / macOS / WSL / Cursor Cloud では `python3` を使用。repo ファイルのみ確認する場合は
+`python3 scripts/verify_repo_setup.py --repo-only`。
 
 User Rules をローカル正から再取得する場合（**本 repo を正とするなら使わない**）:
 
@@ -87,9 +92,10 @@ rules/skills/docs.
 
 - **Skills installer (Linux/macOS/WSL):** `bash scripts/install.sh` copies every `skills/<name>/`
   into `~/.codex/skills/`. (`scripts/install.ps1` is the Windows equivalent.)
-- **Self-test / validation:** `python3 scripts/verify_repo_setup.py` (preferred) or
-  `python3 scripts/verify_loop_kit.py`. Run `scripts/install.sh` first if checks need skills under
-  `~/.codex/skills/`.
+- **Self-test / validation (run install first):** `bash scripts/install.sh` then
+  `python3 scripts/verify_repo_setup.py`. This checks repo files **and** that every `skills/<name>/`
+  is installed under `~/.codex/skills/`. Use `--repo-only` to skip install checks.
+  `python3 scripts/verify_loop_kit.py` validates loop-orchestration templates only.
 - **Handoff hook:** `echo '{"cwd":"/workspace"}' | python3 hooks/handoff-stop-check.py stop`
   (also accepts `subagentStop`). Fails open (never errors).
 - **Local-skill toolchain:** run scripts in `skills/implement-with-practices/scripts/` from that
