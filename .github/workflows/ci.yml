@@ -1,0 +1,58 @@
+name: CI
+
+# PR / コミット監査: シェル構文・Python コンパイル・JSON 妥当性・スキル整合性を機械的にチェックする。
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  audit:
+    name: Audit (syntax, compile, validate)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Shell syntax check (bash -n)
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            echo "bash -n $f"
+            bash -n "$f" || fail=1
+          done < <(git ls-files '*.sh')
+          exit $fail
+
+      - name: Python compile check (py_compile)
+        run: |
+          mapfile -t pyfiles < <(git ls-files '*.py')
+          if [ ${#pyfiles[@]} -gt 0 ]; then
+            python3 -m py_compile "${pyfiles[@]}"
+          fi
+          echo "py_compile OK (${#pyfiles[@]} files)"
+
+      - name: JSON validation
+        run: |
+          fail=0
+          while IFS= read -r j; do
+            if python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$j"; then
+              echo "OK $j"
+            else
+              echo "INVALID $j"
+              fail=1
+            fi
+          done < <(git ls-files '*.json')
+          exit $fail
+
+      - name: Install skills (required by validation)
+        run: bash scripts/install.sh
+
+      - name: Validate skills and templates
+        run: python3 temp/validate_new_skills.py
