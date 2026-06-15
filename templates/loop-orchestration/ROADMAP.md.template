@@ -1,0 +1,17 @@
+# ROADMAP
+
+Tasks complete when `passes: true` **and** verification command exits 0.
+
+## Tasks
+
+### T1 — {{TASK_1_TITLE}}
+
+- **passes**: false
+- **verify**: `{{VERIFY_COMMAND}}`
+- **notes**: {{TASK_1_NOTES}}
+
+### T2 — {{TASK_2_TITLE}}
+
+- **passes**: false
+- **verify**: `{{VERIFY_COMMAND}}`
+- **notes**: {{TASK_2_NOTES}}
