@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "practices": [
+    {
+      "slug": "maintain-global-skill",
+      "summary": "bokujuu_cursorsetup のグローバル skill 追加・更新・検証",
+      "trigger_keywords": [
+        "skill を追加",
+        "グローバル skill",
+        "MANIFEST",
+        "skill の validation",
+        "install.ps1"
+      ],
+      "verification_commands": [
+        "python3 scripts/verify_repo_setup.py",
+        "python3 scripts/verify_loop_kit.py"
+      ],
+      "skill_path": ".cursor/skills/maintain-global-skill/SKILL.md",
+      "status": "draft"
+    }
+  ]
+}

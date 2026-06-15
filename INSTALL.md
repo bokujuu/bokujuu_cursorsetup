@@ -58,15 +58,26 @@ GitHub を更新しても **Settings は自動では変わりません**。
 
 ## 5. 動作確認
 
-- Cursor を再起動
-- Agent で skill 名（例: `web-research-resolve`）が認識されるか確認
-- 新規チャットで User Rules（層 A）が効いているか確認
-- （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
-- （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
-- （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
-- （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
-- （任意）`japanese-doc-review` で「全観点でレビューして」が動作するか確認
-- （任意）`repo-agent-bootstrap` が「AGENTS.mdをセットアップして」で読み込まれるか確認
+1. **機械検証**（install 済みであること）:
+
+   ```powershell
+   python scripts\verify_repo_setup.py
+   python scripts\verify_loop_kit.py
+   ```
+
+   Linux / macOS / WSL: `python3 scripts/verify_repo_setup.py`（`install.sh` 実行後）
+
+2. **手動確認**
+
+   - Cursor を再起動
+   - Agent で skill 名（例: `web-research-resolve`）が認識されるか確認
+   - 新規チャットで User Rules（層 A）が効いているか確認
+   - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
+   - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
+   - （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
+   - （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
+   - （任意）`japanese-doc-review` で「全観点でレビューして」が動作するか確認
+   - （任意）`repo-agent-bootstrap` が「AGENTS.mdをセットアップして」で読み込まれるか確認
 
 ## 旧構成から移行した場合
 
