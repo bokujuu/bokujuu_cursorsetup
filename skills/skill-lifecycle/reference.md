@@ -29,6 +29,8 @@ digraph skill_lifecycle {
 | `implement-with-practices` | Tech stack patterns in this repo | Library/API/framework implementation |
 | `retrospective-codify` | Post-task learnings → rule/skill/lint | Task done, "ルール化して" |
 | `empirical-prompt-tuning` | Prompt/skill quality via blind executor | New or revised skill needs hardening |
+| `agentic-context-engineering` | Playbook delta updates (ACE) | Growing skill-memory without collapse |
+| `agent-loop-guardrails` | Loop stop conditions and budgets | Ralph/cron automation design review |
 
 ## Search locations
 

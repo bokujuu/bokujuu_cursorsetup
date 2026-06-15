@@ -38,6 +38,8 @@
 | **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
+| **プレイブック改訂（skill-memory / AGENTS）** | skill `agentic-context-engineering`（delta 更新のみ） |
+| **自律ループ設計・レビュー** | skill `agent-loop-guardrails` → `ralph-loop` / `templates/loop-orchestration/` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
@@ -54,6 +56,8 @@
 | `cursor-session-doc` | 過去 Cursor セッションの jsonl 要約 |
 | `retrospective-codify` | タスク完了後の学びのルール化 |
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・作成・registry・改良 |
+| `agentic-context-engineering` | プレイブックの ACE 型増分更新（全面書き換え禁止） |
+| `agent-loop-guardrails` | ループの停止条件・予算・無進捗検知 |
 | `system-structure-viz` | アーキテクチャ・依存の可視化（Tier 1/2/3） |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice（skill-lifecycle と併用） |
 | `ralph-loop` | 外側ループ（Ralph）— `templates/loop-orchestration/` と併用 |
