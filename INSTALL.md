@@ -78,7 +78,7 @@ GitHub を更新しても **Settings は自動では変わりません**。
    - （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
    - （任意）`japanese-doc-review` で「全観点でレビューして」が動作するか確認
    - （任意）`repo-agent-bootstrap` が「AGENTS.mdをセットアップして」で読み込まれるか確認
-   - （任意）`excel-deliverable-quality` が「取込用CSVを作って」「数式が壊れていないか確認して」で読み込まれるか確認
+   - （任意）`excel-deliverable-quality` が「帳票/取込用CSVを作って」「数式が壊れていないか確認して」「見た目/色/レイアウトを整えて」で読み込まれるか確認
 
 ## 旧構成から移行した場合
 
