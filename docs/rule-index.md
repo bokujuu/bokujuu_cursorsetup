@@ -28,7 +28,8 @@
 | タスク | 参照順 |
 |--------|--------|
 | **Python** | cursor-integrated → python-coding-policy → git-policy |
-| **COM/Excel（win32com）** | 対象リポの `.cursor/rules/excel-com-automation.mdc`（雛形: `templates/project-rules/excel/`）。層 B: python-coding-policy |
+| **COM/Excel（win32com）** | skill `excel-deliverable-quality`（成果物の品質規約・検証） → 対象リポの `.cursor/rules/excel-com-automation.mdc`（API 手順・雛形: `templates/project-rules/excel/`）。層 B: python-coding-policy |
+| **Excel/CSV 成果物の品質・検証** | skill `excel-deliverable-quality`（数式エラーゼロ・数式優先・表記規約・納品前検証） |
 | **VBA** | 対象リポの `.cursor/rules/vba-coding-policy.mdc`（同上） |
 | **Git** | git-policy → cursor-integrated（要約のみ） |
 | **フロント/ブックマークレット** | cursor-integrated → bookmarklet-best-practices → git-policy（必要時） |
@@ -60,6 +61,7 @@
 | `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |
 | `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
+| `excel-deliverable-quality` | Excel/CSV 成果物の品質規約・納品前検証（COM 第一・openpyxl+LibreOffice 代替） |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

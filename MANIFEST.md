@@ -27,6 +27,7 @@
 | `japanese-doc-review` | 日本語文書レビュー・校正指摘（[himadajin/skills](https://github.com/himadajin/skills) より取込） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
 | `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |
+| `excel-deliverable-quality` | Excel/CSV 成果物の品質規約（数式エラーゼロ・数式優先・表記/桁/色・出典注記・納品前検証）。COM を第一・openpyxl+LibreOffice を代替とし、COM 手順は `templates/project-rules/excel/excel-com-automation.mdc` に委譲。着想元: [anthropics/skills `xlsx`](https://github.com/anthropics/skills)（Proprietary のため原則のみ参照・本文は独自実装） |
 
 ## hooks/（任意・Windows）
 
