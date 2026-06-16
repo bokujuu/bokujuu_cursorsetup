@@ -5,3 +5,8 @@
 - 2026/06/16: 初版。Anthropic `xlsx` skill の普遍部分（数式エラーゼロ・数式優先・表記規約・
   検証）を COM Automation 運用向けに再構成。COM 手順は `excel-com-automation.mdc` に委譲し、
   本スキルは品質規約と検証に責務を限定。
+- 2026/06/17: ユーザーの本線リポ `htmlPCAFmock` を精読して再設計。主たる設計源を Anthropic から
+  **ユーザー運用リポ（htmlPCAFmock / utf_ken_all）の一般化**に切替。3 本柱（作り方=スクリプト
+  生成／見た目=役割配色・印刷規律／中身=数式・出典）に再構成し、`design-and-layout.md`（配置・配色）
+  を新設、`com-and-fallback.md` を `build-and-verify.md`（スクリプト生成・安全ビルド・Core+Silent・
+  全件検証）へ改題。色は意味＝色で運用（入力=黄/計算=灰/無効=灰）。
