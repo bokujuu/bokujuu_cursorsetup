@@ -24,6 +24,8 @@
 | `agent-handoff-recovery` | 指示ずれ・Plan/verify 折り返し（本 repo 内で管理） |
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・draft 化・registry・改良 |
 | `system-structure-viz` | 構造・依存の Tier 別可視化（docs / canvas / 静的サイト） |
+| `context-engineering` | エージェント軌跡のコンテキスト設計（write / select / compress / isolate） |
+| `bounded-agent-execution` | エージェントループの上限（max steps / budget / no-progress） |
 | `japanese-doc-review` | 日本語文書レビュー・校正指摘（[himadajin/skills](https://github.com/himadajin/skills) より取込） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
 | `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |

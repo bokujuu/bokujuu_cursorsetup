@@ -39,6 +39,8 @@
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
+| **エージェントのコンテキスト設計** | skill `context-engineering`（write/select/compress/isolate）。長セッション・ツール過多時 |
+| **エージェント実行の上限・ガードレール** | skill `bounded-agent-execution`（max steps / budget / no-progress）。ループ設計・暴走対策 |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 
@@ -55,6 +57,8 @@
 | `retrospective-codify` | タスク完了後の学びのルール化 |
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・作成・registry・改良 |
 | `system-structure-viz` | アーキテクチャ・依存の可視化（Tier 1/2/3） |
+| `context-engineering` | コンテキスト窓の write/select/compress/isolate 設計 |
+| `bounded-agent-execution` | ステップ上限・コスト・無進捗検知などハーネス制御 |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice（skill-lifecycle と併用） |
 | `ralph-loop` | 外側ループ（Ralph）— `templates/loop-orchestration/` と併用 |
 | `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |
