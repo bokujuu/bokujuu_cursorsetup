@@ -51,12 +51,7 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
 
 
 def main() -> int:
-    skills = [
-        "skill-lifecycle",
-        "system-structure-viz",
-        "context-engineering",
-        "bounded-agent-execution",
-    ]
+    skills = ["skill-lifecycle", "system-structure-viz"]
     for slug in skills:
         skill_md = ROOT / "skills" / slug / "SKILL.md"
         ref_md = ROOT / "skills" / slug / "reference.md"
@@ -82,7 +77,6 @@ def main() -> int:
         "templates/structure-viz/site/index.html",
         "docs/references/muse-autoskill.md",
         "docs/pr/009-skill-lifecycle-structure-viz.md",
-        "docs/pr/011-context-engineering-bounded-execution.md",
     ]
     for rel in paths_must_exist:
         check(rel, (ROOT / rel).is_file())

@@ -29,8 +29,6 @@ digraph skill_lifecycle {
 | `implement-with-practices` | Tech stack patterns in this repo | Library/API/framework implementation |
 | `retrospective-codify` | Post-task learnings → rule/skill/lint | Task done, "ルール化して" |
 | `empirical-prompt-tuning` | Prompt/skill quality via blind executor | New or revised skill needs hardening |
-| `context-engineering` | Context window: write/select/compress/isolate | Long runs, tool overload, compaction |
-| `bounded-agent-execution` | Harness caps: steps, budget, no-progress | Runaway loops, production guardrails |
 
 ## Search locations
 
