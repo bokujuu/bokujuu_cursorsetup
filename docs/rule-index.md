@@ -1,49 +1,28 @@
 # ルールインデックス（タスク別参照）
 
-`user-rules/` 内の `user-rule-*.md` を、タスク種別に応じて参照する際の目安です。
+技術手順・コーディング規約は **リポジトリ側**（`AGENTS.md`、`.cursor/rules/`、skills）を正とする。  
+グローバル User Rules は [user-rule-cursor-communication.md](../user-rules/user-rule-cursor-communication.md) のコミュニケーション枠のみ。
 
-適用の考え方（常時貼り付け vs タスク時参照）は [user-rules-guide.md](user-rules-guide.md) を参照してください。
+適用の考え方は [user-rules-guide.md](user-rules-guide.md) を参照してください。
 
-## 行数の目安（2026/06/01 時点）
-
-| ファイル | 行数 | 層 |
-|----------|------|-----|
-| `user-rule-cursor-integrated.md` | 約210 | コア |
-| `user-rule-git-policy.md` | 約128 | 専門 |
-| `user-rule-python-coding-policy.md` | 約130 | 専門 |
-| ~~`user-rule-vba-coding-policy.md`~~ | — | **廃止** → `templates/project-rules/excel/` |
-| ~~`user-rule-com-automation.md`~~ | — | **廃止** → 同上 |
-| `user-rule-codex-mcp-strategy.md` | 約48 | 専門 |
-| `user-rule-rule-creation-policy.md` | 約62 | 専門 |
-| `user-rule-jst-date.md` | 約70 | 専門 |
-| `user-rule-bookmarklet-best-practices.md` | 約31 | 専門 |
-| `user-rule-ahkv2-coding-policy.md` | 約81 | 専門 |
-
-**層 B の全ファイルを Settings に貼ると約700行**（COM/VBA 除く）になり、それでも上限に近づきやすいです。
-
-## タスク別の参照順（上限: 通常 3 ファイル・合計 400–600 行）
-
-該当セクションのみ渡す前提。2 ファイルで足りるタスクはそのままでよい。
+## タスク別の参照順
 
 | タスク | 参照順 |
 |--------|--------|
-| **Python** | cursor-integrated → python-coding-policy → git-policy |
-| **COM/Excel（win32com）** | skill `excel-deliverable-quality`（スクリプト生成・検証。配色/印刷は場面依存） → 対象リポの `.cursor/rules/excel-com-automation.mdc`（API 手順・雛形: `templates/project-rules/excel/`）。層 B: python-coding-policy |
-| **Excel/CSV 成果物の品質・レイアウト** | skill `excel-deliverable-quality`（常時: `.xlsm` 手編集しない・数式エラーゼロ・数式優先・納品前検証／場面依存: 人手入力時は役割を色で区別〈色は任意〉・配布帳票の印刷規律） |
-| **VBA** | 対象リポの `.cursor/rules/vba-coding-policy.mdc`（同上） |
-| **Git** | git-policy → cursor-integrated（要約のみ） |
-| **フロント/ブックマークレット** | cursor-integrated → bookmarklet-best-practices → git-policy（必要時） |
-| **ルール作成** | rule-creation-policy → cursor-integrated（スタイル） |
-| **Codex レビュー** | codex-mcp-strategy → cursor-integrated（MCP要約） |
+| **Python** | リポ `AGENTS.md` → `.cursor/rules/` → skill `implement-with-practices` |
+| **COM/Excel（win32com）** | skill `excel-deliverable-quality` → 対象リポの `.cursor/rules/excel-com-automation.mdc`（雛形: `templates/project-rules/excel/`） |
+| **Excel/CSV 成果物の品質・レイアウト** | skill `excel-deliverable-quality` |
+| **VBA** | 対象リポの `.cursor/rules/vba-coding-policy.mdc`（雛形: `templates/project-rules/excel/`） |
+| **Git** | リポ `AGENTS.md` とプロジェクト Rules |
+| **フロント/ブックマークレット** | リポ `AGENTS.md` とプロジェクト Rules |
+| **ルール作成** | skill `skill-lifecycle` → `templates/project-skills/` |
 | **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。内側は `anti-human-bottleneck` |
 | **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
-| **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery`（推奨）または user-rule-agent-handoff-recovery |
+| **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery` |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
-
-`cursor-integrated` は**該当セクションのみ**渡す。COM/VBA はグローバル User Rules に載せない。
 
 日本語文書 skill の運用: 執筆は `japanese-technical-writing`、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。
 
@@ -61,10 +40,10 @@
 | `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |
 | `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
-| `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証（常時: スクリプト生成・数式優先／場面依存: 役割配色〈色は任意〉・印刷規律。COM 第一・openpyxl+LibreOffice 代替） |
+| `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証 |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 
 ## 旧構成からの移行
 
-廃止した `.cursor/commands` や旧 MCP ドキュメントとの対応表: [migration-from-legacy.md](migration-from-legacy.md)
+廃止した `.cursor/commands`、旧 user-rules（コーディング規約・MCP 方針等）、旧 MCP ドキュメントとの対応表: [migration-from-legacy.md](migration-from-legacy.md)

@@ -41,10 +41,10 @@ Hook を入れない場合: `.\scripts\install.ps1 -SkipHooks`
 
 ## 3. User Rules を Cursor に反映
 
-**推奨運用（2 層）** — 詳細は [docs/user-rules-guide.md](docs/user-rules-guide.md):
+**推奨運用** — 詳細は [docs/user-rules-guide.md](docs/user-rules-guide.md):
 
-1. **常時**: `user-rules/user-rule-cursor-integrated.md` のみを Settings → **Rules → User Rules** に貼る
-2. **タスク時**: [docs/rule-index.md](docs/rule-index.md) に従い、必要な専門ルールをチャットで参照させる（全10ファイルの一括貼り付けは非推奨）
+1. **`user-rules/user-rule-cursor-communication.md` のみ**を Settings → **Rules → User Rules** に貼る
+2. コーディング規約・MCP 等の技術手順は各リポの `AGENTS.md`、`.cursor/rules/`、skills を参照
 
 GitHub を更新しても **Settings は自動では変わりません**。
 
@@ -71,7 +71,7 @@ GitHub を更新しても **Settings は自動では変わりません**。
 
    - Cursor を再起動
    - Agent で skill 名（例: `web-research-resolve`）が認識されるか確認
-   - 新規チャットで User Rules（層 A）が効いているか確認
+   - 新規チャットで User Rules が効いているか確認
    - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
    - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
    - （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
@@ -89,6 +89,6 @@ GitHub を更新しても **Settings は自動では変わりません**。
 | 現象 | 対処 |
 |------|------|
 | skill が出てこない | `install.ps1` / `install.sh` 再実行、Cursor 再起動 |
-| ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 2 層運用を確認 |
+| ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 1 ファイル運用を確認 |
 | MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
 | filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |

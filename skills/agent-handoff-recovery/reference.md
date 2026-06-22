@@ -17,7 +17,6 @@
 
 | Layer | Location | Responsibility |
 |-------|----------|----------------|
-| Trigger (optional) | `user-rules/user-rule-agent-handoff-recovery.md` | Short signals → load this skill |
 | Workflow | `~/.codex/skills/agent-handoff-recovery/` | Recovery loop |
 | Hook (optional) | `~/.cursor/hooks.json` | `stop` / `subagentStop` nudge |
 | Project | `<repo>/.cursor/handoff-recovery.local.md` | Tracks + verify commands |

@@ -2,35 +2,32 @@
 
 Cursor の **Settings → Rules → User Rules** は Git と連携されません。`user-rules/` を更新したら、手動で Settings に反映してください。
 
-## 推奨: 2 層運用
+## 推奨: 1 ファイル運用
 
-### 層 A — 常時（Settings に貼る）
+**`user-rules/user-rule-cursor-communication.md` のみ**を Settings → **Rules → User Rules** に貼る（約 50 行）。
 
-- **`user-rule-cursor-integrated.md` のみ**（約210行）
-- 口調・タスク分類・MCP方針・最小変更原則など共通枠をここに集約
+- 口調・出力形式・最小変更の共通枠のみ
+- コーディング規約・MCP 方針・Git 手順などの技術詳細は**含めない**
+- 技術手順は各リポの `AGENTS.md`、`.cursor/rules/`、skills を正とする
 
-### 層 B — タスク時（必要なときだけ）
+### タスク別の技術ルール
 
-次のいずれかで専門ルールを渡す:
+専門ルールは User Rules ではなく、次のいずれかで渡す:
 
-1. チャットで「`user-rules/user-rule-python-coding-policy.md` を読んでから実装して」と明示
-2. 該当 skill を起動（例: `implement-with-practices`、`agent-handoff-recovery`）
-3. タスクに合わせて [rule-index.md](rule-index.md) の組み合わせから **2〜3 ファイル**を選び、該当セクションだけコピー
-
-**層 B を全貼りは非推奨**（COM/VBA は含めない。合計目安 700 行以下）。
+1. 対象リポの `AGENTS.md` と `.cursor/rules/`
+2. 該当 skill を起動（例: `implement-with-practices`、`excel-deliverable-quality`）
+3. [rule-index.md](rule-index.md) のタスク別参照
 
 ### Excel / COM / VBA
 
-- **User Rules には載せない**（全セッションで数百行消費するため）
+- **User Rules には載せない**
 - Excel 運用があるリポだけ `templates/project-rules/excel/` を `.cursor/rules/` にコピー
-- Settings から旧 `user-rule-com-automation` / `user-rule-vba-coding-policy` を削除
 
 ## 更新手順
 
-1. このリポジトリで `user-rules/*.md` を編集
+1. このリポジトリで `user-rules/user-rule-cursor-communication.md` を編集
 2. `git commit` / `push`
-3. 他 PC: `git pull` 後、層 A を Settings に再貼り付け（差分確認）
-4. 層 B は都度参照（またはプロジェクトの `AGENTS.md` に要約を書く）
+3. 他 PC: `git pull` 後、Settings に再貼り付け（差分確認）
 
 ## rulemaintenance リポジトリを使う場合
 
@@ -43,5 +40,5 @@ Cursor の **Settings → Rules → User Rules** は Git と連携されませ�
 
 ## 関連
 
-- タスク別の組み合わせ: [rule-index.md](rule-index.md)
+- タスク別の skill / プロジェクトルール参照: [rule-index.md](rule-index.md)
 - インストール全体: [../INSTALL.md](../INSTALL.md)

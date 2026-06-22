@@ -10,7 +10,7 @@ PR #3 以前の **`.cursor/` 配下一式**は廃止しました。`origin/main`
 | `.cursor/mcp_enhanced.json` | `mcp/mcp.template.json` + [mcp/README.md](../mcp/README.md) |
 | `.cursor/MCP_README.md` / `INSTALL_GUIDE.md` / `QUICKSTART.md` | [INSTALL.md](../INSTALL.md) + `mcp/README.md` |
 | `.cursor/scripts/step_snapshot.py` | 廃止（セッション引き継ぎは `cursor-session-doc` skill） |
-| （なし） | `user-rules/user-rule-*.md` |
+| （なし） | `user-rules/user-rule-cursor-communication.md` |
 | （なし） | `scripts/install.ps1` / `install.sh` |
 
 ## Custom Commands → Skills
@@ -19,7 +19,7 @@ PR #3 以前の **`.cursor/` 配下一式**は廃止しました。`origin/main`
 |------------|-----------------|
 | `websearch-resolve` | `skills/web-research-resolve/` |
 | `code-review` | チャットで checklist 依頼、または `implement-with-practices` |
-| `code-test` | プロジェクトのテスト手順 + `user-rule-cursor-integrated` |
+| `code-test` | プロジェクトのテスト手順 + `AGENTS.md` |
 | `onboard-new` | プロジェクト README / `AGENTS.md` |
 | `step-snapshot` | `cursor-session-doc`（引き継ぎ文書） |
 
