@@ -1,7 +1,7 @@
 # path-settings xlsx — xlam アドインのビルド時設定
 
 `.xlam` 統合アドインでパス・メール別名・ファイルアクセスを VBA ハードコードせず運用するパターン。
-RibbonX 注入とは別トピック（RibbonX は `excel-xlam-ribbon-build` skill を参照）。
+RibbonX 注入とは別トピック（RibbonX は [knowledge-base: ribbonx-xlam-build](https://github.com/bokujuu/knowledge-base/blob/main/docs/technology/excel/ribbonx-xlam-build.md) を参照。skill `excel-xlam-ribbon-build` は未マージ）。
 
 ## 方針
 
@@ -33,5 +33,5 @@ scripts\build_excel_toolkit.bat
 
 ## 参照
 
-- knowledge-base: `docs/technology/excel/path-settings-xlam-config.md`
-- excel-addins: `scripts/path_config.py`, `docs/excel-toolkit.md`
+- knowledge-base: [path-settings-xlam-config.md](https://github.com/bokujuu/knowledge-base/pull/12)（[PR #12](https://github.com/bokujuu/knowledge-base/pull/12) マージ待ち）
+- excel-addins: https://github.com/bokujuu/excel-addins — `scripts/path_config.py`, `docs/excel-toolkit.md`

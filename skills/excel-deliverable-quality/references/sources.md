@@ -19,6 +19,11 @@
 - `utf_ken_all`（取込用データ整形）— https://github.com/bokujuu/utf_ken_all
   - 一般化して採用した方針: **確定値でなく数式／ハードコード値の出典注記**（システム・日付・参照・URL）、
     取込用 CSV の文字コード・改行・ゼロ落ち対策（`dtype=str`）。
+- `excel-addins`（`.xlam` 統合アドイン）— https://github.com/bokujuu/excel-addins
+  - 一般化して採用した方針（[path-settings-xlam.md](path-settings-xlam.md)）:
+    - **path-settings xlsx テーブル → ビルド時 `PathConfig` VBA 注入**（実行時に xlsx を読まない）
+    - ListObject 外追記はビルドで無視される — テーブル範囲リサイズ必須
+  - RibbonX 注入・OOXML 正規化は別トピック（knowledge-base [ribbonx-xlam-build](https://github.com/bokujuu/knowledge-base/blob/main/docs/technology/excel/ribbonx-xlam-build.md)）
 
 ## 着想元 — Anthropic `xlsx` スキル
 
