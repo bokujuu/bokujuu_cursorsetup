@@ -23,6 +23,7 @@
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
+| **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
 
 日本語文書 skill の運用: 執筆は `japanese-technical-writing`、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。
 
