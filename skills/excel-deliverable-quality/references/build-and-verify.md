@@ -46,6 +46,12 @@ os.replace(staging, target)                # 成功時のみ本番へ
 - リボンは **imageMso（Office 組込みアイコン）のみ**にすると `getImage` コールバックや PNG 同梱が
   不要になり、注入が単純になる。
 
+### xlam アドイン — パス・メール設定
+
+`.xlam` では実パス・メール CC・姓→メール・FileAccess 一覧を **`path-settings*.xlsx` の Excel テーブル**
+に集約し、ビルド時に `PathConfig` として注入する（[path-settings-xlam.md](path-settings-xlam.md)）。
+RibbonX の zip 注入・Excel 正規化は [knowledge-base: ribbonx-xlam-build](https://github.com/bokujuu/knowledge-base/blob/main/docs/technology/excel/ribbonx-xlam-build.md) を参照（skill `excel-xlam-ribbon-build` は未マージ）。
+
 ## 3. VBA は「Core + Silent」パターン（自動テストを止めない）
 
 COM 自動テストはモーダル UI で停止する。`MsgBox` / `InputBox` / `GetSaveAsFilename` / Outlook の
