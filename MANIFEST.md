@@ -106,6 +106,7 @@
 | `hooks-handoff-recovery.md` | handoff recovery 設計メモ |
 | `references/muse-autoskill.md` | MUSE-Autoskill と本 repo の対応表 |
 | `pr/` | PR 設計メモ |
+| `review/global-suitability-and-knowledge-capture.md` | PR レビュー: global suitability 判定と knowledge-base 知見化 |
 
 ## mcp/
 

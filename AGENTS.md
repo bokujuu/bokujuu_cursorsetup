@@ -1,6 +1,6 @@
 # AGENTS.md — bokujuu_cursorsetup
 
-更新: 2026/06/15 13:50
+更新: 2026/06/22 07:01
 
 ## このリポジトリの目的
 
@@ -20,6 +20,15 @@ Cursor / Codex 向けの**グローバル設定一式**（User Rules 原本・�
 | タスク別ルール・skill 参照 | [docs/rule-index.md](docs/rule-index.md) |
 | **グローバル skill の追加・更新** | `.cursor/skills/maintain-global-skill/SKILL.md`（標準手順） |
 | ループオーケストレーション | [docs/loop-engineering.md](docs/loop-engineering.md) |
+| **PR レビュー（global suitability / 知見化）** | [docs/review/global-suitability-and-knowledge-capture.md](docs/review/global-suitability-and-knowledge-capture.md) |
+
+## PR レビュー運用
+
+`bokujuu_cursorsetup` への PR をレビューするときは [docs/review/global-suitability-and-knowledge-capture.md](docs/review/global-suitability-and-knowledge-capture.md) を参照する。
+
+- global suitability を判定し、複数 repo で再利用できない内容は global 設定に入れない
+- global に不適切でも知見価値がある場合は [bokujuu/knowledge-base](https://github.com/bokujuu/knowledge-base) へ記録する（別 repo への PR）
+- **source PR のコードは自動修正しない**（判定とコメントのみ）
 
 ## 主要コマンド
 
