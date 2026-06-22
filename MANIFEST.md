@@ -4,11 +4,13 @@
 
 ## user-rules/
 
-| ファイル | 同期元（sync 利用時） |
-|----------|------------------------|
-| `user-rule-*.md` (8件) | `C:\CursorPJs\rulemaintenance\user-rule-*.md`（COM/VBA は同梱しない） |
+| ファイル | 内容 |
+|----------|------|
+| `user-rule-cursor-communication.md` | コミュニケーション枠のみ（約 50 行）。技術手順は各リポへ委譲 |
 
 **正の編集場所**: 本リポジトリを正とする場合は `user-rules/` を直接編集。
+
+**廃止（user-rules から削除）**: `user-rule-cursor-integrated.md` および専門ルール 7 件（python/git/mcp 等）、`user-rule-agent-handoff-recovery.md`。旧 COM/VBA ルールは以前より `templates/project-rules/excel/` へ移行済み。
 
 ## skills/（グローバル・自作のみ）
 
@@ -37,12 +39,6 @@
 | `hooks.template.json` | `install.ps1` が `%USERPROFILE%\.cursor\hooks.json` に展開 |
 | `README.md` | 手動マージ手順 |
 
-## user-rules/（追加分）
-
-| ファイル | 内容 |
-|----------|------|
-| `user-rule-agent-handoff-recovery.md` | 層 B: ずれ検知時に skill を読む（任意） |
-
 ## templates/project-rules/excel/
 
 | ファイル | 内容 |
@@ -51,8 +47,6 @@
 | `excel-com-automation.mdc` | win32com 共通（要 globs 調整） |
 | `vba-coding-policy.mdc` | VBA 共通 |
 | `pcaf-excel-agent.mdc.example` | SoT・検証・トークン効率の例 |
-
-**廃止（user-rules から削除）**: `user-rule-com-automation.md`, `user-rule-vba-coding-policy.md`
 
 ## templates/project-skills/
 
@@ -107,7 +101,7 @@
 |----------|------|
 | `rule-index.md` | タスク別ルール参照 |
 | `loop-engineering.md` | ループ 4 層・SDK 安定優先（A–F） |
-| `user-rules-guide.md` | Settings への貼り方（2 層運用） |
+| `user-rules-guide.md` | Settings への貼り方（1 ファイル運用） |
 | `migration-from-legacy.md` | 旧 `.cursor/` からの移行 |
 | `hooks-handoff-recovery.md` | handoff recovery 設計メモ |
 | `references/muse-autoskill.md` | MUSE-Autoskill と本 repo の対応表 |

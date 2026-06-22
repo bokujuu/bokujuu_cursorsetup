@@ -60,6 +60,6 @@ if (-not $SkipHooks -and (Test-Path $HookScript)) {
     }
 }
 
-Write-Host "[NEXT] User Rules: see docs\user-rules-guide.md (core: user-rule-cursor-integrated.md only)"
-Write-Host "[NEXT] Handoff recovery (optional): user-rule-agent-handoff-recovery.md + skill agent-handoff-recovery"
+Write-Host "[NEXT] User Rules: see docs\user-rules-guide.md (user-rule-cursor-communication.md only)"
+Write-Host "[NEXT] Handoff recovery (optional): skill agent-handoff-recovery"
 Write-Host "[NEXT] MCP (optional): see mcp\README.md"

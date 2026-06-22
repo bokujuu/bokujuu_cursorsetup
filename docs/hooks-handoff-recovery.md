@@ -11,7 +11,6 @@
 | 層 | 配布物 | 役割 |
 |----|--------|------|
 | Skill | `skills/agent-handoff-recovery/` | 回復ループ・状況整理テンプレ（本体） |
-| User rule（任意） | `user-rules/user-rule-agent-handoff-recovery.md` | トリガー信号 → skill 読込 |
 | Hook（任意） | `hooks/handoff-stop-check.py` | `stop` / `subagentStop` で follow-up |
 
 プロジェクト固有の verify コマンドは **リポジトリ側** の `.cursor/handoff-recovery.local.md`（テンプレ: skill 内 `project-extension-template.md`）。
