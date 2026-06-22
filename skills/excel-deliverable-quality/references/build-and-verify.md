@@ -45,6 +45,8 @@ os.replace(staging, target)                # 成功時のみ本番へ
 - 保存前に **`excel.CalculateFullRebuild()`** で全再計算してから保存する。
 - リボンは **imageMso（Office 組込みアイコン）のみ**にすると `getImage` コールバックや PNG 同梱が
   不要になり、注入が単純になる。
+- **`.xlam` アドイン**で zip 注入後にリボンが出ない場合は、注入直後に Excel COM で `Open → Save` して
+  パッケージを正規化する（詳細はグローバル skill `excel-xlam-ribbon-build`）。
 
 ## 3. VBA は「Core + Silent」パターン（自動テストを止めない）
 

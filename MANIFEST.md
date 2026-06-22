@@ -30,6 +30,7 @@
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
 | `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約。常時: スクリプトで生成し `.xlsm` 手編集しない／数式エラーゼロ・数式優先・出典注記・納品前検証。場面依存（必須でない）: 人間が入力する成果物では役割を色で区別（カラーコードは固定しない）・配布帳票の印刷規律・内部データの very hidden 隔離。COM を第一・openpyxl+LibreOffice を代替とし、COM 手順は `templates/project-rules/excel/excel-com-automation.mdc` に委譲。設計源: ユーザー運用リポ [htmlPCAFmock](https://github.com/bokujuu/htmlPCAFmock) / [utf_ken_all](https://github.com/bokujuu/utf_ken_all) の一般化。着想元: [anthropics/skills `xlsx`](https://github.com/anthropics/skills)（Proprietary のため原則のみ参照・本文は独自実装） |
+| `excel-xlam-ribbon-build` | `.xlam` アドインの RibbonX 自動ビルド。zip 注入後の Excel COM 正規化、OOXML ルール（Content Types 文字列パッチ・customUI14 のみ・rels 順序）、3 層検証、Editor CLI 非依存。参照: [excel-deliverable-quality](skills/excel-deliverable-quality/) と補完関係。実装例: [excel-addins](https://github.com/bokujuu/excel-addins) |
 
 ## hooks/（任意・Windows）
 
