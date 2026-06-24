@@ -30,6 +30,7 @@
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
 | `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約。常時: スクリプトで生成し `.xlsm` 手編集しない／数式エラーゼロ・数式優先・出典注記・納品前検証。場面依存（必須でない）: 人間が入力する成果物では役割を色で区別（カラーコードは固定しない）・配布帳票の印刷規律・内部データの very hidden 隔離。COM を第一・openpyxl+LibreOffice を代替とし、COM 手順は `templates/project-rules/excel/excel-com-automation.mdc` に委譲。設計源: ユーザー運用リポ [htmlPCAFmock](https://github.com/bokujuu/htmlPCAFmock) / [utf_ken_all](https://github.com/bokujuu/utf_ken_all) の一般化。着想元: [anthropics/skills `xlsx`](https://github.com/anthropics/skills)（Proprietary のため原則のみ参照・本文は独自実装） |
+| `non-interactive-hang` | エージェントが verify を素早く回すための非対話ループ（人間 pause 維持・実測 timeout・秒単位 watchdog 自己検証）。考え方: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)。雛形: `templates/project-ci/non-interactive-hang/` |
 
 ## hooks/（任意・Windows）
 
@@ -76,10 +77,22 @@
 | `start-bridge.ps1` | Tier 3 手動 Bridge |
 | `PROMPT.md.template` 等 | Ralph 状態ファイル雛形 |
 
+## templates/project-ci/non-interactive-hang/
+
+| ファイル | 内容 |
+|----------|------|
+| `README.md` | `scripts/ci/` へのコピー手順・検証順 |
+| `run_with_watchdog.py` | pause 検知 + wall-clock timeout（exit 124） |
+| `calibrate_timeout.py` | 実測 p95 → `timeouts.json` |
+| `test_watchdog.py` | 秒単位自己検証（Excel 不要） |
+| `fixtures/` | pause_probe / false_positive_log |
+| `*.example` | presets / timeouts の雛形 |
+
 ## docs/（追加分）
 
 | ファイル | 内容 |
 |----------|------|
+| `fast-agent-test-loop.md` | 素早くテストを回す考え方（非対話・実測 timeout・秒検証） |
 | `loop-engineering.md` | 4 層スタック・SDK 安定優先（A–F）・Windows 回避 |
 
 ## scripts/（追加分）
@@ -87,6 +100,7 @@
 | ファイル | 内容 |
 |----------|------|
 | `verify_loop_kit.py` | loop-orchestration テンプレ同梱検証 |
+| `verify_non_interactive_hang_kit.py` | non-interactive-hang テンプレ同梱 + test_watchdog |
 | `sdk-smoke.ps1` | CLI + TS SDK + Python async スモーク |
 
 ## skills/ralph-loop/references/

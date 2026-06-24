@@ -11,6 +11,7 @@
 |--------|--------|
 | **Python** | リポ `AGENTS.md` → `.cursor/rules/` → skill `implement-with-practices` |
 | **COM/Excel（win32com）** | skill `excel-deliverable-quality` → 対象リポの `.cursor/rules/excel-com-automation.mdc`（雛形: `templates/project-rules/excel/`） |
+| **エージェント検証の高速化（pause / timeout）** | [fast-agent-test-loop.md](fast-agent-test-loop.md) → skill `non-interactive-hang` → `templates/project-ci/non-interactive-hang/` |
 | **Excel/CSV 成果物の品質・レイアウト** | skill `excel-deliverable-quality` |
 | **VBA** | 対象リポの `.cursor/rules/vba-coding-policy.mdc`（雛形: `templates/project-rules/excel/`） |
 | **Git** | リポ `AGENTS.md` とプロジェクト Rules |
@@ -42,6 +43,7 @@
 | `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証 |
+| `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

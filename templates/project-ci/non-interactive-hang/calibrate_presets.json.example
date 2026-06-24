@@ -1,0 +1,6 @@
+{
+  "build_bat": {
+    "command": ["cmd", "/c", "build.bat"],
+    "env": { "NO_PAUSE": "1" }
+  }
+}

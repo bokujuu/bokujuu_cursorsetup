@@ -43,6 +43,7 @@ git push origin main
 
 - 適用の考え方: [docs/user-rules-guide.md](docs/user-rules-guide.md)
 - タスク別の組み合わせ: [docs/rule-index.md](docs/rule-index.md)
+- エージェント検証の高速化: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)
 
 ## 注意
 
