@@ -1,0 +1,11 @@
+{
+  "build_bat": {
+    "command": ["cmd", "/c", "build.bat"],
+    "env": { "NO_PAUSE": "1" },
+    "samples_sec": [58, 62, 71],
+    "p95_sec": 71,
+    "timeout_sec": 112,
+    "formula": "ceil(p95 * 1.5) + 5",
+    "measured_at": "2026-06-22"
+  }
+}
