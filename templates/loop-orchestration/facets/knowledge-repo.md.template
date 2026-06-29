@@ -1,0 +1,20 @@
+# Knowledge: Repository context
+
+Facts for this loop—not procedures. Procedures live in skills and `instruction-*.md`.
+
+## Repository
+
+- Name: {{REPO_NAME}}
+- SoT: {{SOT_DOC_PATH}} (e.g. `AGENTS.md`, `docs/...`)
+- Verify command: `{{VERIFY_COMMAND}}`
+
+## Steering
+
+- Follow root `AGENTS.md` and installed skills under `.codex/skills/` or `.cursor/skills/`.
+- State for this loop: `ROADMAP.md`, `progress.txt`, `current-iteration.txt`.
+
+## Do not duplicate here
+
+- Step-by-step implement/review instructions (use `instruction-*.md`)
+- Persona tone (use `persona-*.md`)
+- Output format (use `output-contract-*.md`)

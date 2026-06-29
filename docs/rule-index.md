@@ -26,8 +26,8 @@
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 | **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) → skill `abstract-source-patterns` |
 | **外部記事・repo の採用判断** | skill `abstract-source-patterns` → [global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
-| **QA テスト観点（多ペルソナ）** | 雛形 `templates/project-skills/qa-multi-perspective/` → `skill-lifecycle` |
-| **データ分析・DS プロジェクト基盤** | 雛形 `templates/project-rules/data-science/` → `repo-agent-bootstrap` |
+| **QA テスト観点（7 ペルソナ）** | 雛形 `templates/project-skills/qa-multi-perspective/` → `skill-lifecycle` |
+| **ループ反復の Faceted prompting** | `templates/loop-orchestration/facets/` → [loop-engineering.md](loop-engineering.md) → `ralph-loop` |
 
 日本語文書 skill の運用: 執筆は `japanese-technical-writing`、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。
 

@@ -1,0 +1,44 @@
+# Ralph iteration prompt (faceted)
+
+You are one **fresh** agent iteration. Compose your behavior from the facet files listed below—in order. Do not assume prior chat history.
+
+## Facets for this iteration
+
+| Order | Facet | Path |
+|-------|-------|------|
+| 1 | persona | `facets/{{PERSONA_FILE}}` |
+| 2 | policy | `facets/{{POLICY_FILE}}` |
+| 3 | knowledge | `facets/{{KNOWLEDGE_FILE}}` |
+| 4 | instruction | `facets/{{INSTRUCTION_FILE}}` |
+| 5 | output-contract | `facets/{{OUTPUT_CONTRACT_FILE}}` |
+
+Read each file before acting.
+
+## Typical sets
+
+**Implement pass**
+
+- persona-implementer.md
+- policy-edit-minimal.md
+- knowledge-repo.md
+- instruction-implement.md
+- output-contract-iteration.md
+
+**Review pass**
+
+- persona-reviewer.md
+- policy-readonly.md
+- knowledge-repo.md
+- instruction-review.md
+- output-contract-review.md
+
+## Context files (shared)
+
+- `ROADMAP.md` — tasks with `passes: true/false`
+- `progress.txt` — append when instructed
+- `current-iteration.txt` — loop number (orchestrator writes)
+
+## Rules
+
+- Follow facet **policy** over generic helpfulness.
+- Completion is decided by verify + output-contract signals—not by asking the human.

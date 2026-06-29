@@ -47,6 +47,11 @@ Cursor で **ループエンジニアリング**（外側オーケストレー�
 | `ROADMAP.md.template` | タスク一覧（passes フラグ） |
 | `progress.txt.template` | 反復ログ |
 | `prd.json.template` | snarktank 互換（任意） |
+| `facets/` | Faceted prompting 雛形（persona / policy / knowledge / instruction / output-contract） |
+
+## Faceted prompting（任意）
+
+レビューと実装でコンテキストを分けたいときは [facets/README.md](facets/README.md) を `loop/facets/` にコピーし、`PROMPT-faceted.md.template` をベースにする。設計: [docs/pr/004-qa-faceted-adoption.md](../../docs/pr/004-qa-faceted-adoption.md)。
 
 ## 関連 skill
 

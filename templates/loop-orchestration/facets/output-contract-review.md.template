@@ -1,0 +1,23 @@
+# Output contract: Review iteration
+
+## Required stdout signals (exactly one)
+
+- `<promise>REVIEW_PASS</promise>` — verify green, no blockers in review-notes.
+- `<promise>NEEDS_FIX</promise>` — blockers listed; next iteration is implement/fix.
+
+## Review notes format (`loop/review-notes.md`)
+
+```md
+## Review — iteration {{N}}
+
+### Blockers
+- [ ] ...
+
+### Nits
+- ...
+```
+
+## Forbidden
+
+- `REVIEW_PASS` when verify failed
+- Blockers without file/spec reference

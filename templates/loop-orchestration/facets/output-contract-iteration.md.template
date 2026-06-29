@@ -1,0 +1,19 @@
+# Output contract: Implement iteration
+
+## Required stdout signals (exactly one)
+
+- `<promise>COMPLETE</promise>` — all ROADMAP tasks `passes: true` and verify green.
+- `<promise>ITERATION_DONE</promise>` — this iteration finished; more tasks or fixes remain.
+
+## Progress file line format
+
+Append to `progress.txt`:
+
+```text
+YYYY/MM/DD HH:MM | implement | exit {{EXIT_CODE}} | {{ONE_LINE_SUMMARY}}
+```
+
+## Forbidden
+
+- Claiming complete while verify failed
+- Empty summary lines

@@ -1,0 +1,21 @@
+# Instruction: Implement iteration
+
+You are one **fresh** implement iteration. Read state from disk; do not assume prior chat.
+
+## Steps
+
+1. Read `ROADMAP.md` — pick the **first** task with `passes: false`.
+2. Implement only that task (one-context-window scope).
+3. Run verification:
+
+```bat
+{{VERIFY_COMMAND}}
+```
+
+4. If verify passes: set the task `passes: true`, append one line to `progress.txt`.
+5. If **all** tasks are `passes: true`, emit the completion signal from output-contract.
+6. Otherwise emit the iteration-done signal from output-contract.
+
+## Optional
+
+- Append to `loop-runs.md` if present.

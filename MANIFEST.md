@@ -60,16 +60,14 @@
 | `skill/references/skill-memory.md` | skill 単位の経験メモ |
 | `qa-multi-perspective/` | 多ペルソナ固定のテスト観点 skill（new-feature / migration）。着想: [Zenn 7人の意地悪なQA](https://zenn.dev/nexta_/articles/be13a2395a5d2a) |
 
-## templates/project-rules/data-science/
+## templates/loop-orchestration/facets/
 
 | ファイル | 内容 |
 |----------|------|
-| `README.md` | DS 向け AGENTS ルーター・データ安全 verify のコピー手順 |
-| `AGENTS.md.template` | 薄いルーター + docs/agent SoT |
-| `data-safety-rules.md` | raw 不変・outputs 分離 |
-| `docs/agent/README.md.template` | データカタログ・指標定義の SoT 雛形 |
-| `scripts/*.py` | raw コミット・秘密パターン・文書整合の verify 3 本 |
-| `references/sources.md` | 出典（[ds-ai-coding-skills](https://github.com/atsushi-green/ds-ai-coding-skills)） |
+| `README.md` | Faceted prompting のコピー手順・5 種 facet・implement/review 切替 |
+| `persona-*.md.template` 等 | persona / policy / knowledge / instruction / output-contract |
+| `PROMPT-faceted.md.template` | facet 組み立て版プロンプト |
+| `references/sources.md` | 出典（[TAKT faceted prompting](https://github.com/nrslib/takt)） |
 
 ## templates/structure-viz/
 

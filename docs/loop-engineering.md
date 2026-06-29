@@ -16,6 +16,22 @@
 | 4 | ステアリング | `AGENTS.md`, skills, verify コマンド |
 | 5 | 完了シグナル | 検証 exit 0 + `<promise>COMPLETE</promise>` |
 
+## Faceted prompting（任意）
+
+外側ループは同じまま、**反復ごとのプロンプト**を 5 種 facet に分割できる（着想: [TAKT](https://github.com/nrslib/takt)）。
+
+| Facet | 役割 |
+|-------|------|
+| persona | 実装者 / レビュアー |
+| policy | 編集可否・スコープ |
+| knowledge | リポ事実・SoT（手順は含めない） |
+| instruction | この反復のステップ |
+| output-contract | `COMPLETE` / `REVIEW_PASS` 等 |
+
+雛形: [templates/loop-orchestration/facets/](../templates/loop-orchestration/facets/)。設計: [docs/pr/004-qa-faceted-adoption.md](pr/004-qa-faceted-adoption.md)。
+
+単一 `PROMPT.md` で足りる場合は facet を使わなくてよい。implement と review のコンテキスト分離が必要なときに有効。
+
 ## Cursor 4 層スタック
 
 | 層 | 手段 | fresh context | 向き |
@@ -76,8 +92,9 @@
 1. `install.ps1` → グローバル skills
 2. 対象 repo で `repo-agent-bootstrap` → `AGENTS.md` / registry / verify
 3. `templates/loop-orchestration/` を `loop/` にコピー → `PROMPT.md` / `ROADMAP.md` 編集
-4. 5 秒スモーク → `ralph.ps1` または `ralph.mjs`
-5. `practice-registry.json` に verify を登録
+4. （任意）`loop/facets/` をコピー — **Faceted prompting**（implement / review でプロンプト分離）。[facets/README.md](../templates/loop-orchestration/facets/README.md)
+5. 5 秒スモーク → `ralph.ps1` または `ralph.mjs`
+6. `practice-registry.json` に verify を登録
 
 ## 検証
 

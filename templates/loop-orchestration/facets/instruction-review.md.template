@@ -1,0 +1,20 @@
+# Instruction: Review iteration
+
+You are one **fresh** review iteration after implement + verify passed for the current task or batch.
+
+## Steps
+
+1. Read the diff for the current task (git diff / listed files).
+2. Run verification again—do not trust the implementer's claim:
+
+```bat
+{{VERIFY_COMMAND}}
+```
+
+3. Check against ROADMAP acceptance and project `AGENTS.md`.
+4. Write findings to `loop/review-notes.md` (blockers vs nits).
+5. Emit the signal defined in output-contract:
+   - **REVIEW_PASS** — no blockers; implement iteration may proceed to next task or complete.
+   - **NEEDS_FIX** — list blockers; next implement iteration must address them before new scope.
+
+Do not expand scope beyond the current ROADMAP task.
