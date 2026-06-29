@@ -38,6 +38,10 @@ Critical: **Completion is decided by tests/checks, not by the agent or a human.*
 - **AGENTS.md**: Update with learnings after iterations so future runs (and humans) see patterns and gotchas.
 - **Human involvement**: For “problem finding and solving,” not for routine approval of each step. See the anti-human-bottleneck skill for not asking “should I push?” etc.
 
+## Faceted prompting (optional)
+
+When implement and review should **not share one bloated prompt**, split each iteration into facets (persona, policy, knowledge, instruction, output-contract). Kit: [templates/loop-orchestration/facets/](../../templates/loop-orchestration/facets/). Design: [docs/pr/004-qa-faceted-adoption.md](../../docs/pr/004-qa-faceted-adoption.md). Origin: [TAKT faceted prompting](https://github.com/nrslib/takt).
+
 ## References
 
 - **Article (origin)**: [Agentワークフローで人間がボトルネックにならないためのSkill設計](https://nyosegawa.github.io/posts/claude-code-verify-command/) (逆瀬川) — Ralph loop as outer loop, anti-human-bottleneck as inner; source for this skill.

@@ -177,11 +177,12 @@ low: typo の修正です。knowledge-base への記録は不要です。
 Cursor Cloud Agent や手動レビューでは、次の手順に従う。
 
 1. **差分を確認する** — 変更ファイル・意図・既存方針との整合を読む
-2. **global suitability を判定する** — 上記「入れてよい / 入れない条件」と配置判断表を適用
-3. **知見化価値を判定する** — global 不適合の場合のみ、knowledge capture 条件を確認
-4. **source PR に重大度付きでコメントする** — 判定理由を簡潔に書く
-5. **知見化価値がある場合** — `bokujuu/knowledge-base` に Markdown ノートを追加する PR を別 repo で作成する
-6. **knowledge-base PR を作れない環境** — 作成予定のファイルパスと Markdown 本文を source PR コメントまたはレビュー出力に含める
+2. **抽象パターンを抽出する**（外部ソース由来の場合）— グローバル skill `abstract-source-patterns` のパターンカード形式で加工方針を明示
+3. **global suitability を判定する** — 上記「入れてよい / 入れない条件」と配置判断表を適用
+4. **知見化価値を判定する** — global 不適合の場合のみ、knowledge capture 条件を確認
+5. **source PR に重大度付きでコメントする** — 判定理由を簡潔に書く
+6. **知見化価値がある場合** — `bokujuu/knowledge-base` に Markdown ノートを追加する PR を別 repo で作成する
+7. **knowledge-base PR を作れない環境** — 作成予定のファイルパスと Markdown 本文を source PR コメントまたはレビュー出力に含める
 
 ### 禁止事項
 
@@ -191,6 +192,7 @@ Cursor Cloud Agent や手動レビューでは、次の手順に従う。
 
 ### 関連ドキュメント
 
+- 外部ソースの抽象化: `abstract-source-patterns`（`skills/abstract-source-patterns/`）
 - グローバル skill 追加・更新: `.cursor/skills/maintain-global-skill/SKILL.md`
 - User Rules 方針: [user-rules-guide.md](../user-rules-guide.md)
 - タスク別 skill 参照: [rule-index.md](../rule-index.md)

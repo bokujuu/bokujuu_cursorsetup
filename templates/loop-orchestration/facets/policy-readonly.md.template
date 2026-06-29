@@ -1,0 +1,16 @@
+# Policy: Read-only analysis
+
+## Allowed
+
+- Read any file in the repository
+- Run read-only or verify commands listed in the instruction
+- Write findings to `loop/review-notes.md` or stdout per output-contract
+
+## Forbidden
+
+- Editing source files in this iteration (unless instruction says fix-only for listed blockers)
+- Approving without running verify commands when they are specified
+
+## Stop
+
+- If verify cannot run, report `BLOCKED` with the exact command and error—not a silent pass.

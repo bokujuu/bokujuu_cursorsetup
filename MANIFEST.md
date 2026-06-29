@@ -31,6 +31,7 @@
 | `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約。常時: スクリプトで生成し `.xlsm` 手編集しない／数式エラーゼロ・数式優先・出典注記・納品前検証。場面依存（必須でない）: 人間が入力する成果物では役割を色で区別（カラーコードは固定しない）・配布帳票の印刷規律・内部データの very hidden 隔離。COM を第一・openpyxl+LibreOffice を代替とし、COM 手順は `templates/project-rules/excel/excel-com-automation.mdc` に委譲。設計源: ユーザー運用リポ [htmlPCAFmock](https://github.com/bokujuu/htmlPCAFmock) / [utf_ken_all](https://github.com/bokujuu/utf_ken_all) の一般化。着想元: [anthropics/skills `xlsx`](https://github.com/anthropics/skills)（Proprietary のため原則のみ参照・本文は独自実装） |
 | `non-interactive-hang` | エージェントが verify を素早く回すための非対話ループ（人間 pause 維持・実測 timeout・秒単位 watchdog 自己検証）。考え方: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)。雛形: `templates/project-ci/non-interactive-hang/` |
+| `abstract-source-patterns` | 記事・repo から抽象パターンを抽出し global / template / knowledge-base への配置を判定。PR レビュー・ブックマーク評価と併用 |
 
 ## hooks/（任意・Windows）
 
@@ -57,6 +58,16 @@
 | `practice-registry.json` | registry 雛形 |
 | `skill/SKILL.md` | 汎用 repo-local skill 雛形 |
 | `skill/references/skill-memory.md` | skill 単位の経験メモ |
+| `qa-multi-perspective/` | 多ペルソナ固定のテスト観点 skill（new-feature / migration）。着想: [Zenn 7人の意地悪なQA](https://zenn.dev/nexta_/articles/be13a2395a5d2a) |
+
+## templates/loop-orchestration/facets/
+
+| ファイル | 内容 |
+|----------|------|
+| `README.md` | Faceted prompting のコピー手順・5 種 facet・implement/review 切替 |
+| `persona-*.md.template` 等 | persona / policy / knowledge / instruction / output-contract |
+| `PROMPT-faceted.md.template` | facet 組み立て版プロンプト |
+| `references/sources.md` | 出典（[TAKT faceted prompting](https://github.com/nrslib/takt)） |
 
 ## templates/structure-viz/
 

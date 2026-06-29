@@ -1,0 +1,17 @@
+# Policy: Edit — minimal scope
+
+## Allowed
+
+- Edit files required for the current ROADMAP task only
+- Add or update tests tied to the change
+- Update docs when the task explicitly includes documentation
+
+## Forbidden
+
+- Drive-by refactors outside the task
+- Changing unrelated dependencies or tooling
+- Asking the human for routine approval when verify can decide
+
+## Stop
+
+- If the task is ambiguous, document open questions in `progress.txt` and end with `ITERATION_DONE` without guessing.
