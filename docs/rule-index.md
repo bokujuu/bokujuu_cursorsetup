@@ -17,9 +17,7 @@
 | **Git** | リポ `AGENTS.md` とプロジェクト Rules |
 | **フロント/ブックマークレット** | リポ `AGENTS.md` とプロジェクト Rules |
 | **ルール作成** | skill `skill-lifecycle` → `templates/project-skills/` |
-| **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。外側は `harness-engineering`、内側は `anti-human-bottleneck` |
-| **コンテキスト設計（長時間セッション）** | skill `context-engineering` → 必要なら `harness-engineering` / `ralph-loop` |
-| **ハーネス・検証ゲート（本番向けループ）** | skill `harness-engineering` → `non-interactive-hang` → `templates/loop-orchestration/` |
+| **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。内側は `anti-human-bottleneck` |
 | **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery` |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
@@ -46,8 +44,6 @@
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証 |
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
-| `context-engineering` | コンテキストウィンドウの Write / Select / Compress / Isolate |
-| `harness-engineering` | 外側ループ・実行可能検証ゲート・AGENTS.md ハーネス |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 
