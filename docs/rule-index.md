@@ -24,7 +24,10 @@
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
-| **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
+| **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) → skill `abstract-source-patterns` |
+| **外部記事・repo の採用判断** | skill `abstract-source-patterns` → [global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
+| **QA テスト観点（多ペルソナ）** | 雛形 `templates/project-skills/qa-multi-perspective/` → `skill-lifecycle` |
+| **データ分析・DS プロジェクト基盤** | 雛形 `templates/project-rules/data-science/` → `repo-agent-bootstrap` |
 
 日本語文書 skill の運用: 執筆は `japanese-technical-writing`、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。
 
@@ -44,6 +47,7 @@
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証 |
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
+| `abstract-source-patterns` | 外部ソースから抽象パターン抽出・配置判定（global / template / knowledge-base） |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

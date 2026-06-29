@@ -1,0 +1,64 @@
+# AGENTS.md — {{REPO_NAME}}
+
+更新: {{DATE_JST}}
+
+## このリポジトリの目的
+
+{{PURPOSE_1_3_LINES}}（データ分析 / DS プロジェクト）
+
+- 入力: {{INPUT}}（例: `data/raw/` 参照、`notebooks/`、仕様は `docs/agent/`）
+- 出力: `outputs/`（図表・表・レポート）
+- ルール・仕様の SoT: [docs/agent/README.md](docs/agent/README.md)
+- データ安全: [templates 由来 data-safety-rules](docs/agent/data-safety.md) を正とする
+
+## 作業前に必ず読むもの
+
+| 作業 | 読むドキュメント / skill |
+|------|--------------------------|
+| 環境・依存・テスト | リポ `AGENTS.md` 主要コマンド → `.codex/skills/python-project-ops/SKILL.md`（未作成なら `skill-lifecycle` で scaffold） |
+| データの読み書き | `.codex/skills/safe-data-handling/SKILL.md` |
+| SQL / 分析 | `.codex/skills/sql-analysis/SKILL.md` または `docs/agent/` のワークフロー節 |
+| 可視化・レポート | `.codex/skills/visualization/SKILL.md` / `analysis-reporting` |
+| エージェント文書の更新 | `docs/agent/` → 変更後 `python scripts/validate_agent_docs.py` |
+
+**ルーター原則**: 本ファイルは薄く保つ。手順の詳細はスキルと `docs/agent/` に委譲する。
+
+## 主要コマンド
+
+```bat
+{{SETUP_COMMAND}}
+{{VERIFY_ALL_COMMAND}}
+```
+
+推奨 verify 一括例（プロジェクトで差し替え）:
+
+```bat
+python scripts/check_no_raw_data_commit.py
+python scripts/check_no_sensitive_patterns.py
+python scripts/validate_agent_docs.py
+{{TEST_COMMAND}}
+```
+
+## 重要な不変条件
+
+- `data/raw/` と `data/external/` は**不変**。加工は `data/interim/` / `data/processed/` へ。
+- raw データ・認証情報・顧客レベルレコードをコミットしない。
+- 図表・レポートは `outputs/` のみ。`.env` は gitignore。
+
+## データ・Git の取り扱い
+
+- 一時出力は `temp/` または `data/interim/`
+- 変更時の更新順: `docs/agent/`（指標・定義）→ 実装 / notebook → verify 3 本 → 関連 docs
+
+## リポジトリローカルスキル
+
+| スキル | 用途 |
+|--------|------|
+| `.codex/skills/safe-data-handling/` | パス・権限・raw 不変 |
+| `.codex/skills/{{DOMAIN_SKILL}}/` | {{DOMAIN_SKILL_SUMMARY}} |
+
+登録簿: `.codex/practice-registry.json`
+
+## 未決事項
+
+- {{OPEN_QUESTION}}

@@ -36,7 +36,11 @@ python $env:USERPROFILE\.codex\skills\implement-with-practices\scripts\scaffold_
 
 Do not duplicate that scaffold with this generic template.
 
-## Domain skill examples
+## Domain skill examples (templates)
+
+| 雛形 | 用途 |
+|------|------|
+| [qa-multi-perspective/](qa-multi-perspective/) | 多ペルソナ固定のテスト観点（new-feature / migration） |
 
 For richer repo-local skills (progressive disclosure, fixed output format, template catalog), see the global skills in this repository:
 
