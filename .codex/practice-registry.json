@@ -17,6 +17,23 @@
       ],
       "skill_path": ".cursor/skills/maintain-global-skill/SKILL.md",
       "status": "draft"
+    },
+    {
+      "slug": "requirement-aligned-fixtures",
+      "summary": "要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest）",
+      "trigger_keywords": [
+        "ダミーデータ",
+        "fixture",
+        "サンプルデータ",
+        "テストデータ",
+        "htmlPCAFmock"
+      ],
+      "verification_commands": [
+        "bash scripts/install.sh",
+        "python3 scripts/verify_repo_setup.py"
+      ],
+      "skill_path": "skills/requirement-aligned-fixtures/SKILL.md",
+      "status": "draft"
     }
   ]
 }
