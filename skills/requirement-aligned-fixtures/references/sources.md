@@ -21,4 +21,12 @@
 | 合成データ運用 | https://beefed.ai/en/test-data-management-synthetic-generation | 回帰は決定的、探索はランダム、バージョン管理 |
 | 並列・一意制約 | https://elliot-digital.co.uk/qa/test-data-management | シーケンス衝突、worker オフセット、ビジネス不変条件の検証 |
 
-固有スタック名・ツール名は skill 本文では例示に留め、プロジェクト側 spec で上書きする。
+## 併用ツール（設計 skill と併記。本文コピーなし）
+
+| ツール | URL | 本 skill との関係 |
+|--------|-----|-------------------|
+| factory_boy | https://factoryboy.readthedocs.io/ | Python Factory。グループ内行の組み立て → CSV/JSON 書き出し |
+| Faker | https://faker.readthedocs.io/ | フィールド単位の疑似値。`Faker.seed` で spec と同期 |
+| lifelike-synthetic-data-generator | https://github.com/jovd83/lifelike-synthetic-data-generator | config + CLI。seed・locale・分布。大規模生成はコンテキスト外 |
+
+併用の選定・接続手順は [companion-tools.md](companion-tools.md)。API 詳細は `implement-with-practices` で repo-local 化する。

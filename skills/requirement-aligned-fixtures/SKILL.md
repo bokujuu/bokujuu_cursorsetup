@@ -39,6 +39,20 @@ description: >-
 | `qa-multi-perspective` | **観点の抜け**を減らすレビュー（特に migration モードのデータ不変条件） |
 | `implement-with-practices` | Faker / factory_boy 等の**ライブラリ別**実装パターンの repo-local 化 |
 
+## 併用ツール・定番メソッド
+
+設計（本 skill）のあと、**CSV / JSON 取込用の実ファイル**は環境に応じて次と併用する。
+詳細・選定・接続パターン: [references/companion-tools.md](references/companion-tools.md)。
+
+| 種別 | 代表 | 用途 |
+|------|------|------|
+| **定番メソッド** | Static fixture、Seeded generation、Factory/Builder、Negative 分離 | 取込ファイルの作り方の型。tier と対応づける |
+| **factory_boy + Faker**（seed 固定） | [factory_boy](https://factoryboy.readthedocs.io/) + [Faker](https://faker.readthedocs.io/) | Python で CSV/JSON を書き出す。ドメイン固有列・FK・グループ内変動 |
+| **lifelike-synthetic-data-generator** | https://github.com/jovd83/lifelike-synthetic-data-generator | スキーマ config + CLI で CSV/JSON 等を一括生成。seed・locale・分布 |
+
+**原則**: 本 skill で Generation Spec と tier を先に決め、併用ツールは**実装層**に留める。
+API 手順の深掘りは `implement-with-practices`、帳票への載せ方は `excel-deliverable-quality`。
+
 ## ワークフロー（この順を崩さない）
 
 1. **要件取り込み** — 一次情報を列挙する（スキーマ、制約、既存 verify、利用シナリオ）。不足は `要確認` と明示し推測で埋めない。
@@ -46,7 +60,8 @@ description: >-
 3. **三軸バランスの設計** — [references/three-axis-balance.md](references/three-axis-balance.md) で決定性・変動・グループを割り当てる。
 4. **カバレッジ行列** — [references/coverage-matrix.md](references/coverage-matrix.md) で境界・異常系・参照整合の行を計画する（正常系だけで完了しない）。
 5. **生成仕様（Generation Spec）** — seed・グループ定義・分布・固定行（アンカー行）を [references/generation-spec.md](references/generation-spec.md) の形式で書く。
-6. **実装** — スクリプトまたはテンプレから生成。ハンドメイドの大量コピペは避ける。
+6. **実装** — [companion-tools.md](references/companion-tools.md) から併用ツールを選び CSV/JSON を生成。
+   ハンドメイドの大量コピペは避ける（smoke アンカーのみ静的 fixture 可）。
 7. **不変条件検証** — 件数・主キー・FK・集計・文字コード・ソート順を機械検証する（プロジェクトの verify があればそれを正とする）。
 8. **manifest** — seed・生成器バージョン・checksum・tier を同梱し、再現手順を 1 コマンドで書く。
 9. **サンプル監査** — 全体の 1〜5% を人間可読で spot check（ビジネス不整合が型検証をすり抜けないか）。
