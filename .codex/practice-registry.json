@@ -34,6 +34,24 @@
       ],
       "skill_path": "skills/requirement-aligned-fixtures/SKILL.md",
       "status": "draft"
+    },
+    {
+      "slug": "fable-style-reasoning",
+      "summary": "観測優先のエージェント推論（公式主骨 + Phase 0–4 補助・plan 先頭錨）",
+      "trigger_keywords": [
+        "fable-style",
+        "観測優先",
+        "完了条件",
+        "検証方法",
+        "偵察",
+        "Fable"
+      ],
+      "verification_commands": [
+        "bash scripts/install.sh",
+        "python3 scripts/verify_repo_setup.py"
+      ],
+      "skill_path": "skills/fable-style-reasoning/SKILL.md",
+      "status": "draft"
     }
   ]
 }

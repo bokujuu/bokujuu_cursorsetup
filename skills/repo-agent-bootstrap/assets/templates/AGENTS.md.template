@@ -18,6 +18,7 @@
 | {{TASK_1}} | {{DOC_1}} |
 | {{TASK_2}} | {{DOC_2}} |
 | {{RECURRING_TASK}} | `.cursor/skills/{{SKILL_SLUG}}/SKILL.md`（標準手順） |
+| 非自明タスクの着手・実装・デバッグ | グローバル skill `fable-style-reasoning`（`~/.codex/skills/`。軽量=主骨のみ / フル=plan 先頭に錨+Phase 0–4） |
 
 ## 主要コマンド
 
