@@ -51,7 +51,7 @@
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
 | `abstract-source-patterns` | 外部ソースから抽象パターン抽出・配置判定（global / template / knowledge-base） |
 | `requirement-aligned-fixtures` | 要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest） |
-| `fable-style-reasoning` | 観測優先のエージェント推論（主骨: 公式思想 / 補助: Phase 0–4。軽量・フルモード） |
+| `fable-style-reasoning` | Observation-first reasoning for Cursor / Composer 2.5（backbone: official excerpts / supplement: Phase 0–4; light/full） |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

@@ -1,47 +1,52 @@
-# PR 設計メモ: fable-style-reasoning
+# PR design note: fable-style-reasoning
 
-更新: 2026/07/07
+Updated: 2026/07/07
 
-## 目的
+## Purpose
 
-Anthropic 公式開示（Fable 5 認識論）を**主骨**とし、公式にない模倣手順を**補助**として載せたグローバル skill。任意エージェントで観測優先の推論を再現する。
+Global skill for observation-first agent work in **Cursor / Composer 2.5**. Backbone: Anthropic disclosed Fable 5 epistemology (verbatim in references). Supplement: non-official Phase 0–4 workflow.
 
-## 層構造
+## Layer structure
 
-| 層 | 出典 |
-|----|------|
-| 主骨 | [System Prompts — Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) |
-| 補助 | [shotatykr 挙動トレース](https://x.com/shotatykr/status/2074035238116769851) |
-| 参考 | CL4R1T4S 等（パターンのみ） |
+| Layer | Source |
+|-------|--------|
+| Backbone A | [System Prompts — Fable 5 (2026-06-09)](https://platform.claude.com/docs/en/release-notes/system-prompts) |
+| Backbone B | Same page — Opus 4.7–4.8 (`acting_vs_clarifying`, `capability_check`, `tool_discovery`) |
+| Supplement | [shotatykr trace](https://x.com/shotatykr/status/2074035238116769851) |
+| Reference | CL4R1T4S etc. (patterns only) |
 
-## 設計判断
+## Design decisions
 
-| 項目 | 決定 |
-|------|------|
-| slug | `fable-style-reasoning`（Anthropic 非公式を明示） |
-| モード | 使わない / 軽量（主骨のみ）/ フル（Phase 0–4）/ 回復委譲 |
-| 錨の SoT | `.cursor/plans/*.plan.md` 先頭 |
-| 有効性セクション | SKILL.md には置かない（[Skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices): description で発見、詳細は references） |
-| eval | `references/eval-scenarios.md` |
-| 運用メモ | `references/skill-memory.md` |
+| Item | Decision |
+|------|----------|
+| slug | `fable-style-reasoning` (not Anthropic-official) |
+| Language | English SKILL.md (behavior-neutral; official quotes stay English) |
+| Runtime | Cursor / Composer 2.5 native tool names (`Read`, `GetMcpTools`, `Task`, …) |
+| Modes | skip / light (backbone) / full (Phase 0–4) / delegate to recovery |
+| Light gate | Observable verify closes task — not file count |
+| Anchor SoT | Top of `.cursor/plans/*.plan.md` |
+| Verbatim backbone | `references/official-excerpts.md` — Read at light/full entry |
+| Output template | Start / phase transition / completion only |
+| Eval | `references/eval-scenarios.md` (5 scenarios incl. Composer) |
+| Ops notes | `references/skill-memory.md` |
 
-## 関連更新
+## Related updates
 
 - `MANIFEST.md` / `docs/rule-index.md`
-- `.codex/practice-registry.json`（draft）
-- `skills/repo-agent-bootstrap` — AGENTS 雛形・関連 skill 一覧
-- `skills/abstract-source-patterns/references/sources.md` — 採用先例
-- `skills/agent-handoff-recovery` — サブエージェント統合の相互参照
+- `.codex/practice-registry.json` (draft)
+- `skills/repo-agent-bootstrap` — AGENTS template
+- `skills/abstract-source-patterns/references/sources.md`
+- `skills/agent-handoff-recovery` — cross-ref unchanged
 
-## 検証
+## Verification
 
 ```bash
 bash scripts/install.sh
 python3 scripts/verify_repo_setup.py
 ```
 
-手動: `references/eval-scenarios.md` の 3 シナリオ。
+Manual: `references/eval-scenarios.md` (5 scenarios).
 
-## 意図的に後回し
+## Deferred
 
-- 他 skill との詳細な優先順位表（`anti-human-bottleneck` 等）— 運用で摩擦が出たら skill-memory へ
+- Detailed priority matrix vs other skills — add to skill-memory if friction appears

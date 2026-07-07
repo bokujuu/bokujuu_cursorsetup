@@ -1,186 +1,202 @@
 ---
 name: fable-style-reasoning
 description: >-
-  Applies Fable-aligned agentic reasoning for non-trivial work. Official
-  Anthropic epistemology (verify before claiming, check artifacts yourself) is
-  the backbone; supplementary Phase 0-4 workflow fills gaps for imitation-style
-  execution. Use when implementing, debugging, scope may drift, completion
-  lacks proof, or the user asks for Fable-style reasoning. Do NOT use for
-  trivial one-command tasks or when agent-handoff-recovery is already required.
+  Fable-aligned observation-first reasoning for non-trivial work in Cursor with
+  Composer 2.5. Backbone: verbatim Anthropic epistemology (verify before
+  claiming, check artifacts yourself, tool-first action). Supplement: Phase 0–4
+  workflow for anchor, recon, risk-ordered execution, and synthesis. Use when
+  implementing, debugging, scope may drift, completion lacks proof, or the user
+  asks for Fable-style reasoning. Do NOT use for trivial one-command tasks or
+  when agent-handoff-recovery is already required.
 disable-model-invocation: false
 ---
 
-# Fable-style reasoning — 観測優先のエージェント推論
+# Fable-style reasoning — observation-first agent work (Cursor / Composer 2.5)
 
-Anthropic が公式開示した Fable 5 の**基本思想**を主骨とし、公式だけでは手順化されていない部分を**補助実践知**で補う skill。
+Anthropic's disclosed **Fable 5 epistemology** is the backbone; gaps the official text does not proceduralize are filled by **supplement** practice (Phase 0–4).
 
-**免責**: Anthropic 公式 skill ではない。「Fable-style」は開示された認識論と、公式未記載分の模倣手順を指す。
+**Disclaimer:** Not an Anthropic official skill. "Fable-style" means disclosed epistemology plus non-official imitation workflow.
 
-層の定義と出典: [references/sources.md](references/sources.md)
+Layer definitions and upstream URLs: [references/sources.md](references/sources.md)
 
-## モード選択
+## Entry (light and full)
 
-| モード | いつ使うか（いずれか該当でよい） | 適用範囲 |
-|--------|----------------------------------|----------|
-| **使わない** | 1 コマンドで終わる自明操作。完了条件と verify が依頼に明示済みで変更が 1 ファイル以内 | — |
-| **軽量** | 変更が 1〜2 ファイルで verify が 1 コマンドに収まる。依頼に観測可能な完了条件あり。読み取り中心の短い調査 | **主骨のみ**（認識論・自己確認・誠実な訂正） |
-| **フル** | 複数ファイル・設計判断・デバッグ／原因究明。verify が 2 段以上または未確定。スコープ曖昧・膨らみかけ。ユーザーが Fable-style / 観測優先を明示 | **主骨 + 補助** Phase 0–4 |
-| **回復へ委譲** | ずれ・偽完了・サブエージェント未統合が既に起きている | `agent-handoff-recovery` を先に |
+1. **Read** [references/official-excerpts.md](references/official-excerpts.md) — apply backbone from verbatim passages, not from memory.
+2. Choose mode (table below).
 
-迷ったら **軽量** から始め、検証行が書けない・観測が矛盾したら **フル** に昇格する。
+## Mode selection
 
-## 設計の層
+| Mode | When (any one applies) | Scope |
+|------|------------------------|-------|
+| **Skip** | Single obvious command; done criteria and verify explicit in the request; no design judgment | — |
+| **Light** | One project verify command closes the task; no design tradeoffs; no root-cause hypothesis; user guidance not treated as fact; read-heavy short investigation | **Backbone A + B only** |
+| **Full** | Multi-step verify; debugging / root cause; scope ambiguous or expanding; user asks for Fable-style / observation-first | **Backbone + supplement** Phase 0–4 |
+| **Delegate to recovery** | Drift, false completion, or unsynthesized subagent output already happened | Run `agent-handoff-recovery` first |
 
-| 層 | 役割 | 出典 |
-|----|------|------|
-| **主骨** | skill 設計の基本思想 | Anthropic 公式開示 |
-| **補助** | 主骨を手順に落とす実践知 | コミュニティ挙動トレース（shotatykr 等） |
-| **参考** | 非公式抽出のパターン（本文コピーなし） | CL4R1T4S 等 |
+When unsure, start **light**; escalate to **full** if you cannot write an observable verify line or observation contradicts the plan.
 
-**採用規則**: 主骨と矛盾する補助は採用しない。
+**Light-mode note for Composer:** file count is not the gate. Composer often touches several files on small tasks. Escalate on **unobservable done criteria**, not on file count alone.
 
----
+## Design layers
 
-## 主骨 — Anthropic 公式開示の基本思想
+| Layer | Role | Source |
+|-------|------|--------|
+| **Backbone A** | Core epistemic rules | Fable 5 (2026-06-09) — [official-excerpts.md](references/official-excerpts.md) |
+| **Backbone B** | Agent action rules (tools before ask, capability check, skill-first) | Release-notes series (Opus 4.7–4.8) — same file |
+| **Supplement** | Procedural workflow | Community trace (shotatykr) — not official |
+| **Reference** | Unverified extracted patterns (no body copy) | CL4R1T4S etc. |
 
-出典: [System Prompts — Claude Fable 5 (2026-06-09)](https://platform.claude.com/docs/en/release-notes/system-prompts)
-
-### 1. 認識論 — 検証できないことは断定しない
-
-- 検証不能な主張を避ける（good epistemology）。
-- 「動くはず」「おそらく原因は X」は仮説。完了の根拠にしない。
-
-### 2. 自己確認 — 示唆されても自分で確かめる
-
-- ファイル・画像の存在**示唆**でも、自分で確認してから進む。
-- 変わりうる現状は記憶よりツール結果・検索を優先。
-
-### 3. 誠実な訂正 — 誤りは認め、観測に戻る
-
-### 4. 能力の先読み（公式系列・エージェント向け）
-
-- コード・ファイル作業前に該当 **skill を先に Read**。
-- ツール使用前に利用可否を確認。
-- タスクの複雑さに応じて確認の深さを変える。
+**Adoption rule:** Supplement must not contradict backbone.
 
 ---
 
-## 補助 — フルモードのみ（Phase 0–4）
+## Backbone — apply via Cursor tools
 
-出典: [shotatykr — 挙動トレース](https://x.com/shotatykr/status/2074035238116769851)。公式未記載の模倣手順。
+Full verbatim text: [references/official-excerpts.md](references/official-excerpts.md)
 
-### 錨の置き場（必須）
+| Backbone | Essence | Cursor / Composer mapping |
+|----------|---------|---------------------------|
+| **A1 Self-check** | Implied files may not exist | `Read` / `Glob` / `Grep` before assuming paths |
+| **A2 Epistemology** | Unverified input ≠ fact | Sort subagent and user claims into fact / assumption / unknown |
+| **A3 Correction** | Steady honesty after errors | Re-run verify; do not defend a failed claim |
+| **A4 Cutoff** | Uncertain recall needs search | `WebSearch` / `WebFetch` for APIs, releases, current behavior |
+| **B1 Act first** | Tools before interviewing the user | `Grep`, `Shell`, `GetMcpTools`, `Task` (explore) |
+| **B2 Capability** | "Can't" only after discovery | `GetMcpTools`; MCP `needsAuth` → ask IDE auth, not give up |
+| **B3 Skill-first** | Read SKILL.md before code | `Read` skill from `<agent_skills>` or `~/.codex/skills/` |
 
-フルモードでは Phase 0 の 3 行を **`.cursor/plans/*.plan.md` の先頭**（YAML todo や見出しより前）に書く。plan が無い場合は作成するか、着手返信の先頭に同内容を置き、可能なら直後に plan ファイルへ転記する。
+### Phase 0 vs backbone B1 (no conflict)
+
+| Situation | Rule |
+|-----------|------|
+| **Completion criteria or verify method not writable in observable terms** | Do not implement — recon first (supplement Phase 0–1). This is not "interviewing the user." |
+| **Minor unspecified detail solvable with tools** | Backbone B1 — attempt with tools before asking |
+| **Blocked only a human can answer** | `anti-human-bottleneck` exception only |
+
+---
+
+## Supplement — full mode only (Phase 0–4)
+
+Source: [shotatykr behavior trace](https://x.com/shotatykr/status/2074035238116769851). Not official.
+
+### Anchor placement (required)
+
+In full mode, write Phase 0's three lines at the **top of `.cursor/plans/*.plan.md`** (before YAML todos or headings). If no plan exists, create one or put the same block at the start of the first reply, then copy into a plan file when possible.
 
 ```markdown
 <!-- fable-style-reasoning anchor -->
-- 完了条件: …
-- 検証方法: …
-- やらないこと: …
+- Done criteria: …
+- Verify method: …
+- Out of scope: …
 ```
 
-セッション跨ぎ・サブエージェント後は plan 先頭の錨を SoT とする。
+Across sessions and after subagents, the plan-top anchor is SoT.
 
-### 補助の三原則
+### Supplement principles
 
-| 原則 | 主骨との対応 |
-|------|----------------|
-| 完了条件を先に固定 | 検証方法が書けない＝理解不足 |
-| 観測を信じる | 「動くはず」は証拠にしない |
-| 次は最大リスクへ | 計画の行順より仮説潰し |
+| Principle | Backbone tie-in |
+|-----------|-----------------|
+| Fix done criteria first | If verify method is not writable → insufficient understanding |
+| Trust observation | "Should work" is not evidence |
+| Next = highest risk | Hypothesis collapse over easy wins |
 
-### Phase 0 — 錨（plan 先頭と同内容）
+### Phase 0 — Anchor (same content as plan top)
 
-**ゲート**: 検証方法の行が書けない → 実装に入らず調査へ。
+**Gate:** If the verify-method line is not writable → investigation, not implementation.
 
-### Phase 1 — 偵察
+### Phase 1 — Recon
 
-事実 / 仮定 / 不明に仕分け。事実のふりをした仮定が最大のリスク。
+Sort into **fact / assumption / unknown**. Assumptions dressed as facts are the main risk.
 
-### Phase 2 — 分解（リスク順）
+### Phase 2 — Decompose (risk order)
 
-独立検証単位に切る。簡単な所から勢いをつけるのは罠。
+Split into independently verifiable pieces. Starting with easy parts for momentum is a trap.
 
-### Phase 3 — 実行ループ
+### Phase 3 — Execution loop
 
-1 ピースずつその場で検証。各イテレーションで自問: 観測と計画の矛盾 / 最大リスク / 可逆性 / 人間のみ回答可能か（→ `anti-human-bottleneck` 例外のみ）。
+One piece at a time; verify in place. Each iteration ask: observation vs plan conflict? highest remaining risk? reversible? human-only? (→ `anti-human-bottleneck` exception only).
 
-### Phase 4 — 全体検証
+**Cloud Agent:** commit/push workflow does not replace per-piece verify. Run the anchor's verify commands before claiming done or opening/updating a PR.
 
-1. 別の層で確認 2. 壊しに行く（下記安全境界内） 3. 原因の観測裏取り 4. 依頼・錨と突合 5. diff 通読
+### Phase 4 — Whole-task verification
 
-### Phase 4「壊しに行く」の安全境界
+1. Confirm from a different layer 2. Stress within safe bounds (below) 3. Observation-backed root cause 4. Match request and anchor 5. Read the full diff
 
-- **AGENTS.md や plan に書かれた verify コマンドを優先**する。独自の破壊的試験で代替しない。
-- **禁止**（ユーザー明示がない限り）: `git push --force`（特に main/master）、本番 DB への破壊的 SQL、資格情報を要する本番操作、`rm -rf` 相当の一括削除、実ユーザーデータの改変。
-- 境界値試験は **fixture / ローカル / テスト用データ** で行う。
-- 破壊的試験が必要なら、錨の「検証方法」行にコマンドとロールバック手順を先に書く。
+### Phase 4 "stress" safe bounds
+
+- **Prefer verify commands in AGENTS.md or the plan** — do not substitute ad-hoc destructive tests.
+- **Forbidden** (unless user explicitly asks): `git push --force` (especially main/master), destructive prod SQL, prod ops requiring secrets, `rm -rf`-class bulk delete, mutating real user data.
+- Boundary tests use **fixtures / local / test data**.
+- If a destructive test is needed, write command and rollback in the anchor's verify-method line first.
 
 ```mermaid
 flowchart TD
-  M{モード選択} --> L[軽量: 主骨のみ]
-  M --> F[フル: plan 先頭に錨]
-  F --> P1[Phase 1 偵察]
-  P1 --> P2[Phase 2 分解]
-  P2 --> P3[Phase 3 実行]
-  P3 --> P4[Phase 4 全体検証]
-  P3 -->|矛盾| P1
+  M{Mode} --> L[Light: backbone only]
+  M --> F[Full: plan-top anchor]
+  F --> P1[Phase 1 Recon]
+  P1 --> P2[Phase 2 Decompose]
+  P2 --> P3[Phase 3 Execute]
+  P3 --> P4[Phase 4 Verify]
+  P3 -->|conflict| P1
   M --> R[agent-handoff-recovery]
 ```
 
 ---
 
-## サブエージェント / Task 併用時
+## Subagents / Task (Cursor)
 
-`agent-handoff-recovery` と併用する。フルモードで Task を使うとき:
+Use with `agent-handoff-recovery`. In full mode with `Task`:
 
-1. **偵察と錨は親が保持** — サブエージェントに Phase 0 全体を委ねない。
-2. **委譲は 1 ピース単位** — Phase 2 で切った独立検証単位まで。計画全体の実装委譲は禁止。
-3. **停止後は親が統合** — サブエージェントの出力を事実 / 仮定 / 不明に再仕分けしてから次へ。変更を Read → verify → plan todo 更新。
-4. **錨の更新は親** — `.cursor/plans/*.plan.md` 先頭の 3 行は親が書き、サブエージェントは追記提案のみ。
+1. **Parent keeps recon and anchor** — do not delegate Phase 0 to a subagent.
+2. **Delegate one piece** — independent verify unit from Phase 2 only; never whole-plan implementation.
+3. **Parent synthesizes after stop** — re-sort subagent output into fact / assumption / unknown; then Read → verify → update plan todos.
+4. **Parent owns anchor** — subagents may suggest edits to `.cursor/plans/*.plan.md` top lines; parent writes them.
 
-## 他 skill との役割分担
+For Cloud Agent transcripts under `/tmp/cursor/cloud-agent-transcripts/`, parent still re-verifies; transcript text is not ground truth.
 
-| skill | 関係 |
-|-------|------|
-| `agent-handoff-recovery` | ずれ発生後。本 skill は予防＋フルモード規律 |
-| `anti-human-bottleneck` | Phase 3 の人間呼び出し境界 |
-| `ralph-loop` | 外側ループ。各イテレの内側に本 skill |
-| `retrospective-codify` | Phase 4 後の知見固定化 |
+## Other skills
 
-## 出力テンプレート（フルモード）
+| Skill | Relationship |
+|-------|----------------|
+| `agent-handoff-recovery` | After drift; this skill prevents + full-mode discipline |
+| `anti-human-bottleneck` | Human-call boundary in Phase 3 |
+| `ralph-loop` | Outer loop; this skill runs inside each iteration |
+| `retrospective-codify` | After Phase 4 — codify learnings |
 
-plan 先頭と同内容を返信にも含める。
+## Output template (full mode — when to use)
+
+Emit **only** at: **task start**, **phase transition**, **completion** (not every turn).
 
 ```markdown
-## Fable-style 錨
-- 完了条件: …
-- 検証方法: …
-- やらないこと: …
+## Fable-style anchor
+- Done criteria: …
+- Verify method: …
+- Out of scope: …
 
-## 偵察メモ
-- 事実: …
-- 仮定: …
-- 不明: …
+## Recon memo
+- Facts: …
+- Assumptions: …
+- Unknowns: …
 
-## 次の 1 ピース
-- 内容: …
-- 検証: …
+## Next piece
+- Content: …
+- Verify: …
 ```
 
-## 落とし穴
+## Pitfalls
 
-| 症状 | 対処 |
-|------|------|
-| 補助だけ真似して主骨を無視 | 主骨に戻る |
-| 錨がチャットのみで plan に無い | plan 先頭へ転記 |
-| サブエージェント結果を事実扱い | 親が再仕分け・verify |
-| skill を読まずに実装 | 主骨 4 |
-| 破壊的試験で本番を触った | Phase 4 安全境界に戻る |
+| Symptom | Fix |
+|---------|-----|
+| Supplement without backbone | Re-read [official-excerpts.md](references/official-excerpts.md) |
+| Anchor only in chat, not plan | Copy to plan file top |
+| Subagent output treated as fact | Parent re-sort + verify |
+| Implementation without reading skills | Backbone B3 |
+| Destructive test on prod | Phase 4 safe bounds |
+| Full template every reply | Restrict to start / transition / done |
+| "Can't use MCP" without GetMcpTools | Backbone B2 |
 
 ## Reference
 
-- [references/sources.md](references/sources.md) — 主骨 / 補助 / 参考
-- [references/eval-scenarios.md](references/eval-scenarios.md) — 手動 eval シナリオ
-- [references/skill-memory.md](references/skill-memory.md) — 運用メモ
+- [references/official-excerpts.md](references/official-excerpts.md) — verbatim backbone
+- [references/sources.md](references/sources.md) — layers and URLs
+- [references/eval-scenarios.md](references/eval-scenarios.md) — manual eval
+- [references/skill-memory.md](references/skill-memory.md) — operational notes
