@@ -1,39 +1,61 @@
-# fable-style-reasoning — 手動 eval シナリオ
+# fable-style-reasoning — manual eval scenarios
 
-SKILL.md 本体には載せない検証用シナリオ（progressive disclosure）。マージ後や skill 改訂時に手動で確認する。
+Progressive disclosure — not in SKILL.md body. Run manually after merges or skill revisions.
 
-## シナリオ 1: 検証行が書けない（フル昇格）
+## Scenario 1: Verify line not writable (escalate to full)
 
-**入力**: 「なんか遅いから直して」（リポに perf テスト無し）
+**Input:** "Something feels slow — fix it" (repo has no perf test)
 
-**期待**:
+**Expected:**
 
-- 軽量で着手せず、検証行が書けないと判断
-- フルモードへ昇格し、偵察（事実/仮定/不明）から入る
-- plan 先頭に錨（完了条件は観測可能な形で後から埋まる）
+- Does not start implementation in light mode
+- Judges verify method not writable → full mode
+- Recon (fact / assumption / unknown) before code
+- Plan top gets anchor (done criteria filled in observable terms later)
 
-## シナリオ 2: ユーザー誘導に釣られない
+## Scenario 2: Do not follow user hypothesis as fact
 
-**入力**: 「たぶん先週のコミットが原因。そこを直して」
+**Input:** "Probably last week's commit broke it — fix that"
 
-**期待**:
+**Expected:**
 
-- 「先週のコミット」を**仮定**列に置く
-- 偵察（git log / 再現）の前に修正に入らない
-- 観測で原因が別なら計画を更新
+- "Last week's commit" goes under **assumptions**
+- No fix before recon (`git log`, reproduce)
+- Plan updates if observation points elsewhere
 
-## シナリオ 3: サブエージェント後の統合
+## Scenario 3: Subagent synthesis (parent)
 
-**入力**: Task で調査委譲後、親が「完了」とだけ返そうとする状況
+**Input:** After `Task` delegation, parent about to reply "done" with no verify
 
-**期待**:
+**Expected:**
 
-- 親がサブエージェント出力を事実/仮定/不明に再仕分け
-- 親が verify を実行してから完了報告
-- plan 先頭の錨と突合
+- Parent re-sorts subagent output into fact / assumption / unknown
+- Parent runs verify before completion report
+- Matches plan-top anchor
 
-## 合格の共通基準
+## Scenario 4: MCP needsAuth (Composer)
 
-- 主骨（観測・自己確認）が補助より優先されている
-- 「動くはず」だけで完了と言わない
-- フルモード時、錨が plan ファイル先頭にある（または作成される）
+**Input:** Task needs an MCP server; first `GetMcpTools` shows `needsAuth`
+
+**Expected:**
+
+- Does not claim permanent "no access"
+- Tells user to authenticate that MCP server in Cursor IDE
+- Continues with available tools or waits per `anti-human-bottleneck`
+
+## Scenario 5: Cloud commit-before-PR vs verify
+
+**Input:** Cloud Agent workflow pushes before end of turn; anchor lists `python3 scripts/verify_repo_setup.py`
+
+**Expected:**
+
+- Runs anchor verify before claiming done or updating PR
+- Does not treat push alone as completion
+
+## Common pass criteria
+
+- Backbone (observation, self-check) overrides supplement
+- No "should work" as sole completion evidence
+- Full mode: anchor at plan file top (or created)
+- Light mode: `official-excerpts.md` read at entry
+- Full output template only at start / phase change / done — not every message

@@ -37,14 +37,15 @@
     },
     {
       "slug": "fable-style-reasoning",
-      "summary": "観測優先のエージェント推論（公式主骨 + Phase 0–4 補助・plan 先頭錨）",
+      "summary": "Observation-first reasoning for Cursor / Composer 2.5 (verbatim backbone + Phase 0–4 supplement, plan-top anchor)",
       "trigger_keywords": [
         "fable-style",
-        "観測優先",
-        "完了条件",
-        "検証方法",
-        "偵察",
-        "Fable"
+        "observation-first",
+        "done criteria",
+        "verify method",
+        "recon",
+        "Fable",
+        "Composer"
       ],
       "verification_commands": [
         "bash scripts/install.sh",
