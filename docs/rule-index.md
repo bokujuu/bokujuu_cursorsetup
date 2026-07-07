@@ -21,6 +21,7 @@
 | **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。内側は `anti-human-bottleneck` |
 | **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery` |
+| **非自明タスクの着手・観測優先の推論** | skill `fable-style-reasoning` → ずれ発生後は `agent-handoff-recovery` |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
@@ -50,6 +51,7 @@
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
 | `abstract-source-patterns` | 外部ソースから抽象パターン抽出・配置判定（global / template / knowledge-base） |
 | `requirement-aligned-fixtures` | 要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest） |
+| `fable-style-reasoning` | 観測優先のエージェント推論（主骨: 公式思想 / 補助: Phase 0–4。軽量・フルモード） |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

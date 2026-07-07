@@ -33,6 +33,7 @@
 | `non-interactive-hang` | エージェントが verify を素早く回すための非対話ループ（人間 pause 維持・実測 timeout・秒単位 watchdog 自己検証）。考え方: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)。雛形: `templates/project-ci/non-interactive-hang/` |
 | `abstract-source-patterns` | 記事・repo から抽象パターンを抽出し global / template / knowledge-base への配置を判定。PR レビュー・ブックマーク評価と併用 |
 | `requirement-aligned-fixtures` | 要件・スキーマに沿ったダミーデータ設計。三軸バランス（決定性・変動・グループ）、volume tier、カバレッジ行列、Generation Spec・manifest。併用: 定番メソッド（static/seeded/factory）、factory_boy+Faker、lifelike-synthetic-data-generator（`references/companion-tools.md`）。表形式・PCAF 型は `references/tabular-excel.md`。帳票は `excel-deliverable-quality` |
+| `fable-style-reasoning` | Fable 整合のエージェント推論（主骨: [Anthropic System Prompts — Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts)。補助: [shotatykr トレース](https://x.com/shotatykr/status/2074035238116769851)。軽量/フルモード・plan 先頭錨）。設計: [docs/pr/012-fable-style-reasoning.md](docs/pr/012-fable-style-reasoning.md) |
 
 ## hooks/（任意・Windows）
 

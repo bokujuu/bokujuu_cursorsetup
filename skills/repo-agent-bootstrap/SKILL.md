@@ -112,4 +112,5 @@ description: >-
 - [references/maintenance-checklist.md](references/maintenance-checklist.md) — メンテナンス チェックリスト
 - [assets/templates/](assets/templates/) — AGENTS.md / skill / registry 雛形
 - 関連グローバル skill: `skill-lifecycle`（skill の検索→draft→registry→promote）、
-  `cursor-session-doc`（過去セッションの本格的な掘り起こし）、`retrospective-codify`（失敗の知見化）
+  `cursor-session-doc`（過去セッションの本格的な掘り起こし）、`retrospective-codify`（失敗の知見化）、
+  `fable-style-reasoning`（非自明タスクの観測優先推論・plan 先頭錨）

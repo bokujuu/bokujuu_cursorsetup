@@ -16,7 +16,7 @@ disable-model-invocation: false
 
 Stop "keep coding on the wrong track" loops. Reconcile **track, SoT, plan status, and verification** before more edits.
 
-Works with `anti-human-bottleneck` (recover autonomously; ask the user only when blocked) and `retrospective-codify` (after recovery, codify recurring gaps).
+Works with `anti-human-bottleneck` (recover autonomously; ask the user only when blocked), `fable-style-reasoning` (anchor in plan + subagent synthesis in full mode), and `retrospective-codify` (after recovery, codify recurring gaps).
 
 ## Self-check triggers (any one → run recovery)
 
@@ -57,6 +57,7 @@ Works with `anti-human-bottleneck` (recover autonomously; ask the user only when
 - Do not delegate full plan implementation to background subagents unless the parent synthesizes and verifies in the same session.
 - Multitask only when tracks are file-disjoint.
 - After `subagentStop`: read changes → verify → update plan todos → one integrated reply.
+- When `fable-style-reasoning` full mode is active: parent keeps `.cursor/plans/*.plan.md` anchor and re-sorts subagent output into fact / assumption / unknown before continuing (see that skill).
 
 ## Reference
 
