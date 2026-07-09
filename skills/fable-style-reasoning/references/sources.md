@@ -56,7 +56,7 @@ Verbatim passages: [official-excerpts.md](official-excerpts.md) § B1–B3.
 
 ## Runtime target
 
-Primary: **Cursor IDE / Cloud Agent with Composer 2.5**. Tool names in SKILL.md map to Cursor tools (`Read`, `Shell`, `GetMcpTools`, `Task`, etc.), not Claude Code `view` / `tool_search`.
+Primary: **Cursor IDE / Cloud Agent** (Grok or Composer). Tool names in SKILL.md map to Cursor tools (`Read`, `Shell`, `GetMcpTools`, `Task`, etc.), not Claude Code `view` / `tool_search`. Model routing: [docs/model-routing.md](../../../docs/model-routing.md).
 
 ## Related skills
 

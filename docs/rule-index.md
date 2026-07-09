@@ -22,6 +22,7 @@
 | **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery` |
 | **非自明タスクの着手・観測優先の推論** | skill `fable-style-reasoning` → ずれ発生後は `agent-handoff-recovery` |
+| **Grok / Composer の使い分け** | [model-routing.md](model-routing.md) → ループ上書きは `templates/loop-orchestration/` |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
@@ -51,7 +52,7 @@
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
 | `abstract-source-patterns` | 外部ソースから抽象パターン抽出・配置判定（global / template / knowledge-base） |
 | `requirement-aligned-fixtures` | 要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest） |
-| `fable-style-reasoning` | Observation-first reasoning for Cursor / Composer 2.5（backbone: official excerpts / supplement: Phase 0–4; light/full） |
+| `fable-style-reasoning` | Observation-first reasoning for Cursor agents（Grok / Composer; backbone: official excerpts / supplement: Phase 0–4; light/full） |
 
 外部参照: [references/muse-autoskill.md](references/muse-autoskill.md)
 

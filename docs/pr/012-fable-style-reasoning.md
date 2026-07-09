@@ -4,7 +4,7 @@ Updated: 2026/07/07
 
 ## Purpose
 
-Global skill for observation-first agent work in **Cursor / Composer 2.5**. Backbone: Anthropic disclosed Fable 5 epistemology (verbatim in references). Supplement: non-official Phase 0–4 workflow.
+Global skill for observation-first agent work in **Cursor** (Grok / Composer). Backbone: Anthropic disclosed Fable 5 epistemology (verbatim in references). Supplement: non-official Phase 0–4 workflow.
 
 ## Layer structure
 
@@ -21,13 +21,13 @@ Global skill for observation-first agent work in **Cursor / Composer 2.5**. Back
 |------|----------|
 | slug | `fable-style-reasoning` (not Anthropic-official) |
 | Language | English SKILL.md (behavior-neutral; official quotes stay English) |
-| Runtime | Cursor / Composer 2.5 native tool names (`Read`, `GetMcpTools`, `Task`, …) |
+| Runtime | Cursor native tool names (`Read`, `GetMcpTools`, `Task`, …); model-agnostic (see [model-routing.md](../model-routing.md)) |
 | Modes | skip / light (backbone) / full (Phase 0–4) / delegate to recovery |
 | Light gate | Observable verify closes task — not file count |
 | Anchor SoT | Top of `.cursor/plans/*.plan.md` |
 | Verbatim backbone | `references/official-excerpts.md` — Read at light/full entry |
 | Output template | Start / phase transition / completion only |
-| Eval | `references/eval-scenarios.md` (5 scenarios incl. Composer) |
+| Eval | `references/eval-scenarios.md` (5 scenarios) |
 | Ops notes | `references/skill-memory.md` |
 
 ## Related updates

@@ -7,6 +7,7 @@ KIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE="${1:-$(pwd)}"
 MAX_ITERATIONS="${MAX_ITERATIONS:-3}"
 STOP_ON_COMPLETE="${STOP_ON_COMPLETE:-0}"
+# Default: composer-2.5 (loop cost). Override for Grok, e.g. MODEL=grok-4.5-xhigh
 MODEL="${MODEL:-composer-2.5}"
 PROMPT_FILE="${KIT_DIR}/PROMPT.md"
 JOURNAL="${KIT_DIR}/loop-journal.txt"

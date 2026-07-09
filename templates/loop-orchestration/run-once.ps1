@@ -5,7 +5,8 @@
 
 .NOTES
   Windows: do NOT pipe PROMPT.md into cursor-agent -p (prompt is not received).
-  Model: composer-2.5 (explicit; avoids account default composer-2.5-fast).
+  Default model: composer-2.5 (loop cost; override with -Model for Grok, e.g. grok-4.5-xhigh).
+  Explicit --model avoids account default *-fast slugs.
 #>
 [CmdletBinding()]
 param(

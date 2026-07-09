@@ -67,7 +67,8 @@ node ralph.mjs
 | `No prompt provided for print mode` | パイプ禁止 → `run-once.ps1` |
 | `WinError 10038` on Bridge | Python 同期 Client を使っている → **F または B** |
 | WSL で auth エラー | `CURSOR_API_KEY` を WSL に設定。CLI を最新化 |
-| `composer-2.5-fast` で動く | ラッパーに `--model composer-2.5` があるか確認 |
+| `*-fast` で動く | ラッパーに品質系 `--model`（既定 `composer-2.5`）があるか確認 |
+| Grok で1反復だけ回したい | `run-once.ps1 -Model grok-4.5-xhigh` / `MODEL=` / `CURSOR_MODEL=`（[model-routing.md](../../../docs/model-routing.md)） |
 
 ## 7. registry 登録例
 

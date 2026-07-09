@@ -29,20 +29,37 @@ REQUIRED_SNIPPETS: dict[Path, list[str]] = {
         "@cursor/sdk",
         "WinError 10038",
         "composer-2.5",
+        "model-routing.md",
     ],
     KIT / "README.md": [
         "Get-Content PROMPT.md | cursor-agent -p",
         "composer-2.5",
         "ralph.mjs",
+        "CURSOR_MODEL",
     ],
     KIT / "run-once.ps1": [
         "composer-2.5",
         "--trust",
         "Get-Content",
+        "$Model",
     ],
     KIT / "ralph.mjs": [
         "@cursor/sdk",
         "composer-2.5",
+        "CURSOR_MODEL",
+    ],
+    KIT / "ralph.ps1": [
+        "$Model",
+        "run-once.ps1",
+    ],
+    KIT / "ralph.sh": [
+        "MODEL=",
+        "composer-2.5",
+    ],
+    REPO_ROOT / "docs" / "model-routing.md": [
+        "Grok 4.5",
+        "composer-2.5",
+        "CURSOR_MODEL",
     ],
 }
 
