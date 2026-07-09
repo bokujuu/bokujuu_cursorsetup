@@ -33,7 +33,7 @@
 | `non-interactive-hang` | エージェントが verify を素早く回すための非対話ループ（人間 pause 維持・実測 timeout・秒単位 watchdog 自己検証）。考え方: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)。雛形: `templates/project-ci/non-interactive-hang/` |
 | `abstract-source-patterns` | 記事・repo から抽象パターンを抽出し global / template / knowledge-base への配置を判定。PR レビュー・ブックマーク評価と併用 |
 | `requirement-aligned-fixtures` | 要件・スキーマに沿ったダミーデータ設計。三軸バランス（決定性・変動・グループ）、volume tier、カバレッジ行列、Generation Spec・manifest。併用: 定番メソッド（static/seeded/factory）、factory_boy+Faker、lifelike-synthetic-data-generator（`references/companion-tools.md`）。表形式・PCAF 型は `references/tabular-excel.md`。帳票は `excel-deliverable-quality` |
-| `fable-style-reasoning` | Observation-first agent reasoning for Cursor / Composer 2.5（backbone: verbatim [Anthropic System Prompts — Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) + series supplement in `references/official-excerpts.md`; supplement: [shotatykr trace](https://x.com/shotatykr/status/2074035238116769851) Phase 0–4; light/full; plan-top anchor）。設計: [docs/pr/012-fable-style-reasoning.md](docs/pr/012-fable-style-reasoning.md) |
+| `fable-style-reasoning` | Observation-first agent reasoning for Cursor agents（Grok / Composer; backbone: verbatim [Anthropic System Prompts — Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) + series supplement in `references/official-excerpts.md`; supplement: [shotatykr trace](https://x.com/shotatykr/status/2074035238116769851) Phase 0–4; light/full; plan-top anchor）。設計: [docs/pr/012-fable-style-reasoning.md](docs/pr/012-fable-style-reasoning.md)。モデル併用: [docs/model-routing.md](docs/model-routing.md) |
 
 ## hooks/（任意・Windows）
 
@@ -127,6 +127,7 @@
 | ファイル | 内容 |
 |----------|------|
 | `rule-index.md` | タスク別ルール参照 |
+| `model-routing.md` | Grok 4.5 × Composer 2.5 の使い分け・ループ上書き |
 | `loop-engineering.md` | ループ 4 層・SDK 安定優先（A–F） |
 | `user-rules-guide.md` | Settings への貼り方（1 ファイル運用） |
 | `migration-from-legacy.md` | 旧 `.cursor/` からの移行 |

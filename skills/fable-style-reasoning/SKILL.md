@@ -1,8 +1,8 @@
 ---
 name: fable-style-reasoning
 description: >-
-  Fable-aligned observation-first reasoning for non-trivial work in Cursor with
-  Composer 2.5. Backbone: verbatim Anthropic epistemology (verify before
+  Fable-aligned observation-first reasoning for non-trivial work in Cursor
+  (Grok or Composer). Backbone: verbatim Anthropic epistemology (verify before
   claiming, check artifacts yourself, tool-first action). Supplement: Phase 0–4
   workflow for anchor, recon, risk-ordered execution, and synthesis. Use when
   implementing, debugging, scope may drift, completion lacks proof, or the user
@@ -11,11 +11,13 @@ description: >-
 disable-model-invocation: false
 ---
 
-# Fable-style reasoning — observation-first agent work (Cursor / Composer 2.5)
+# Fable-style reasoning — observation-first agent work (Cursor)
 
 Anthropic's disclosed **Fable 5 epistemology** is the backbone; gaps the official text does not proceduralize are filled by **supplement** practice (Phase 0–4).
 
 **Disclaimer:** Not an Anthropic official skill. "Fable-style" means disclosed epistemology plus non-official imitation workflow.
+
+**Runtime:** Cursor agents (Grok / Composer). Tool names map to Cursor (`Read`, `Shell`, `GetMcpTools`, `Task`, …). Model choice: [docs/model-routing.md](../../../docs/model-routing.md).
 
 Layer definitions and upstream URLs: [references/sources.md](references/sources.md)
 
@@ -35,7 +37,7 @@ Layer definitions and upstream URLs: [references/sources.md](references/sources.
 
 When unsure, start **light**; escalate to **full** if you cannot write an observable verify line or observation contradicts the plan.
 
-**Light-mode note for Composer:** file count is not the gate. Composer often touches several files on small tasks. Escalate on **unobservable done criteria**, not on file count alone.
+**Light-mode note:** file count is not the gate. Cursor coding agents often touch several files on small tasks. Escalate on **unobservable done criteria**, not on file count alone.
 
 ## Design layers
 
@@ -54,8 +56,8 @@ When unsure, start **light**; escalate to **full** if you cannot write an observ
 
 Full verbatim text: [references/official-excerpts.md](references/official-excerpts.md)
 
-| Backbone | Essence | Cursor / Composer mapping |
-|----------|---------|---------------------------|
+| Backbone | Essence | Cursor mapping |
+|----------|---------|----------------|
 | **A1 Self-check** | Implied files may not exist | `Read` / `Glob` / `Grep` before assuming paths |
 | **A2 Epistemology** | Unverified input ≠ fact | Sort subagent and user claims into fact / assumption / unknown |
 | **A3 Correction** | Steady honesty after errors | Re-run verify; do not defend a failed claim |

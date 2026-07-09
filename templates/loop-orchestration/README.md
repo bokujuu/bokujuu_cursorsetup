@@ -25,8 +25,10 @@ Cursor で **ループエンジニアリング**（外側オーケストレー�
 
 ## モデル方針
 
-- すべてのラッパーは **`composer-2.5` を明示**（`-fast` 系は使わない）
-- CLI account default が `composer-2.5-fast` でもスクリプト側で上書きする
+- 既定は **`composer-2.5`**（多数反復向け。`-fast` 系は既定にしない）
+- Grok 併用時は上書き: `run-once.ps1 -Model grok-4.5-xhigh` / `MODEL=…` / `CURSOR_MODEL=…`
+- CLI account default が fast でもスクリプト側で品質系 slug を明示する
+- 詳細: [docs/model-routing.md](../../docs/model-routing.md)
 
 ## Windows 必須注意
 

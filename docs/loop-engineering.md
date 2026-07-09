@@ -83,9 +83,11 @@
 
 ## モデル方針
 
-- ラッパーはすべて **`composer-2.5` を明示**
-- `-fast` はモデル slug（`composer-2.5-fast`）であり CLI フラグではない
-- account default が fast でもスクリプトで上書きする
+- ラッパー既定は **`composer-2.5`**（多数反復のコスト効率。coding specialist）
+- 対話メインや難所は **Grok**（例: `grok-4.5-xhigh`）を `-Model` / `MODEL` / `CURSOR_MODEL` で上書き
+- `-fast` はモデル slug の一部であり CLI フラグではない。ループ既定に fast 系を使わない
+- account default が fast でもスクリプトで品質系 slug を明示する
+- 使い分けの SoT: [model-routing.md](model-routing.md)
 
 ## 展開フロー
 

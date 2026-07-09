@@ -16,6 +16,7 @@ const kitDir = dirname(fileURLToPath(import.meta.url));
 const workspace = process.cwd();
 const maxIterations = Number(process.env.MAX_ITERATIONS ?? "3");
 const stopOnComplete = process.env.STOP_ON_COMPLETE === "1";
+// Default: composer-2.5 (loop cost). Override for Grok, e.g. CURSOR_MODEL=grok-4.5-xhigh
 const modelId = process.env.CURSOR_MODEL ?? "composer-2.5";
 const promptPath = join(kitDir, "PROMPT.md");
 const journal = join(kitDir, "loop-journal.txt");

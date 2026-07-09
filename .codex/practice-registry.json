@@ -37,7 +37,7 @@
     },
     {
       "slug": "fable-style-reasoning",
-      "summary": "Observation-first reasoning for Cursor / Composer 2.5 (verbatim backbone + Phase 0–4 supplement, plan-top anchor)",
+      "summary": "Observation-first reasoning for Cursor agents (Grok / Composer; verbatim backbone + Phase 0–4 supplement, plan-top anchor)",
       "trigger_keywords": [
         "fable-style",
         "observation-first",
@@ -45,6 +45,7 @@
         "verify method",
         "recon",
         "Fable",
+        "Grok",
         "Composer"
       ],
       "verification_commands": [

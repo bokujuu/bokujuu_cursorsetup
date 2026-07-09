@@ -33,7 +33,7 @@ Progressive disclosure — not in SKILL.md body. Run manually after merges or sk
 - Parent runs verify before completion report
 - Matches plan-top anchor
 
-## Scenario 4: MCP needsAuth (Composer)
+## Scenario 4: MCP needsAuth (Cursor)
 
 **Input:** Task needs an MCP server; first `GetMcpTools` shows `needsAuth`
 
