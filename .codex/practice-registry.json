@@ -54,6 +54,25 @@
       ],
       "skill_path": "skills/fable-style-reasoning/SKILL.md",
       "status": "draft"
+    },
+    {
+      "slug": "cognitive-rhythm-writing",
+      "summary": "説明的な日本語文章の認知リズム（緩急・未回収の緊張・緩みと駄文の判別）",
+      "trigger_keywords": [
+        "認知リズム",
+        "緩急",
+        "平坦な文章",
+        "読み物",
+        "解説文",
+        "駄文",
+        "cognitive-rhythm"
+      ],
+      "verification_commands": [
+        "bash scripts/install.sh",
+        "python3 scripts/verify_repo_setup.py"
+      ],
+      "skill_path": "skills/cognitive-rhythm-writing/SKILL.md",
+      "status": "draft"
     }
   ]
 }
