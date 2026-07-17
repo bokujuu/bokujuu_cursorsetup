@@ -2,7 +2,7 @@
 
 外側オーケストレータがエージェントを **反復呼び出し**し、各反復は **fresh context**。状態はチャットではなく **git / ファイル** に残す（Ralph パターン）。
 
-関連 skill: `ralph-loop`（外側）、`anti-human-bottleneck`（内側）、`repo-agent-bootstrap`（AGENTS / registry / verify）。
+関連 skill: `ralph-loop`（外側ループ）、`anti-human-bottleneck`（ローカル自律と承認境界）、`repo-agent-bootstrap`（AGENTS / registry / verify）。
 
 テンプレ実体: [templates/loop-orchestration/](../templates/loop-orchestration/)
 

@@ -4,7 +4,7 @@
 
 ## 前提
 
-- グローバル skills: `ralph-loop`, `anti-human-bottleneck`, `repo-agent-bootstrap`（`install.ps1` 済み）
+- グローバル skills: `ralph-loop`, `repo-agent-bootstrap`（`install.ps1` 済み）。承認境界は User Rules / `anti-human-bottleneck`（任意）
 - 対象 repo: `CURSOR_API_KEY`, `cursor-agent` on PATH
 - SDK 利用時: **Tier 2 F（TypeScript）または Tier 2 B（Python async）のみ**
 
