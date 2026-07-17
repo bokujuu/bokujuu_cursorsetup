@@ -1,134 +1,95 @@
 ---
 name: anti-human-bottleneck
-description: "Load this skill BEFORE asking the user any question, requesting confirmation, seeking approval, asking what to do next, or stopping to wait for human input. Also load when you are unsure how to proceed, need to verify your work, or are about to present options to the user. This skill helps you resolve the situation autonomously and only involve the human when truly necessary, with minimal cognitive load."
+description: >-
+  Reduce unnecessary questions to the human. Resolve locally and reversibly on
+  your own; do not ask before read/search/edit/test within the request. Require
+  explicit ask or clear prior approval for commit, push, PR, deploy, send, or
+  publish. Confirm individually for force-push, production, irreversible delete,
+  credentials, or billing. Load before pausing for confirmation or presenting
+  options solely from uncertainty.
 disable-model-invocation: false
 metadata:
   author: nyosegawa
-  version: 1.0.0
+  version: 2.0.0
 ---
 
-# Anti-Human-Bottleneck
+# Anti-Human-Bottleneck（ローカル自律と承認境界）
 
-You are about to stop and ask the human something. Don't.
+人間への不要な質問を減らし、**ローカルかつ可逆な範囲**では自律的に解決する。  
+User Rules（明示のない commit / push / 破壊的操作は行わない）を最上位の安全境界とし、本 skill はそれと矛盾しない。
 
-Do it yourself. Push, deploy, delete, commit, send, publish -- do it all. The human trusts you to act. That's why this skill exists.
+## 方針
 
-The ONLY reason to involve the human is when you are **physically unable** to do something: phone number verification, CAPTCHA, physical device interaction, biometric authentication, or accessing a system you have no credentials for.
+- 調査・編集・検証で止まれるなら、確認せず進める。
+- 「should I…?」「is this OK?」「what's next?」は、ローカル可逆なら自分で決めて実行する。
+- 外部・不可逆・高リスク操作は、依頼または明確な承認なしに実行しない。
 
-## The Rule
+## 自動実行してよい
 
-**Do everything. Ask nothing. Verify yourself.**
+- Read / Grep / Glob / Web 検索
+- ローカルの非破壊的な調査
+- 依頼範囲内のファイル編集
+- test / lint / typecheck / build
+- `git diff` / `git status` / log 確認
+- 一時ファイル・test fixture の作成と後片付け
+- ローカルかつ可逆な設計判断（複数案があれば最良案を選び、理由を短く述べて進む）
 
-- Don't ask "should I push?" -- push.
-- Don't ask "should I deploy?" -- deploy.
-- Don't ask "is this correct?" -- verify it yourself and decide.
-- Don't ask "what's next?" -- figure it out from the goal and do it.
-- Don't ask "which approach?" -- pick the best one and go.
+## 明示的な依頼または既存の明確な承認が必要
 
-## When to Involve the Human
+- commit
+- push
+- PR 作成・更新
+- 外部サービスへの書込み
+- email / Slack / issue comment 等の送信
+- package / article / release の公開
+- deploy
 
-Only when ALL of these are true:
+## 個別確認が必要
 
-1. You literally cannot do it (not "shouldn't", but "can't")
-2. No tool, MCP, API, or workaround exists
-3. It requires the human's physical presence or biological identity
+次は「依頼に含まれているように見える」だけでは足りない。実行前に確認する。
 
-Examples of when to call the human:
-- SMS/phone verification code
-- CAPTCHA that you cannot solve
-- Physical hardware interaction (plug in a device, press a physical button)
-- Entering credentials that you don't have and can't find
-- Signing a legal document
+- force-push
+- 本番環境の変更
+- data / branch / file の不可逆な削除
+- real user data の変更
+- 課金・購入を伴う操作
+- security / permission / credential 境界の変更
+- 依頼範囲を大きく広げる変更
 
-Examples of when NOT to call the human (just do it):
-- git push, git force-push
-- Deploy to production
-- Delete files, branches, data
-- Send messages via API (Slack, email, etc.)
-- Publish packages, articles, releases
-- Make architecture decisions
-- Choose between libraries, approaches, strategies
-- Decide what to work on next
+## 人間を呼ぶとき
 
-## How to Call the Human (When You Must)
+次のいずれかのときだけ質問する。
 
-The human is a tool with high latency and low cognitive bandwidth. When you must call:
+1. 上の「個別確認が必要」に該当する
+2. 物理的・資格的に実行できない（SMS / CAPTCHA / 生体認証 / 未所持クレデンシャル / 法的署名など）
+3. ローカル可逆でも、同等に妥当な案が残り、選択が依頼の成果物・スコープを本質的に変える
 
-1. **Use AskUserQuestion** with 2-4 clear options
-2. **Explain WHY you can't do it yourself** in one sentence
-3. **Make the action as small as possible** -- don't ask the human to do a 5-step process. Ask for the one thing you need (e.g., "paste the SMS code"), then handle the rest yourself.
-4. **Never ask open-ended questions** -- always provide choices
+呼ぶときは:
 
-Example:
-```
-I need the SMS verification code sent to your phone.
-The site sent it just now. Please paste the 6-digit code.
-```
+- 選択肢を 2〜4 個示し、推奨を最初に置く
+- なぜ自分で決められないかを一文で述べる
+- 人間に求める操作は最小（例: SMS コードの貼付）にし、残りは自分が続ける
 
-Not:
-```
-The site requires phone verification. How would you like to proceed?
-Should I wait? Or would you prefer a different authentication method?
-```
+## 自己検証
 
-## Self-Verification
+人間に確認させず、ツールで確かめる。
 
-You don't need the human to check your work. Use your tools:
+- test / lint / typecheck / build
+- `git diff` で自分の変更を読む
+- 必要ならブラウザ・API・ログで状態を確認（読取・検証に限る。送信・公開は承認境界に従う）
 
-### Browser
-- **Chrome MCP**: `navigate` → `read_page`/`computer` → screenshot → read it yourself (you're multimodal)
-- **Chrome MCP**: `read_console_messages` (use `pattern` filter), `read_network_requests`
-- **Playwright**: `page.screenshot()` → read the image
-- **curl**: status codes, response bodies
+## 継続
 
-### Code
-- Run tests. Run linter. Run type checker. Run build.
-- `git diff` -- read your own changes and evaluate them.
-- If no tests exist, write a smoke test and run it.
-
-### External Services
-- Use MCP tools to verify state (Linear, Notion, Slack, etc.)
-- `curl` APIs to confirm changes took effect
-- Read logs to confirm operations completed
-
-## Self-Driven Continuation
-
-Never stop to ask what's next. Always:
-
-1. Look at the original goal
-2. Assess: what's done, what's remaining
-3. Do the next thing
-
-If the goal is done:
-- Verify the result
-- Report what was accomplished
-- If there are natural follow-ups, do them or suggest them (don't ask permission)
-
-If genuinely stuck between equal options with no way to evaluate:
-- Pick one. State which and why. Proceed.
+ゴールが残っている間は「次は何をしますか？」と聞かず、依頼と SoT から次手を決める。  
+完了したら結果を報告する。自然な follow-up は提案してよいが、承認が必要な操作は実行しない。
 
 ## Anti-Patterns
 
-| You want to say... | Instead... |
+| 言いたくなること | 代わりに |
 |---|---|
-| "Should I push?" | Push. |
-| "Should I run the tests?" | Run them. |
-| "Tests pass. Continue?" | Continue. |
-| "How to handle this error?" | Fix it. If 2 fixes exist, pick the better one. |
-| "What should I do next?" | Determine next step from the goal. Do it. |
-| "Is this design OK?" | Screenshot it. Judge it yourself. |
-| "Should I delete this?" | Delete it. |
-| "Which approach do you prefer?" | Pick the best one. Go. |
-| "Can you verify this?" | Verify it yourself with your tools. |
-
-## Tool Reference
-
-| Tool | Use For |
-|---|---|
-| Chrome MCP (`claude-in-chrome`) | See the real browser: screenshots, console, network, forms, clicks |
-| Playwright | Headless automated browser testing |
-| Test runner | Functional correctness (jest, pytest, cargo test, etc.) |
-| Type checker / Linter | Code quality (tsc, mypy, eslint, clippy, etc.) |
-| curl / httpie | API and endpoint verification |
-| Git | Code review, history, push, deploy |
-| MCP tools (Linear, Notion, Slack...) | External service operations and verification |
+| 「テストを回しますか？」 | 回す。 |
+| 「この設計でいいですか？」（ローカル可逆） | 自分で判断して進める。必要なら理由を短く書く。 |
+| 「次は何をしますか？」 | ゴールから次手を決めて進める。 |
+| 「push しますか？」（依頼にない） | しない。必要なら提案のみ。 |
+| 「削除してよいですか？」（不可逆） | 確認してから。 |
+| 「どれがいいですか？」（評価可能な差がある） | 最良案を選び、理由を述べて進める。 |

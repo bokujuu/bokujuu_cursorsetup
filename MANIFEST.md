@@ -16,7 +16,7 @@
 
 | スキル | 備考 |
 |--------|------|
-| `anti-human-bottleneck` | sync 時は `%USERPROFILE%\.codex\skills\` から |
+| `anti-human-bottleneck` | ローカル可逆な自律解決と、commit/push/deploy 等の承認境界。sync 時は `%USERPROFILE%\.codex\skills\` から |
 | `cursor-session-doc` | Cursor `agent-transcripts/*.jsonl` 用（本 repo 内で管理） |
 | `empirical-prompt-tuning` | 同上 |
 | `implement-with-practices` | 同上 |

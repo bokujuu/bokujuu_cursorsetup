@@ -57,6 +57,6 @@ Cursor で **ループエンジニアリング**（外側オーケストレー�
 
 ## 関連 skill
 
-- `ralph-loop` — 概念・外側/内側ループ
-- `anti-human-bottleneck` — 反復内の人間待ち回避
+- `ralph-loop` — 外側ループ（fresh context・durable state・observable verify）
+- `anti-human-bottleneck` — ローカル自律と承認境界（Ralph 必須依存ではない）
 - `repo-agent-bootstrap` — AGENTS.md / registry / verify

@@ -18,7 +18,7 @@
 | **Git** | リポ `AGENTS.md` とプロジェクト Rules |
 | **フロント/ブックマークレット** | リポ `AGENTS.md` とプロジェクト Rules |
 | **ルール作成** | skill `skill-lifecycle` → `templates/project-skills/` |
-| **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。内側は `anti-human-bottleneck` |
+| **ループ・無人収束（Ralph）** | skill `ralph-loop` → `templates/loop-orchestration/` → [loop-engineering.md](loop-engineering.md)。ローカル自律と承認境界は `anti-human-bottleneck` |
 | **エージェント基盤** | skill `repo-agent-bootstrap` → `templates/project-skills/` |
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery` |
 | **非自明タスクの着手・観測優先の推論** | skill `fable-style-reasoning` → ずれ発生後は `agent-handoff-recovery` |

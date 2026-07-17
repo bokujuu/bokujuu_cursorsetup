@@ -131,7 +131,7 @@ flowchart LR
 | `PROMPT.md.template` | 単一ファイル版。facet 未使用のシンプル経路として残す |
 | `PROMPT-faceted.md.template` | facet 組み立て版。review 分離が必要なとき |
 | `ralph-loop` skill | 概念説明。facet 節へのリンクを追加 |
-| `anti-human-bottleneck` | implement 内の人間待ち回避。review は別反復で分離 |
+| `anti-human-bottleneck` | ローカル自律と承認境界。review は別反復で分離 |
 
 ### qa-multi-perspective との関係（正しい対応）
 

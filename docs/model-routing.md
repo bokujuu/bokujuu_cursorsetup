@@ -1,20 +1,51 @@
 # モデルルーティング（Grok 4.5 × Composer 2.5）
 
-更新: 2026/07/09 03:00
+更新: 2026/07/17 02:26
 
 ## 結論（先に）
 
-**skill セットの大半はそのままでよい。** 手順・検証・SoT 委譲はモデル非依存で、Cursor のツール面（`Read` / `Shell` / `Task` 等）を前提にしている。
+主利用モデルは当面 **Grok 4.5** を想定する。変えるべきなのは「**どのモデルをいつ使うか**」の運用と、現状 **Composer 固定**になっているループラッパー／表記、および skill 分類ごとの扱いである。
 
-変えるべきなのは「**どのモデルをいつ使うか**」の運用と、現状 **Composer 固定**になっているループラッパー／表記だけである。
+skill は一括で「大半はそのままでよい」とせず、次の分類で判断する。
 
 | 層 | 変更要否 | 理由 |
 |----|----------|------|
 | `user-rules/` | 不要 | 口調・最小変更のみ。モデル名を書かない |
-| 大半の `skills/` | 不要 | タスク手順・検証ゲートはモデル共通 |
-| `fable-style-reasoning` | 軽微 | Composer 専用表記を Cursor 共通へ |
+| Domain / constraint skills | 原則維持 | 業務知識・不変条件・検証はモデル非依存 |
+| Deliverable / workflow skills | 維持＋軽量化 | 成果物要件は残し、固定件数・不要順序は削る |
+| Reasoning intervention skills | 軽量化または明示起動 | 上位モデルでは思考手順の固定が競合しやすい |
+| Autonomy / loop-control skills | 安全境界との整合を最優先 | 人間確認・外部操作の境界はモデル非依存ではない |
 | `templates/loop-orchestration/` | 軽微 | 既定は Composer、上書きで Grok |
-| `docs/`（本ファイル） | 追加 | ルーティングの SoT |
+| `docs/`（本ファイル） | SoT | ルーティングと skill 分類 |
+
+## Skill 分類
+
+### 1. Domain / constraint skills
+
+業務知識、不変条件、環境固有情報、検証条件。  
+原則モデル非依存で維持する。Grok / Composer どちらでも同じ Done / Verify を使う。
+
+### 2. Deliverable / workflow skills
+
+成果物形式、再現可能な手順。  
+明示性（何を出すか・どう検証するか）は維持し、固定件数・不要な順序・依頼外の Git 操作は削る。
+
+### 3. Reasoning intervention skills
+
+モデルの思考順序、phase、固定出力を規定するもの（例: `fable-style-reasoning`）。  
+上位モデルでは競合しやすいため、軽量化または明示起動を検討する。本ファイル時点では既存 skill の大規模改稿はしない。
+
+### 4. Autonomy / loop-control skills
+
+人間確認、反復、外部操作の境界（例: `anti-human-bottleneck`, `ralph-loop`）。  
+モデル非依存ではなく、User Rules および承認境界との整合を最優先する。ローカル可逆な自律と、commit / push / deploy 等の外部・不可逆操作を混同しない。
+
+## Grok 4.5 向け
+
+- 探索・設計の裁量を残す。手順を過剰に固定しない。
+- ドメイン制約・Done 条件・Verify 方法は具体的に与える。
+- 説明や探索が厚くなりやすいため、固定テンプレートでさらに増幅しない。
+- Skill 間の矛盾はモデル能力で吸収させず、設定側で解消する。
 
 ## 公式の位置づけ（要約）
 
@@ -49,6 +80,7 @@ IDE のモデルピッカーと CLI `--model` の slug は製品側の表記に�
 - skill 本文に特定モデル名を**必須条件として書かない**（「Cursor エージェント」または「Grok / Composer」）
 - モデル差で振る舞いが分かれる知見は、まず `references/skill-memory.md` に1行追記し、安定したら本ファイルへ昇格
 - 新規 skill は [global-suitability](review/global-suitability-and-knowledge-capture.md) どおりモデル非依存を優先
+- 上記 4 分類で、維持・軽量化・安全境界のどれが主かを意識する
 
 ### 観測されやすい差（運用メモ）
 

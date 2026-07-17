@@ -40,7 +40,7 @@ Default: start at **Tier 1**; escalate only when the user or audience requires i
 1. **Inventory** — Map layout and dependencies (see [reference.md](reference.md)).
 2. **Choose tier** — Apply table above; state choice in the reply.
 3. **Draw** — Module/layer diagram + optional dependency graph (keep diagrams ≤2 per file unless user asks more).
-4. **Place artifact** — Tier 1: commit `docs/architecture.md`. Tier 2: canvas path per canvas skill. Tier 3: copy template site and open locally.
+4. **Place artifact** — Tier 1: create or update `docs/architecture.md`. Tier 2: canvas path per canvas skill. Tier 3: copy template site and open locally. commit / push / PR はユーザー依頼またはリポジトリ固有ルールに従う（成果物作成と Git commit は分離する）。
 5. **Update rule** — If Tier 1 or 3 exists, refresh when: top-level dir added, public API changed, major dependency swapped.
 
 ## Diagram conventions
