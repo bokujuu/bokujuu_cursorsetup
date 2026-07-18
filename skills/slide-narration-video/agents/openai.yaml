@@ -1,0 +1,4 @@
+interface:
+  display_name: "全画面スライド解説動画"
+  short_description: "Marp＋VOICEVOX＋Remotion／Motion Canvas で全画面解説動画を設計・制作する。"
+  default_prompt: "$slide-narration-video を使い、japanese-technical-writing と cognitive-rhythm-writing に依存したうえで、全画面スライド解説動画の構成・原稿・キューシートを進めてください。"
