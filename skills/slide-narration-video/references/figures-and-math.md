@@ -1,0 +1,96 @@
+# 図・表・数式（概念スライド）
+
+情報密度の方針（厚い箇条＋下位項目・具体例）は崩さない。  
+**概念・比較・因果・公式**を扱う枚では、箇条だけに頼らず図・表・数式を積極採用する。
+
+## 使い分け
+
+| 目的 | 手段 | スライドへの載せ方 |
+|------|------|-------------------|
+| 単純な関係・階層・ボックス図 | Markdown（見出し／リスト／引用／簡易 ASCII） | そのまま Marp |
+| 比較・役割一覧 | Markdown 表（推奨）または Mermaid 由来の表 | そのまま Marp |
+| フロー・状態遷移・パイプライン | Mermaid（`.mmd`） | **先に SVG/PNG 化し、画像として埋め込む** |
+| 数式・記号の定義 | LaTeX（Pandoc 風 `$...$` / `$$...$$`） | **Marp `math: mathjax`**（下記） |
+
+概念の話で「箇条が長くなり、視線の一本が折れる」と感じたら、図か表に寄せる。  
+逆に、手順の羅列や用語の導入は厚い箇条のままがよい。
+
+## レンダ失敗に注意
+
+次が見えたら失敗である。書き出し PNG を必ず目視する。
+
+- Mermaid ソースがそのまま画面に出る（`flowchart TD` など）
+- 数式が `$E = mc^2$` のままプレーンテキスト
+- 表の `|` 区切りが崩れて monospace のゴミになる
+
+原因の典型:
+
+- Marp に生の Mermaid フェンスを貼った（ネイティブ確実レンダではない）
+- `math` を無効化した、または未宣言のまま古い環境で KaTeX CDN 依存になった
+- 画像パスが PNG 書き出し時の CWD とずれて壊れた
+
+## Mermaid（必須: 先レンダ）
+
+Marp の HTML/PNG 経路で Mermaid をライブ実行に頼らない。  
+**確実な経路は CLI で SVG（または PNG）に焼いてから画像埋め込み**である。
+
+### 手順（固定）
+
+1. ソースを `slides/assets/*.mmd` に置く（スライド本文にロジックを直書きしない）
+2. `@mermaid-js/mermaid-cli`（`mmdc`）で SVG 化:
+
+```powershell
+npx --yes @mermaid-js/mermaid-cli -i slides/assets/pipeline-flow.mmd -o slides/assets/pipeline-flow.svg -b transparent
+```
+
+3. Marp では画像として参照する:
+
+```markdown
+![パイプライン](assets/pipeline-flow.svg)
+```
+
+4. PNG 書き出し時は **`--allow-local-files` 必須**（省略するとローカル SVG がブロックされ、図が欠ける）:
+
+```powershell
+npx --yes @marp-team/marp-cli slides/overview.marp.md -o slides/png/slide.png --images png --allow-local-files
+```
+
+5. PNG 書き出し後、フローが図として見えることを確認する（コード断片が見えたらやり直し）
+
+再現スクリプトの置き場: デモでは `docs/slide-narration-video-demo/scripts/render_mermaid.ps1`。
+
+## LaTeX / 数式（採用: Marp MathJax）
+
+### 比較（確実性優先）
+
+| 候補 | 確実性 | 備考 |
+|------|--------|------|
+| **Marp `math: mathjax`（採用）** | 高 | Core 既定。オフライン可。CLI の PNG（Chromium）で数式が画像化されることを実測確認済み |
+| Marp `math: katex` | 中 | CDN フォント依存。オフライン／制限網で崩れやすい |
+| 数式を事前 SVG/PNG 化して埋め込み | 最高に近いが過剰 | Mermaid と同型。MathJax が通るなら二重メンテになる |
+
+### 採用手順
+
+フロントマターで明示する（推奨。暗黙既定に頼らない）:
+
+```markdown
+---
+marp: true
+math: mathjax
+---
+
+インライン $E = mc^2$
+
+$$
+\sigma^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i-\mu)^2
+$$
+```
+
+PNG 書き出し後、`$` が生で残っていないことを確認する。  
+特殊マクロや巨大 align で崩れる場合のみ、数式 SVG の先レンダに退避する（例外経路）。
+
+## 既存の密度方針との関係
+
+- 図・表を足しても、主要バレット＋下位項目は残してよい（図だけにして薄くしない）
+- 「薄くせよ」は本 skill の方針ではない。悪いのは階層なし並列と無関係詰め込み
+- 図が主題の枚でも、1〜2 本のキャプション／読み順バレットを置き、ナレーションと対応させる

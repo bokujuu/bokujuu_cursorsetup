@@ -73,6 +73,26 @@
       ],
       "skill_path": "skills/cognitive-rhythm-writing/SKILL.md",
       "status": "draft"
+    },
+    {
+      "slug": "slide-narration-video",
+      "summary": "全画面スライド＋TTSナレーション解説動画（Marp / Remotion / Motion Canvas）",
+      "trigger_keywords": [
+        "スライド解説動画",
+        "全画面スライド",
+        "Marp",
+        "VOICEVOX",
+        "Remotion",
+        "Motion Canvas",
+        "ナレーション",
+        "slide-narration"
+      ],
+      "verification_commands": [
+        "bash scripts/install.sh",
+        "python3 scripts/verify_repo_setup.py"
+      ],
+      "skill_path": "skills/slide-narration-video/SKILL.md",
+      "status": "draft"
     }
   ]
 }
