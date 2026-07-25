@@ -57,6 +57,15 @@ japanese-technical-writing の提示順（境界→構成要素→因果→例�
 
 詳細手順: [figures-and-math.md](figures-and-math.md)
 
+## 収まらないときの修正（要約しすぎない）
+
+PNG で文字欠け・画像歪みが出ても、最初に具体例や因果を削らない。  
+順序は [slide-layout-qa.md](slide-layout-qa.md) に従う（退避 → 重複除去 → 焦点化 → 枚分割 → compact）。
+
+- 下端を `.note` の常設置き場にしない（喋り専用はキュー側）
+- 画像は `max-width: 100%; height: auto;` を既定とし、両軸固定で押しつぶさない
+- 工程 2.5 の配置 QA に合格するまでナレーション工程へ進まない
+
 ## Marp への落とし方
 
 - テーマはプロジェクト既存があれば継承。なければ高コントラストで図が沈まない配色にする
