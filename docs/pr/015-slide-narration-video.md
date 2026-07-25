@@ -1,6 +1,6 @@
 # PR design note: slide-narration-video
 
-Updated: 2026/07/25 17:37
+Updated: 2026/07/25 17:51
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Marp スライド、VOICEVOX（既定）／Irodori-TTS（任意）、Remotion �
 | Origin | ローカル完成版 `%USERPROFILE%\.codex\skills\slide-narration-video\` |
 | Local slug | `slide-narration-video` |
 | Upstream | なし（自作。執筆規範は既存 skill に委譲） |
-| Empiric check | `d:\Obsidian\temp\gigatoken-video-v2\`（更新 skill でクリーンエージェント再生成・親監査合格） |
+| Empiric check | 更新 skill をクリーンエージェントに渡し解説動画を再生成。フロー図＋比較図を含め、端欠け・歪み・読み辞書を親が監査して合格 |
 
 ## Design decisions
 
@@ -43,16 +43,33 @@ Marp スライド、VOICEVOX（既定）／Irodori-TTS（任意）、Remotion �
 
 ## Verification
 
+グローバル skill の installability と一覧同期:
+
 ```bash
 .\scripts\install.ps1
 python scripts\verify_repo_setup.py
 python scripts\verify_loop_kit.py
 ```
 
-実動画検証（任意・本 PR 外成果物）:
+| チェック | 結果 |
+|----------|------|
+| `install.ps1` / `install.sh` で `skills/slide-narration-video/` が `%USERPROFILE%\.codex\skills\` へ配置 | OK（検証時に実行） |
+| `verify_repo_setup.py`（frontmatter `name`・MANIFEST 記載） | OK |
+| `verify_loop_kit.py` | OK |
+| `MANIFEST.md` / `docs/rule-index.md` に配置 QA・読み正規化を反映 | OK |
 
-- 更新 skill を渡したクリーンエージェントで Gigatoken 解説を再生成
-- フロー図（Mermaid 先レンダ）＋比較図を含め、端欠け・歪み・読み辞書を親が監査
+制作ワークフロー（skill 本体の工程ゲート）:
+
+| チェック | 結果 |
+|----------|------|
+| 工程 2.5（PNG 目視・はみ出し／画像比）が SKILL / `slide-layout-qa.md` に必須化 | OK |
+| 工程 4.5（辞書→`tts_text`）が SKILL / `tts-pronunciation.md` に必須化 | OK |
+| `pause_after_ms` 境界が `timeline-and-sync.md` と一致（ナレーション後〜次スライド前） | OK |
+
+実動画検証（任意・本 PR 外成果物。個人マシンの絶対パスは記載しない）:
+
+- 更新 skill を渡したクリーンエージェントで解説動画を再生成
+- フロー図（Mermaid 先レンダ）＋比較図を含め、端欠け・歪み・読み辞書を親が監査して合格
 
 ## Deferred
 

@@ -61,7 +61,7 @@ description: >-
 
 次の順を崩さない。後工程で論理を取り返すコストが高い。
 
-```
+```text
 Task Progress:
 - [ ] 1. 内部モデルの骨格（JT writing）
 - [ ] 2. スライド設計（全画面・柔軟）
@@ -113,7 +113,7 @@ japanese-technical-writing の提示順で、動画全体の主張を一文に�
 
 画像はアスペクト比を維持する（両軸固定で押しつぶさない）。  
 レンダ失敗（Mermaid 生テキスト・`$E=mc^2$` のまま）は PNG 目視で落とす。  
-詳細: [references/figures-and-math.md](figures-and-math.md) / [references/slide-layout-qa.md](references/slide-layout-qa.md)
+詳細: [references/figures-and-math.md](references/figures-and-math.md) / [references/slide-layout-qa.md](references/slide-layout-qa.md)
 
 ### 2.5 スライド配置 QA（必須ゲート）
 
@@ -144,8 +144,8 @@ cognitive-rhythm-writing に従う。加えて動画固有の制約:
 
 - `slide_id` / 画像パス
 - `narration`（読み上げ全文。製品名は英語のままでよい）
-- `pause_after_ms`（既定 **500**。スライド遷移後の認知的な間）
-- `cues[]`: `at_ms`（当該ナレーション開始からの相対）, `type`, `target`, `duration_ms`
+- `pause_after_ms`（既定 **500**。当該スライドのナレーション終了後〜次スライド開始前の認知的な間。尺は `audio_duration_ms + pause_after_ms`）
+- `cues[]`: 必須は `at_ms` / `type` / `duration_ms`。空間系 cue（`highlight` 等）は `target`、`motion` は `clip` パスなど type 依存フィールドを使う
 
 同期の設計原則とスキーマ: [references/timeline-and-sync.md](references/timeline-and-sync.md)
 
@@ -183,7 +183,7 @@ ffmpeg のみで PNG+WAV+pause を結合してもよい（プロジェクト既�
 
 ### 7. 検証チェックリスト
 
-- [ ] 各スライド遷移の直後に、おおむね 0.5 秒の無音または静止の間がある
+- [ ] 各スライドのナレーション終了後（次スライドへ移る前）に、おおむね 0.5 秒の無音または静止の間がある
 - [ ] 早送り感がない（接続文なしの硬切替がない）
 - [ ] 各 cue が、対応する発話区間内に収まっている
 - [ ] 全画面表示で、常設の左右要点パネルがない
@@ -200,7 +200,7 @@ ffmpeg のみで PNG+WAV+pause を結合してもよい（プロジェクト既�
 
 プロジェクトに既存規約があればそれに従う。なければ次を推奨する。
 
-```
+```text
 <video-project>/
   slides/           # .marp.md と書き出し PNG、assets/
   script/
