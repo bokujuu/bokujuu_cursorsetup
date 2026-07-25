@@ -43,11 +43,23 @@ Marp の HTML/PNG 経路で Mermaid をライブ実行に頼らない。
 npx --yes @mermaid-js/mermaid-cli -i slides/assets/pipeline-flow.mmd -o slides/assets/pipeline-flow.svg -b transparent
 ```
 
-3. Marp では画像として参照する:
+3. Marp では画像として参照する（**アスペクト比を維持**）:
 
 ```markdown
 ![パイプライン](assets/pipeline-flow.svg)
 ```
+
+```css
+/* テーマ style に含める */
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+- `width` と `height` を独立した固定値で指定して押しつぶさない
+- 固定枠が必要なときだけ両寸法＋`object-fit: contain`（情報図で `cover` を既定にしない）
+- 収まらないときは歪ませず、縮小・配置組替・図専用枚への分割（[slide-layout-qa.md](slide-layout-qa.md)）
 
 4. PNG 書き出し時は **`--allow-local-files` 必須**（省略するとローカル SVG がブロックされ、図が欠ける）:
 

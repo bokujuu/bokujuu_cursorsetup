@@ -35,7 +35,7 @@
 | `requirement-aligned-fixtures` | 要件・スキーマに沿ったダミーデータ設計。三軸バランス（決定性・変動・グループ）、volume tier、カバレッジ行列、Generation Spec・manifest。併用: 定番メソッド（static/seeded/factory）、factory_boy+Faker、lifelike-synthetic-data-generator（`references/companion-tools.md`）。表形式・PCAF 型は `references/tabular-excel.md`。帳票は `excel-deliverable-quality` |
 | `fable-style-reasoning` | Observation-first agent reasoning for Cursor agents（Grok / Composer; backbone: verbatim [Anthropic System Prompts — Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) + series supplement in `references/official-excerpts.md`; supplement: [shotatykr trace](https://x.com/shotatykr/status/2074035238116769851) Phase 0–4; light/full; plan-top anchor）。設計: [docs/pr/012-fable-style-reasoning.md](docs/pr/012-fable-style-reasoning.md)。モデル併用: [docs/model-routing.md](docs/model-routing.md) |
 | `cognitive-rhythm-writing` | 説明的な日本語文章の認知リズム（観察→逡巡→断定→再観察・未回収の緊張・緩みと駄文の判別）。読み物として読ませたい章・記事・解説の生成／平坦な文の診断・修正。併用: `japanese-technical-writing`。出典: [k16shikano gist](https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432)。設計: [docs/pr/014-cognitive-rhythm-writing.md](docs/pr/014-cognitive-rhythm-writing.md) |
-| `slide-narration-video` | 全画面スライド＋TTS ナレーションの解説動画（Marp / Remotion / Motion Canvas、VOICEVOX 既定）。原稿・構成は `japanese-technical-writing` と `cognitive-rhythm-writing` に相対パス依存。設計: [docs/pr/015-slide-narration-video.md](docs/pr/015-slide-narration-video.md) |
+| `slide-narration-video` | 全画面スライド＋TTS ナレーションの解説動画（Marp / Remotion / Motion Canvas、VOICEVOX 既定）。配置 QA（はみ出し・画像比）と TTS 読み正規化ゲートあり。原稿・構成は `japanese-technical-writing` と `cognitive-rhythm-writing` に相対パス依存。設計: [docs/pr/015-slide-narration-video.md](docs/pr/015-slide-narration-video.md) |
 
 ## hooks/（任意・Windows）
 

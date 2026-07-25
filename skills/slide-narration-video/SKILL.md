@@ -2,7 +2,8 @@
 name: slide-narration-video
 description: >-
   全画面スライド＋合成音声ナレーションの解説動画を設計・制作する。Marp スライド、VOICEVOX（既定）／Irodori-TTS（任意）、
-  Remotion と Motion Canvas の役割分担、発話と画面注釈の同期、スライド間の認知的な「間」を扱う。
+  Remotion と Motion Canvas の役割分担、発話と画面注釈の同期、スライド間の認知的な「間」、
+  スライド配置 QA（文字はみ出し・画像アスペクト）、英語読みの TTS 正規化を扱う。
   Use when making explain/talk-through videos from slides, Marp＋TTS 動画、Remotion／Motion Canvas 解説動画、
   スライド原稿・キューシート・注釈タイミングの設計、または「全画面で喋らせる」構成の相談・実装時。
 ---
@@ -64,12 +65,16 @@ description: >-
 Task Progress:
 - [ ] 1. 内部モデルの骨格（JT writing）
 - [ ] 2. スライド設計（全画面・柔軟）
+- [ ] 2.5 スライド配置 QA（はみ出し・画像比）← 合格まで 3 に進まない
 - [ ] 3. ナレーション原稿（cognitive rhythm）
 - [ ] 4. キューシート（間・注釈・同期）
+- [ ] 4.5 TTS 読み正規化（辞書・未解決語）
 - [ ] 5. TTS 生成
 - [ ] 6. Remotion 組み立て（± Motion Canvas）
-- [ ] 7. 検証（間・同期・早送り感）
+- [ ] 7. 検証（間・同期・配置・読み）
 ```
+
+制作中は `process-log.md`（または同等）に工程・判断・NG→修正を残す。
 
 ### 1. 内部モデルの骨格
 
@@ -106,8 +111,24 @@ japanese-technical-writing の提示順で、動画全体の主張を一文に�
 | フロー・パイプライン | Mermaid `.mmd` | **先に SVG/PNG → 画像埋め込み**（生フェンス禁止。PNG 書き出しは `--allow-local-files`） |
 | 数式 | LaTeX `$...$` / `$$...$$` | **`math: mathjax`**（PNG 書き出しで焼ける。KaTeX CDN は避ける） |
 
+画像はアスペクト比を維持する（両軸固定で押しつぶさない）。  
 レンダ失敗（Mermaid 生テキスト・`$E=mc^2$` のまま）は PNG 目視で落とす。  
-詳細: [references/figures-and-math.md](references/figures-and-math.md)
+詳細: [references/figures-and-math.md](figures-and-math.md) / [references/slide-layout-qa.md](references/slide-layout-qa.md)
+
+### 2.5 スライド配置 QA（必須ゲート）
+
+Marp → PNG のあと、**全ページを画像として目視**する。合格するまで工程 3 に進まない。
+
+確認項目:
+
+- 文字・表・コードが端で欠けていない
+- 埋め込み図が歪んでいない（`max-width` + `height: auto` 等）
+- 生 Mermaid／生 `$...$` が出ていない
+
+NG 時の修正順（情報削除を最初にしない）: note 退避 → 重複除去 → 表／コード焦点化 → **意味単位の枚分割** → 配置組替 → 下限付き局所 compact。  
+`overflow: hidden` で隠すのは修正ではない。
+
+詳細: [references/slide-layout-qa.md](references/slide-layout-qa.md)
 
 ### 3. ナレーション原稿
 
@@ -122,15 +143,25 @@ cognitive-rhythm-writing に従う。加えて動画固有の制約:
 原稿・音声・画面を結ぶ単一の SoT を置く（YAML 推奨）。最低限のフィールド:
 
 - `slide_id` / 画像パス
-- `narration`（読み上げ全文）
+- `narration`（読み上げ全文。製品名は英語のままでよい）
 - `pause_after_ms`（既定 **500**。スライド遷移後の認知的な間）
 - `cues[]`: `at_ms`（当該ナレーション開始からの相対）, `type`, `target`, `duration_ms`
 
 同期の設計原則とスキーマ: [references/timeline-and-sync.md](references/timeline-and-sync.md)
 
+### 4.5 TTS 読み正規化（必須）
+
+`narration` は SoT のまま維持する。VOICEVOX に渡す直前に、プロジェクト辞書（例: `script/pronunciation.yml`）で英字・固有語をカタカナ等へ正規化する。
+
+- 未知の英字語を自動ローマ字推測しない（未解決として止める／警告する）
+- 変換ログを残す
+- 固有語の初出をスポット試聴する
+
+詳細: [references/tts-pronunciation.md](references/tts-pronunciation.md)
+
 ### 5. TTS
 
-既定は VOICEVOX・冥鳴ひまり。文節はキューシートの `narration` と一致させる。
+既定は VOICEVOX・冥鳴ひまり。**合成に使う文字列は 4.5 適用後の `tts_text`**。意味内容は `narration` と一致させる。  
 Irodori-TTS はサブプラン（[references/tts-and-stack.md](references/tts-and-stack.md)）。
 
 ### 6. Remotion × Motion Canvas
@@ -148,6 +179,8 @@ Irodori-TTS はサブプラン（[references/tts-and-stack.md](references/tts-an
 Motion Canvas クリップは、キューの `at_ms` に合わせて Remotion 側で開始フレームを決める。
 「喋っている箇所」と「指している箇所」がずれる状態で書き出さない。
 
+ffmpeg のみで PNG+WAV+pause を結合してもよい（プロジェクト既存に合わせる）。Remotion 未使用ならその旨を README / process-log に残す。
+
 ### 7. 検証チェックリスト
 
 - [ ] 各スライド遷移の直後に、おおむね 0.5 秒の無音または静止の間がある
@@ -156,8 +189,12 @@ Motion Canvas クリップは、キューの `at_ms` に合わせて Remotion �
 - [ ] 全画面表示で、常設の左右要点パネルがない
 - [ ] 各枚の画面がナレーションを追える密度（下位項目・具体例）で、要約しすぎていない
 - [ ] 概念枚で図・表・数式が必要なとき、採用済みで、生 Mermaid／生 `$...$` が画面に出ていない
+- [ ] **全 PNG で文字が端欠けしていない**（工程 2.5 再確認）
+- [ ] **埋め込み画像のアスペクト比が歪んでいない**
+- [ ] **読み辞書があり、主要固有語・略語の音声が破綻していない**
 - [ ] 原稿が cognitive-rhythm / JT writing の依存手順を経ている
 - [ ] TTS が既定（VOICEVOX・冥鳴ひまり）または明示された代替である
+- [ ] `process-log.md` に工程と NG→修正が残っている
 
 ## 成果物の置き方（リポジトリ非依存の推奨）
 
@@ -165,21 +202,25 @@ Motion Canvas クリップは、キューの `at_ms` に合わせて Remotion �
 
 ```
 <video-project>/
-  slides/           # .marp.md と書き出し PNG
+  slides/           # .marp.md と書き出し PNG、assets/
   script/
     manuscript.md   # 通し原稿（任意）
     cues.yaml       # キューシート SoT
-  audio/            # TTS WAV
+    pronunciation.yml  # TTS 読み辞書
+  audio/            # TTS WAV、変換ログ
   motion/           # Motion Canvas ソース（任意）
   remotion/         # Remotion ソース
   out/              # 書き出し
+  process-log.md    # 制作工程の記録
 ```
 
 ## 追加資料
 
 - [references/timeline-and-sync.md](references/timeline-and-sync.md) — 同期・間・スキーマ
 - [references/slide-design.md](references/slide-design.md) — 全画面スライドの設計と柔軟性
+- [references/slide-layout-qa.md](references/slide-layout-qa.md) — はみ出し・画像比の配置 QA
 - [references/figures-and-math.md](references/figures-and-math.md) — 図・表・数式と先レンダ
 - [references/tts-and-stack.md](references/tts-and-stack.md) — TTS・描画スタック方針
+- [references/tts-pronunciation.md](references/tts-pronunciation.md) — 英語読みの正規化
 - [references/examples.md](references/examples.md) — キューシート例
 - [references/skill-memory.md](references/skill-memory.md) — 運用で得た落とし穴

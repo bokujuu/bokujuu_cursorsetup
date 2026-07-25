@@ -89,6 +89,9 @@ slides:
 cue 使用時の必須: `at_ms`, `type`, `duration_ms`  
 `aligns_with` は検証用。書き出しには使わなくてよいが、ずれ調査で残す。
 
+読み辞書はキューと別に置いてよい（推奨: `script/pronunciation.yml`）。  
+`meta.pronunciation` や `slides[].pronunciation_overrides` を足してもよいが、変換後文字列を SoT 必須フィールドにしない。TTS 入力は派生物（[tts-pronunciation.md](tts-pronunciation.md)）。
+
 ## Remotion / Motion Canvas への落とし方
 
 1. キューシートを読み、スライド順に Sequence を積む
