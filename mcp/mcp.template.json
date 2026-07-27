@@ -1,12 +1,5 @@
 {
   "mcpServers": {
-    "context7": {
-      "url": "https://mcp.context7.com/mcp"
-    },
-    "excel": {
-      "command": "uvx",
-      "args": ["excel-mcp-server", "stdio"]
-    },
     "filesystem": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
@@ -15,11 +8,17 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"]
     },
-    "github": {
-      "url": "https://api.githubcopilot.com/mcp/",
-      "headers": {
-        "Authorization": "Bearer YOUR_GITHUB_PAT_HERE"
-      }
+    "codex-sol": {
+      "command": "codex",
+      "args": ["mcp-server", "-c", "model=\"gpt-5.6-sol\""]
+    },
+    "codex-terra": {
+      "command": "codex",
+      "args": ["mcp-server", "-c", "model=\"gpt-5.6-terra\""]
+    },
+    "codex-luna": {
+      "command": "codex",
+      "args": ["mcp-server", "-c", "model=\"gpt-5.6-luna\""]
     }
   }
 }
