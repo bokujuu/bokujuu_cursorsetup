@@ -81,6 +81,7 @@ GitHub を更新しても **Settings は自動では変わりません**。
    - （任意）`japanese-doc-review` で「全観点でレビューして」が動作するか確認
    - （任意）`repo-agent-bootstrap` が「AGENTS.mdをセットアップして」で読み込まれるか確認
    - （任意）`excel-deliverable-quality` が「帳票/取込用CSVを作って」「数式が壊れていないか確認して」「見た目/色/レイアウトを整えて」で読み込まれるか確認
+   - （任意）`power-query-refactor` が「M を整理」「コメント追加」「Table.Buffer」「再計算抑制」で読み込まれるか確認
    - （任意）`requirement-aligned-fixtures` が「ダミーデータを作って」「fixture を設計して」で読み込まれるか確認
 
 ## 旧構成から移行した場合
