@@ -1,5 +1,15 @@
 {
   "mcpServers": {
+    "excel": {
+      "command": "uvx",
+      "args": ["excel-mcp-server", "stdio"]
+    },
+    "github": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer YOUR_GITHUB_PAT_HERE"
+      }
+    },
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]

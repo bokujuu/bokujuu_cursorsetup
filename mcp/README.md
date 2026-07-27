@@ -5,21 +5,36 @@
 | ファイル | 用途 |
 |----------|------|
 | `mcp.template.json` | コミット用の雛形（秘密情報なし） |
-| `mcp.optional.json` | 任意サーバー（playwright / serena 等） |
+| `mcp.optional.json` | 任意サーバー（excel / github / playwright / serena 等） |
 | `mcp.json` / `mcp.local.json` | **ローカル専用**（`.gitignore` 済み・コミット禁止） |
+
+## Cursor への入れ方
+
+MCP は `.cursorrules` や User Rules では設定できません。Cursor は次のどちらか（または両方）を読みます。
+
+| 場所 | スコープ | 本 repo での位置づけ |
+|------|----------|----------------------|
+| `%USERPROFILE%\.cursor\mcp.json` | 全プロジェクト（グローバル） | **推奨**。`mcp.template.json` をここへコピー／マージ |
+| `<project>/.cursor/mcp.json` | そのプロジェクトのみ | 個別リポ用。本配布 repo のグローバル雛形とは別 |
+
+両方にある同名サーバーは **プロジェクト側が優先**されます。
 
 ## 適用手順（Windows）
 
 1. `%USERPROFILE%\.cursor\mcp.json` をバックアップ（既存がある場合）
 2. `mcp.template.json` の内容をマージ（またはコピー）
-3. `YOUR_GITHUB_PAT_HERE` を自分の PAT に置換（`Bearer ` プレフィックスを維持）
-4. 必要なら `mcp.optional.json` のサーバーを `mcpServers` に追加
-5. Cursor を再起動
+3. 必要なら `mcp.optional.json` のサーバーを `mcpServers` に追加（github は `YOUR_GITHUB_PAT_HERE` を置換）
+4. Cursor を再起動（または Reload Window）
 
 ```powershell
-Copy-Item mcp\mcp.template.json $env:USERPROFILE\.cursor\mcp.json
-# エディタで PAT と filesystem パスを編集
+# 未設定なら雛形をそのまま配置（既存がある場合は上書きしない）
+if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
+  Copy-Item mcp\mcp.template.json $env:USERPROFILE\.cursor\mcp.json
+}
+# 既にある場合は差分マージ。filesystem の "." は絶対パスへ差し替え推奨
 ```
+
+`install.ps1 -InstallMcp` でも、グローバル `mcp.json` が **無いときだけ** 雛形を配置します。
 
 ## filesystem のルート
 
@@ -33,18 +48,24 @@ Copy-Item mcp\mcp.template.json $env:USERPROFILE\.cursor\mcp.json
 
 ## 同梱サーバー（template）
 
-| 名前 | 用途 | API キー |
-|------|------|----------|
-| context7 | ライブラリドキュメント | 不要 |
-| excel | Excel 読み書き | 不要（uvx） |
-| filesystem | ローカルファイル | 不要 |
-| memory | セッション間メモ | 不要 |
-| github | GitHub 操作 | PAT 必須 |
+| 名前 | 用途 | 備考 |
+|------|------|------|
+| filesystem | ローカルファイル | ルートは絶対パス推奨 |
+| memory | セッション間メモ | |
+| codex-sol | Codex MCP（GPT-5.6 Sol 既定） | 旗艦・難しいエージェント作業 |
+| codex-terra | Codex MCP（GPT-5.6 Terra 既定） | バランス・高ボリューム |
+| codex-luna | Codex MCP（GPT-5.6 Luna 既定） | 軽量・日常作業 |
+
+各 Codex エントリは既存の `codex mcp-server` 起動をベースに、`-c model="gpt-5.6-..."` で既定モデルだけ分けています。呼び出し時の `model` 引数で上書きも可能です。
+
+**削除したもの**: `context7`（ライブラリ docs 用。不要のため template から外した）
 
 ## 任意サーバー（optional）
 
 `mcp.optional.json` を参照:
 
+- **excel**: Excel 読み書き（uvx）
+- **github**: GitHub 操作（PAT 必須）
 - **playwright**: ブラウザ自動化
 - **serena**: コードベース分析（uvx / GitHub から取得）
 
@@ -55,6 +76,7 @@ Copy-Item mcp\mcp.template.json $env:USERPROFILE\.cursor\mcp.json
 | MCP が一覧に出ない | Cursor 再起動、`mcp.json` の JSON 構文確認 |
 | GitHub 401 | `Authorization` が `Bearer <token>` 形式か確認 |
 | filesystem が意図しないパスを見る | `"."` を絶対パスに変更 |
+| Codex MCP が起動しない | `codex` が PATH にあるか、`codex doctor` を確認 |
 | npx / uvx が見つからない | Node.js / `pip install uv` をインストール |
 
 旧 `.cursor/MCP_README.md` の内容は本ファイルに集約しました。

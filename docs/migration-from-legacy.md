@@ -27,8 +27,10 @@ PR #3 以前の **`.cursor/` 配下一式**は廃止しました。`origin/main`
 
 | 項目 | 旧 | 新 |
 |------|-----|-----|
-| 同梱 | `playwright` / `serena` をデフォルト同梱 | テンプレは最小構成。任意は `mcp/mcp.optional.json` |
-| GitHub PAT | プレースホルダ表記が不統一 | `Bearer YOUR_GITHUB_PAT_HERE`（`mcp.json` は gitignore） |
+| 同梱 | `playwright` / `serena` をデフォルト同梱 | テンプレは filesystem / memory / Codex×3（Sol・Terra・Luna）。任意は `mcp/mcp.optional.json` |
+| context7 | テンプレ同梱だった時期あり | **非同梱**（不要のため削除） |
+| Codex | 単一 `codex` エントリ、または未同梱 | `codex-sol` / `codex-terra` / `codex-luna`（`codex mcp-server -c model=...`） |
+| GitHub PAT | プレースホルダ表記が不統一 | `Bearer YOUR_GITHUB_PAT_HERE`（optional・`mcp.json` は gitignore） |
 | filesystem ルート | `"."` | テンプレ同様。**プロジェクト絶対パスへの差し替えを推奨**（[mcp/README.md](../mcp/README.md)） |
 
 ## ローカル main が古い枝に残っている場合

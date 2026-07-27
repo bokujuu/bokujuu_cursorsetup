@@ -6,7 +6,9 @@
 #>
 param(
     [switch]$WhatIf,
-    [switch]$SkipHooks
+    [switch]$SkipHooks,
+    # グローバル mcp.json が無いときだけ mcp.template.json を配置する
+    [switch]$InstallMcp
 )
 
 $ErrorActionPreference = "Stop"
@@ -60,6 +62,27 @@ if (-not $SkipHooks -and (Test-Path $HookScript)) {
     }
 }
 
+if ($InstallMcp) {
+    $McpTemplate = Join-Path $Root "mcp\mcp.template.json"
+    $McpDst = Join-Path $env:USERPROFILE ".cursor\mcp.json"
+    if (-not (Test-Path $McpTemplate)) {
+        Write-Error "MCP template not found: $McpTemplate"
+    }
+    if (Test-Path $McpDst) {
+        Write-Host "[WARN] mcp.json already exists: $McpDst"
+        Write-Host "       Skip overwrite. Merge from mcp\mcp.template.json (see mcp\README.md)"
+    }
+    else {
+        Write-Host "[COPY] mcp.template.json -> $McpDst"
+        if (-not $WhatIf) {
+            $cursorDir = Split-Path -Parent $McpDst
+            New-Item -ItemType Directory -Force -Path $cursorDir | Out-Null
+            Copy-Item $McpTemplate $McpDst -Force
+            Write-Host "[OK] Wrote $McpDst (restart Cursor to load MCP)"
+        }
+    }
+}
+
 Write-Host "[NEXT] User Rules: see docs\user-rules-guide.md (user-rule-cursor-communication.md only)"
 Write-Host "[NEXT] Handoff recovery (optional): skill agent-handoff-recovery"
-Write-Host "[NEXT] MCP (optional): see mcp\README.md"
+Write-Host "[NEXT] MCP (optional): see mcp\README.md  or  .\scripts\install.ps1 -InstallMcp"

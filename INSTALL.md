@@ -50,11 +50,15 @@ GitHub を更新しても **Settings は自動では変わりません**。
 
 ## 4. MCP（任意）
 
+MCP は User Rules / `.cursorrules` では設定できません。グローバルは `%USERPROFILE%\.cursor\mcp.json`、プロジェクト単位は `<repo>/.cursor/mcp.json` です（詳細は [mcp/README.md](mcp/README.md)）。
+
 1. [mcp/README.md](mcp/README.md) を読む
-2. `mcp/mcp.template.json` を `%USERPROFILE%\.cursor\mcp.json`（または Cursor 設定の MCP 欄）にマージ
-3. `YOUR_GITHUB_PAT_HERE` と **filesystem のルートパス**を自分の環境に置換（コミットしない）
-4. 必要なら `mcp/mcp.optional.json` から playwright / serena を追加
+2. 未設定なら `.\scripts\install.ps1 -InstallMcp`（既存 `mcp.json` は上書きしない）、または `mcp/mcp.template.json` を手動マージ
+3. **filesystem のルートパス**を自分の環境に置換（コミットしない）
+4. 必要なら `mcp/mcp.optional.json` から excel / github / playwright / serena を追加（github は PAT）
 5. ローカル専用の `mcp/mcp.json` として保存してもよい（`.gitignore` 済み）
+
+雛形の既定: filesystem / memory / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
 
 ## 5. 動作確認
 
@@ -96,3 +100,4 @@ GitHub を更新しても **Settings は自動では変わりません**。
 | ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 1 ファイル運用を確認 |
 | MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
 | filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |
+| Codex MCP（sol/terra/luna）が無い | `codex` が PATH にあるか確認。雛形を再マージして Cursor 再起動 |
