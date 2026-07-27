@@ -13,6 +13,7 @@
 | **COM/Excel（win32com）** | skill `excel-deliverable-quality` → 対象リポの `.cursor/rules/excel-com-automation.mdc`（雛形: `templates/project-rules/excel/`） |
 | **エージェント検証の高速化（pause / timeout）** | [fast-agent-test-loop.md](fast-agent-test-loop.md) → skill `non-interactive-hang` → `templates/project-ci/non-interactive-hang/` |
 | **Excel/CSV 成果物の品質・レイアウト** | skill `excel-deliverable-quality` |
+| **Power Query / M の可読化・配置・Buffer** | skill `power-query-refactor` → ブック出し入れは各リポの workflow / AGENTS |
 | **ダミーデータ・fixture・サンプル CSV/素データ** | skill `requirement-aligned-fixtures` → 帳票化は `excel-deliverable-quality` |
 | **VBA** | 対象リポの `.cursor/rules/vba-coding-policy.mdc`（雛形: `templates/project-rules/excel/`） |
 | **Git** | リポ `AGENTS.md` とプロジェクト Rules |
@@ -53,6 +54,7 @@
 | `cognitive-rhythm-writing` | 説明文の認知リズム（緩急・緊張・駄文判別）。読み物向け生成／平坦文の診断 |
 | `slide-narration-video` | 全画面スライド解説動画（Marp＋VOICEVOX＋Remotion／Motion Canvas）。配置 QA・読み正規化ゲートあり。依存: JT writing / cognitive rhythm |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証 |
+| `power-query-refactor` | Power Query M の編集方針（配置・notes・Table.Buffer）。COM export/import は各リポへ |
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
 | `abstract-source-patterns` | 外部ソースから抽象パターン抽出・配置判定（global / template / knowledge-base） |
 | `requirement-aligned-fixtures` | 要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest） |
