@@ -69,6 +69,20 @@ npx --yes @marp-team/marp-cli slides/overview.marp.md -o slides/png/slide.png --
 
 5. PNG 書き出し後、フローが図として見えることを確認する（コード断片が見えたらやり直し）
 
+### ノード内の改行
+
+ノードラベルの改行に `\n` を使わない。CLI（`mmdc`）経由では **リテラルの `\n` が画面に残る**ことがある。
+
+```text
+# NG
+RT["BC ランタイム\n（非公開エンジン）"]
+
+# OK
+RT["BC ランタイム<br/>（非公開エンジン）"]
+```
+
+`<br/>`（または `<br>`）を使う。書き出し後の SVG/PNG で改行が効いていることを目視する。
+
 再現スクリプトの置き場: デモでは `docs/slide-narration-video-demo/scripts/render_mermaid.ps1`。
 
 ## LaTeX / 数式（採用: Marp MathJax）
