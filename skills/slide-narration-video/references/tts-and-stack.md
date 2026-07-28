@@ -1,5 +1,7 @@
 # TTS と描画スタック
 
+Updated: 2026/07/28 10:20
+
 ## 描画スタック（確定方針）
 
 | 採用 | 役割 |
@@ -32,6 +34,8 @@
 各スライドについて「PNG を音声尺＋`pause_after_ms` だけ表示」し、WAV を載せてセグメント化し、concat する。
 
 - `-loop 1 -i slide.png` + `-i slide.wav`
+- `-c:v libx264`（映像エンコーダを明示）
+- `-r <meta.fps>`（キューの `meta.fps`。静止画候補は **15**）
 - `-tune stillimage` / `-pix_fmt yuv420p`
 - 音声後の間は `-af apad=pad_dur=<pause_sec>` と `-t <audio+pause>` で揃える
 - 最後に concat demuxer で結合（`-movflags +faststart`）
