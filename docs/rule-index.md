@@ -28,7 +28,7 @@
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語の読み物・解説文の緩急（認知リズム）** | skill `cognitive-rhythm-writing` → 技術文書の土台は `japanese-technical-writing` |
-| **全画面スライド解説動画（Marp＋TTS）** | skill `slide-narration-video` → 構成は `japanese-technical-writing`、原稿の緩急は `cognitive-rhythm-writing`。配置 QA（はみ出し・画像比）と TTS 読み正規化あり |
+| **全画面スライド解説動画（Marp＋TTS）** | skill `slide-narration-video` → 構成は `japanese-technical-writing`、原稿の緩急は `cognitive-rhythm-writing`。動きなしは ffmpeg 静止画結合、モーションありは Remotion／Motion Canvas。配置 QA（はみ出し・画像比）と TTS 読み正規化あり |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 | **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) → skill `abstract-source-patterns` |
 | **外部記事・repo の採用判断** | skill `abstract-source-patterns` → [global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
@@ -52,7 +52,7 @@
 | `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
 | `cognitive-rhythm-writing` | 説明文の認知リズム（緩急・緊張・駄文判別）。読み物向け生成／平坦文の診断 |
-| `slide-narration-video` | 全画面スライド解説動画（Marp＋VOICEVOX＋Remotion／Motion Canvas）。配置 QA・読み正規化ゲートあり。依存: JT writing / cognitive rhythm |
+| `slide-narration-video` | 全画面スライド解説動画（Marp＋VOICEVOX＋ffmpeg／Remotion／Motion Canvas）。配置 QA・読み正規化ゲートあり。依存: JT writing / cognitive rhythm |
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約・納品前検証 |
 | `power-query-refactor` | Power Query M の編集方針（配置・notes・Table.Buffer）。COM export/import は各リポへ |
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |

@@ -1,11 +1,14 @@
 # TTS と描画スタック
 
+Updated: 2026/07/28 10:20
+
 ## 描画スタック（確定方針）
 
 | 採用 | 役割 |
 |------|------|
-| Remotion | タイムライン、スライド表示、音声、単純オーバーレイ、最終書き出し |
+| Remotion | タイムライン、スライド表示、音声、単純オーバーレイ、最終書き出し（モーションあり） |
 | Motion Canvas | 発話に同期する複雑な注釈・図解アニメ |
+| **ffmpeg 静止画結合** | **動きのない**全画面スライド＋WAV の高速書き出し（優先候補） |
 
 | 不採用（原則） | 理由 |
 |----------------|------|
@@ -21,6 +24,34 @@
 - Motion Canvas の成果は動画クリップまたは Remotion が埋め込める形式で書き出し、キューの `at_ms` で開始する
 
 同じ注釈を両ツールで二重実装しない。
+
+## 静止スライドショー（動きなし）の高速書き出し
+
+全画面スライドが **静止 PNG** で、注釈アニメが無い／ほぼ無い場合、Remotion の毎フレームキャプチャは過剰になりやすい。次を優先する。
+
+### 推奨: ffmpeg 静止画結合
+
+各スライドについて「PNG を音声尺＋`pause_after_ms` だけ表示」し、WAV を載せてセグメント化し、concat する。
+
+- `-loop 1 -i slide.png` + `-i slide.wav`
+- `-c:v libx264`（映像エンコーダを明示）
+- `-r <meta.fps>`（キューの `meta.fps`。静止画候補は **15**）
+- `-tune stillimage` / `-pix_fmt yuv420p`
+- 音声後の間は `-af apad=pad_dur=<pause_sec>` と `-t <audio+pause>` で揃える
+- 最後に concat demuxer で結合（`-movflags +faststart`）
+- **書き出し後に ffprobe／1 フレーム抽出**で健全性を確認する（`pix_fmt=unknown` や `Invalid NAL unit size` なら破損）
+
+Remotion 未使用なら README / `process-log.md` にその旨を残す。
+
+### fps
+
+静止画中心なら **15 fps** を既定候補とする（30 の半分のフレームで見た目差は小さい）。キューの `meta.fps` と一致させる。注釈アニメや細かいモーションがあるときは 30 のまま Remotion／Motion Canvas 側を使う。
+
+### Remotion を使う場合の注意
+
+- 同時に複数 `remotion render` しない（mux 破損しやすい）
+- `--concurrency` はまず `1`。安定を確認してから上げる
+- exit 0 でもビットストリームが壊れることがある。再生前に上記の健全性チェックを行う
 
 ## TTS 既定: VOICEVOX
 

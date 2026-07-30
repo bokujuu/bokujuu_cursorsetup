@@ -2,13 +2,16 @@
 name: slide-narration-video
 description: >-
   全画面スライド＋合成音声ナレーションの解説動画を設計・制作する。Marp スライド、VOICEVOX（既定）／Irodori-TTS（任意）、
-  Remotion と Motion Canvas の役割分担、発話と画面注釈の同期、スライド間の認知的な「間」、
+  Remotion と Motion Canvas の役割分担、動きのないスライドの ffmpeg 静止画結合と fps 選定、
+  発話と画面注釈の同期、スライド間の認知的な「間」、
   スライド配置 QA（文字はみ出し・画像アスペクト）、英語読みの TTS 正規化を扱う。
-  Use when making explain/talk-through videos from slides, Marp＋TTS 動画、Remotion／Motion Canvas 解説動画、
+  Use when making explain/talk-through videos from slides, Marp＋TTS 動画、Remotion／Motion Canvas／ffmpeg 解説動画、
   スライド原稿・キューシート・注釈タイミングの設計、または「全画面で喋らせる」構成の相談・実装時。
 ---
 
 # 全画面スライド解説動画
+
+Updated: 2026/07/28 10:20
 
 理解を深めるための解説動画を、**全画面スライド＋ナレーション＋必要時の注釈**で作る。
 左右分割テンプレや編集ソフト前提のワークフローは採らない。
@@ -50,7 +53,8 @@ description: >-
 | 層 | 既定 | 備考 |
 |----|------|------|
 | スライド | Marp → PNG/PDF ページ | 画面全体に表示。要点パネルを左右に常設しない |
-| タイムライン・音声 mux・書き出し | Remotion | Composition の骨格 |
+| 書き出し（動きなし） | **ffmpeg 静止画結合**（優先） | PNG＋WAV＋pause。fps **15** を候補 |
+| タイムライン・音声 mux（モーションあり） | Remotion | Composition の骨格 |
 | 精密な注釈アニメ | Motion Canvas | 必要なクリップだけ。常時必須ではない |
 | TTS | VOICEVOX（冥鳴ひまり） | キャラ変更はユーザー指定時のみ |
 | TTS 代替 | Irodori-TTS（彩りTTS） | サブプラン。品質・声の自由度が必要なときだけ |
@@ -70,8 +74,8 @@ Task Progress:
 - [ ] 4. キューシート（間・注釈・同期）
 - [ ] 4.5 TTS 読み正規化（辞書・未解決語）
 - [ ] 5. TTS 生成
-- [ ] 6. Remotion 組み立て（± Motion Canvas）
-- [ ] 7. 検証（間・同期・配置・読み）
+- [ ] 6. 書き出し（動きなし→ffmpeg 静止画結合／モーションあり→Remotion ± Motion Canvas）
+- [ ] 7. 検証（間・同期・配置・読み・mp4 健全性）
 ```
 
 制作中は `process-log.md`（または同等）に工程・判断・NG→修正を残す。
@@ -164,23 +168,24 @@ cognitive-rhythm-writing に従う。加えて動画固有の制約:
 既定は VOICEVOX・冥鳴ひまり。**合成に使う文字列は 4.5 適用後の `tts_text`**。意味内容は `narration` と一致させる。  
 Irodori-TTS はサブプラン（[references/tts-and-stack.md](references/tts-and-stack.md)）。
 
-### 6. Remotion × Motion Canvas
+### 6. 書き出し（Remotion × Motion Canvas／ffmpeg）
 
 役割分担（混線させない）:
 
-| 担当 | Remotion | Motion Canvas |
-|------|----------|---------------|
-| スライド全画面表示 | ○ | 必要時のみ |
-| 音声トラック・尺合わせ | ○ | ×（書き出したクリップを載せる） |
-| 単純なフェード／短いハイライト | ○ で足りれば ○ | — |
-| 矢印・経路・図の組み立てアニメ | — | ○ |
-| 最終 mp4 書き出し | ○ | × |
+| 担当 | Remotion | Motion Canvas | ffmpeg 静止画結合 |
+|------|----------|---------------|-------------------|
+| スライド全画面表示 | ○ | 必要時のみ | ○（PNG を尺ぶん表示） |
+| 音声トラック・尺合わせ | ○ | ×（書き出したクリップを載せる） | ○ |
+| 単純なフェード／短いハイライト | ○ で足りれば ○ | — | ×（別手段） |
+| 矢印・経路・図の組み立てアニメ | — | ○ | × |
+| 最終 mp4 書き出し | ○ | × | ○ |
+
+**動きのないスライドショー**（静止 PNG＋ナレーションのみ）は、Remotion の毎フレームキャプチャより **ffmpeg 静止画結合**を優先する。fps は **15** を候補とする。詳細は [references/tts-and-stack.md](references/tts-and-stack.md)。
 
 Motion Canvas クリップは、キューの `at_ms` に合わせて Remotion 側で開始フレームを決める。
 「喋っている箇所」と「指している箇所」がずれる状態で書き出さない。
 
-ffmpeg のみで PNG+WAV+pause を結合してもよい（プロジェクト既存に合わせる）。Remotion 未使用ならその旨を README / process-log に残す。
-
+Remotion 未使用ならその旨を README / process-log に残す。書き出し後は再生前に健全性チェック（ffprobe／1 フレーム抽出）を行う。
 ### 7. 検証チェックリスト
 
 - [ ] 各スライドのナレーション終了後（次スライドへ移る前）に、おおむね 0.5 秒の無音または静止の間がある
@@ -189,11 +194,13 @@ ffmpeg のみで PNG+WAV+pause を結合してもよい（プロジェクト既�
 - [ ] 全画面表示で、常設の左右要点パネルがない
 - [ ] 各枚の画面がナレーションを追える密度（下位項目・具体例）で、要約しすぎていない
 - [ ] 概念枚で図・表・数式が必要なとき、採用済みで、生 Mermaid／生 `$...$` が画面に出ていない
+- [ ] Mermaid ノード改行に `\n` リテラルが残っていない（`<br/>` を使う）
 - [ ] **全 PNG で文字が端欠けしていない**（工程 2.5 再確認）
 - [ ] **埋め込み画像のアスペクト比が歪んでいない**
 - [ ] **読み辞書があり、主要固有語・略語の音声が破綻していない**
 - [ ] 原稿が cognitive-rhythm / JT writing の依存手順を経ている
 - [ ] TTS が既定（VOICEVOX・冥鳴ひまり）または明示された代替である
+- [ ] 最終 mp4 の健全性（`pix_fmt` が unknown でない、1 フレーム抽出可）を確認した
 - [ ] `process-log.md` に工程と NG→修正が残っている
 
 ## 成果物の置き方（リポジトリ非依存の推奨）
