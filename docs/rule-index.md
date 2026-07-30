@@ -26,6 +26,7 @@
 | **Grok / Composer の使い分け** | [model-routing.md](model-routing.md) → ループ上書きは `templates/loop-orchestration/` |
 | **Skill 化・進化（繰り返し手順）** | skill `skill-lifecycle` → 雛形 `templates/project-skills/`。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | skill `system-structure-viz` → 雛形 `templates/structure-viz/` |
+| **人間向けの視覚ドキュメント（MD + HTML）** | skill `md-html-visual-doc` → 文章の論理は `japanese-technical-writing`。構造長期図は `system-structure-viz`、スライド動画は `slide-narration-video`、transcript は `cursor-session-doc` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語の読み物・解説文の緩急（認知リズム）** | skill `cognitive-rhythm-writing` → 技術文書の土台は `japanese-technical-writing` |
 | **全画面スライド解説動画（Marp＋TTS）** | skill `slide-narration-video` → 構成は `japanese-technical-writing`、原稿の緩急は `cognitive-rhythm-writing`。動きなしは ffmpeg 静止画結合、モーションありは Remotion／Motion Canvas。配置 QA（はみ出し・画像比）と TTS 読み正規化あり |
@@ -46,6 +47,7 @@
 | `retrospective-codify` | タスク完了後の学びのルール化 |
 | `skill-lifecycle` | タスクカテゴリ Skill の検索・作成・registry・改良 |
 | `system-structure-viz` | アーキテクチャ・依存の可視化（Tier 1/2/3） |
+| `md-html-visual-doc` | Agent→人間向け MD + 選択的 HTML（比較ビュー・ギャラリー・フロー画像） |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice（skill-lifecycle と併用） |
 | `ralph-loop` | 外側ループ（Ralph）— `templates/loop-orchestration/` と併用 |
 | `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |

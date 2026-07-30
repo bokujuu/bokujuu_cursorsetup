@@ -37,6 +37,7 @@
 | `cognitive-rhythm-writing` | 説明的な日本語文章の認知リズム（観察→逡巡→断定→再観察・未回収の緊張・緩みと駄文の判別）。読み物として読ませたい章・記事・解説の生成／平坦な文の診断・修正。併用: `japanese-technical-writing`。出典: [k16shikano gist](https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432)。設計: [docs/pr/014-cognitive-rhythm-writing.md](docs/pr/014-cognitive-rhythm-writing.md) |
 | `slide-narration-video` | 全画面スライド＋TTS ナレーションの解説動画（Marp / ffmpeg 静止画結合（動きなし） / Remotion・Motion Canvas（モーションあり）、VOICEVOX 既定）。配置 QA（はみ出し・画像比）と TTS 読み正規化ゲートあり。原稿・構成は `japanese-technical-writing` と `cognitive-rhythm-writing` に相対パス依存。設計: [docs/pr/015-slide-narration-video.md](docs/pr/015-slide-narration-video.md) / 追記: [docs/pr/017-slide-narration-ffmpeg-mermaid.md](docs/pr/017-slide-narration-ffmpeg-mermaid.md) |
 | `power-query-refactor` | Power Query M の編集方針（挙動保持・配置原則・notes・Table.Buffer）。帳票品質は `excel-deliverable-quality`、COM export/import は各リポへ委譲。設計源: [bokujuu/powerquery_refactor](https://github.com/bokujuu/powerquery_refactor)。設計: [docs/pr/016-power-query-refactor.md](docs/pr/016-power-query-refactor.md) |
+| `md-html-visual-doc` | Agent→人間向けの視覚ドキュメント（Markdown + 選択的 HTML）。Companion HTML / 事前レンダ図 / `<details>` 等。構造長期図は `system-structure-viz`、スライドは `slide-narration-video`、transcript は `cursor-session-doc` に委譲。外部 VisualCave 等は丸導入せずパターンのみ。設計: [docs/pr/017-md-html-visual-doc.md](docs/pr/017-md-html-visual-doc.md) |
 
 ## hooks/（任意・Windows）
 
