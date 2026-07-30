@@ -86,6 +86,7 @@ MCP は User Rules / `.cursorrules` では設定できません。グローバ�
    - （任意）`repo-agent-bootstrap` が「AGENTS.mdをセットアップして」で読み込まれるか確認
    - （任意）`excel-deliverable-quality` が「帳票/取込用CSVを作って」「数式が壊れていないか確認して」「見た目/色/レイアウトを整えて」で読み込まれるか確認
    - （任意）`power-query-refactor` が「M を整理」「コメント追加」「Table.Buffer」「再計算抑制」で読み込まれるか確認
+   - （任意）`md-html-visual-doc` で「MD だと読みにくい比較・ギャラリーを HTML で見やすく」が動作し、相対リンクと再生成情報を含む成果になるか確認
    - （任意）`requirement-aligned-fixtures` が「ダミーデータを作って」「fixture を設計して」で読み込まれるか確認
 
 ## 旧構成から移行した場合
