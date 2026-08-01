@@ -36,12 +36,12 @@ intro／outro／本編を分けて 15fps にする案は、同一ターゲット
 - **`cv2` は任意**: 利用可能な場合のみ `MORPH_ELLIPSE`。未導入・import 失敗時は既存の Pillow perimeter dilate。速度目的で依存追加しない
 - **不採用（速度目的）**: NumPy ROI blend（intro が遅くなった）、本編15fps＋CFR正規化、短尺NVENC混在
 
-同一ターゲット（Ch3 intro+s01–s08+outro, 映像≈235s）:
+同一ターゲット（映像≈235s、intro+本編+outro）:
 
 - legacy（Pillow perimeter dilate）≈99.2s
 - legacy + OpenCV dilate 中央値≈85.6s（3回: 85.6 / 87.3 / 84.5）
 
-他環境での同等短縮は保証しない。速度改善を主張する変更は、同一ターゲットで legacy 比の壁時計を測ってから採用する。
+他環境での同等短縮は保証しない。速度改善を主張する変更は、同一ターゲットで legacy 比の壁時計を測ってから採用する。案件名付きの測定ログは `skill-memory.md` または案件 repo 側に置く。
 
 ## 口パク
 
