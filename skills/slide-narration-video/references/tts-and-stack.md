@@ -1,6 +1,6 @@
 # TTS と描画スタック
 
-Updated: 2026/07/28 10:20
+Updated: 2026/08/01 20:40
 
 ## 描画スタック（確定方針）
 
@@ -33,6 +33,8 @@ Updated: 2026/07/28 10:20
 
 各スライドについて「PNG を音声尺＋`pause_after_ms` だけ表示」し、WAV を載せてセグメント化し、concat する。
 
+dialogue では、発話 WAV をターン間無音付きで先に1本のスライド音声へ結合してから載せるか、セグメント内で順に mux する。いずれでも **実測長の累積**が SoT になる。
+
 - `-loop 1 -i slide.png` + `-i slide.wav`
 - `-c:v libx264`（映像エンコーダを明示）
 - `-r <meta.fps>`（キューの `meta.fps`。静止画候補は **15**）
@@ -56,13 +58,15 @@ Remotion 未使用なら README / `process-log.md` にその旨を残す。
 ## TTS 既定: VOICEVOX
 
 - エンジン: VOICEVOX
-- 既定話者: **冥鳴ひまり**
+- monologue 既定話者: **冥鳴ひまり**
+- dialogue: `meta.speakers` で役割（`teacher` / `listener` 等）→ 話者を解決する。親 skill 単体では特定キャラを共通既定に固定しない。**劇場プロファイル**は `voicevox-theater-video` のプロファイル既定（明示上書きまで）に従う
 - 向き: バッチ生成、安定したキャラ声、CPU 中心で負荷が軽い
-- 運用: キューシートの `narration` を文またはスライド単位で WAV 化し、実測長を同期に使う
-- **読み正規化**: 英字・固有語は TTS 直前にプロジェクト辞書でカタカナ化する。`narration` 本文を場当たりカタカナ化しない。詳細は [tts-pronunciation.md](tts-pronunciation.md)
+- 運用（monologue）: キューシートの `narration` を文またはスライド単位で WAV 化し、実測長を同期に使う。推奨パス: `audio/<slide_id>.wav`
+- 運用（dialogue）: **発話ごと**に WAV を生成し、実測長と `pause_between_turns_ms` を累積してタイムラインを確定する。スライド単位の一括 WAV に戻さない。推奨パス: `audio/<slide_id>/<utterance_id>.wav`
+- **読み正規化**: 英字・固有語は TTS 直前にプロジェクト辞書でカタカナ化する。SoT 本文を場当たりカタカナ化しない。詳細は [tts-pronunciation.md](tts-pronunciation.md)
 - VOICEVOX ユーザー辞書 API への永続依存はしない（再現性のため。使うならプロジェクト辞書から都度投入）
 
-話者を変えるのはユーザーが明示したときだけとする。
+話者を変えるのはユーザーが明示したとき、または dialogue の `meta.speakers` で案件が決めたときに限る。
 
 ## サブプラン: Irodori-TTS（彩りTTS）
 
@@ -91,12 +95,30 @@ Remotion 未使用なら README / `process-log.md` にその旨を残す。
 
 ## 音声ファイル規約（推奨）
 
+**monologue**（スライド単位）:
+
 ```
 audio/
   s01.wav
   s02.wav
-  ...
 ```
 
 - ファイル名は `slide_id` と一致させる
-- スライド間の間は、音声末尾への無音付与か Remotion 側の空白か、どちらかに統一しキューに明記する
+
+**dialogue**（発話単位）:
+
+```
+audio/
+  s01/
+    s01-u01.wav
+    s01-u02.wav
+  s02/
+    s02-u01.wav
+```
+
+- パスは `audio/<slide_id>/<utterance_id>.wav`（または同等）。スライド単位 WAV に潰さない
+- 検証は両レイアウトを受け付ける（`meta.narration_mode` に合わせて存在確認）
+
+共通:
+
+- スライド間／ターン間の間は、音声末尾への無音付与かタイムライン側の空白か、どちらかに統一しキューに明記する

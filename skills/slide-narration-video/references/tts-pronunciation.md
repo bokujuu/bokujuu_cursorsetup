@@ -1,13 +1,16 @@
 # TTS 読み正規化（英語・アルファベット）
 
+Updated: 2026/08/01 20:40
+
 VOICEVOX は日本語向けエンジンである。英字のまま渡すと、製品名や略語が破綻した読みになる（例: Gigatoken → 「ギガトケン」）。
 
 ## 原則
 
 1. **画面テキストは英語のままでよい**（製品名・API名・コード）
-2. **`cues.yaml` の `narration` は人間可読な SoT**（英字製品名を残してよい）
+2. **`cues.yaml` の `narration`（dialogue では各 `utterances[].narration`）は人間可読な SoT**（英字製品名を残してよい）
 3. **TTS に渡す直前だけ**、辞書でカタカナ等へ正規化した `tts_text` を使う
 4. **未知の英字語を自動ローマ字推測しない**（「もっともらしい誤読」を防ぐ）
+5. **読み辞書を話者ごとに複製しない**。必要なら話者別 override のみを足す
 
 ```text
 slides/*.md                 画面表示（英語可）
@@ -24,11 +27,12 @@ VOICEVOX audio_query / synthesis
 
 優先順位（高い順）:
 
-1. スライド単位の明示 override（必要なときだけ）
-2. プロジェクト辞書 `script/pronunciation.yml`
-3. スキル／テンプレの共通辞書（任意・安定略語のみ）
-4. 限定ヒューリスティック（例: 既知の全大文字略語を一字ずつ）
-5. **未解決として報告**（黙って通さない）
+1. 発話／スライド単位の明示 override（必要なときだけ）
+2. 話者別 override（tone や読みが話者でどうしても違うときだけ）
+3. プロジェクト辞書 `script/pronunciation.yml`
+4. スキル／テンプレの共通辞書（任意・安定略語のみ）
+5. 限定ヒューリスティック（例: 既知の全大文字略語を一字ずつ）
+6. **未解決として報告**（黙って通さない）
 
 プロジェクト固有語（Gigatoken、Anima、作品名）を共通辞書へ安易に入れない。同じ綴りでも案件で読みが違うことがある。
 
@@ -68,10 +72,12 @@ terms:
 
 `generate-tts`（または同等）は次の順とする。
 
-1. `narration` を読む
-2. 辞書を適用して `tts_text` を得る
+1. `meta.narration_mode` を読む
+   - `monologue`: `slides[].narration` を読む
+   - `dialogue`: `slides[].utterances[]` を定義順に読み、各 `narration` を処理する（トップレベル `narration` だけを見ない）
+2. 辞書を適用して各入力の `tts_text` を得る
 3. 未解決の英字語があれば WARNING／ERROR（製品名らしき語は ERROR 推奨）
-4. `tts_text` で VOICEVOX を呼ぶ
+4. `tts_text` で VOICEVOX を呼ぶ（dialogue は発話ごとの WAV）
 5. 変換ログを `audio/` に残す（適用語・未解決）
 6. 固有語・略語の初出を最低一度スポット試聴する
 

@@ -1,20 +1,23 @@
 ---
 name: slide-narration-video
 description: >-
-  全画面スライド＋合成音声ナレーションの解説動画を設計・制作する。Marp スライド、VOICEVOX（既定）／Irodori-TTS（任意）、
-  Remotion と Motion Canvas の役割分担、動きのないスライドの ffmpeg 静止画結合と fps 選定、
-  発話と画面注釈の同期、スライド間の認知的な「間」、
-  スライド配置 QA（文字はみ出し・画像アスペクト）、英語読みの TTS 正規化を扱う。
-  Use when making explain/talk-through videos from slides, Marp＋TTS 動画、Remotion／Motion Canvas／ffmpeg 解説動画、
-  スライド原稿・キューシート・注釈タイミングの設計、または「全画面で喋らせる」構成の相談・実装時。
+  全画面スライド＋合成音声の解説動画を設計・制作する。単一ナレーション（monologue）と
+  解説役＋聞き手の理解確認型対話（dialogue）のキューシート、Marp、VOICEVOX（既定）／Irodori-TTS（任意）、
+  Remotion と Motion Canvas、ffmpeg 静止画結合、発話同期・間、配置 QA、TTS 読み正規化を扱う。
+  Use when making explain/talk-through videos from slides, Marp＋TTS 動画、対話形式の解説、
+  Remotion／Motion Canvas／ffmpeg 解説動画、キューシート・注釈タイミングの設計時。
 ---
 
 # 全画面スライド解説動画
 
-Updated: 2026/07/28 10:20
+Updated: 2026/08/01 20:40
 
 理解を深めるための解説動画を、**全画面スライド＋ナレーション＋必要時の注釈**で作る。
 左右分割テンプレや編集ソフト前提のワークフローは採らない。
+
+解説で視聴者が置いていかれやすいときは、一方的な講義（`monologue`）ではなく
+**解説役＋聞き手の対話（`dialogue`）**で理解確認・質問・誤解訂正を画面内に置く（[references/dialogue-writing.md](references/dialogue-writing.md)）。
+未指定の既定は `monologue`（現行互換）。
 
 ## 併用する規範（必須）
 
@@ -30,14 +33,18 @@ Updated: 2026/07/28 10:20
 | 成果物 | 主に従う skill |
 |--------|----------------|
 | スライドの論理構成・1枚の主張 | japanese-technical-writing |
-| 喋る原稿の文の拍・接続 | cognitive-rhythm-writing |
-| 尺・同期・レンダリング分担 | 本 skill |
+| monologue 原稿の文の拍・接続 | cognitive-rhythm-writing |
+| dialogue の各台詞（会話劇） | 本 skill の dialogue-writing |
+| dialogue の場面接続のみ | cognitive-rhythm-writing（各台詞へ機械適用しない） |
+| 立ち絵劇場の合成・口パク・登場演出 | [`../voicevox-theater-video/SKILL.md`](../voicevox-theater-video/SKILL.md) |
+| 尺・同期・レンダリング分担（非劇場） | 本 skill |
 
 ## 適用範囲
 
 使う:
 
 - Marp（または同等の Markdown スライド）を全画面で映し、TTS で説明する動画
+- 単一ナレーション、または解説役＋聞き手の理解確認型対話のキュー設計
 - Remotion でタイムライン／音声合成／書き出しを組むとき
 - Motion Canvas で矢印・ハイライト・図解アニメを発話に同期させるとき
 - スライド原稿・キューシート・注釈タイミングの新規作成／改稿
@@ -47,6 +54,7 @@ Updated: 2026/07/28 10:20
 - インタラクティブデモが主目的（PixiJS / Three.js は原則使わない）
 - Adobe Premiere 等の GUI 編集ソフト前提の工程
 - ライブ配信・リアルタイム会話エージェント（本 skill はバッチ生成向け）
+- 会話劇そのものが目的で、解説・理解確認がないコンテンツ
 
 ## 既定スタック
 
@@ -56,7 +64,7 @@ Updated: 2026/07/28 10:20
 | 書き出し（動きなし） | **ffmpeg 静止画結合**（優先） | PNG＋WAV＋pause。fps **15** を候補 |
 | タイムライン・音声 mux（モーションあり） | Remotion | Composition の骨格 |
 | 精密な注釈アニメ | Motion Canvas | 必要なクリップだけ。常時必須ではない |
-| TTS | VOICEVOX（冥鳴ひまり） | キャラ変更はユーザー指定時のみ |
+| TTS | VOICEVOX（冥鳴ひまり） | monologue 既定。dialogue は `meta.speakers` で役割解決。キャラ変更はユーザー指定時のみ |
 | TTS 代替 | Irodori-TTS（彩りTTS） | サブプラン。品質・声の自由度が必要なときだけ |
 
 詳細: [references/tts-and-stack.md](references/tts-and-stack.md)
@@ -68,14 +76,16 @@ Updated: 2026/07/28 10:20
 ```text
 Task Progress:
 - [ ] 1. 内部モデルの骨格（JT writing）
-- [ ] 2. スライド設計（全画面・柔軟）
-- [ ] 2.5 スライド配置 QA（はみ出し・画像比）← 合格まで 3 に進まない
-- [ ] 3. ナレーション原稿（cognitive rhythm）
-- [ ] 4. キューシート（間・注釈・同期）
+- [ ] 1.5 語り口の選択（monologue / dialogue）← 概念の理解確認が中心なら dialogue を推奨
+- [ ] 2. スライド設計（全画面・柔軟。dialogue なら一時対話カードの安全域）
+- [ ] 2.2 出典図の要否（ソースに図があり文字再現が非効率なら抽出配置。先頭枚に参考URL）
+- [ ] 2.5 スライド配置 QA（はみ出し・画像比・対話カード）← 合格まで 3 に進まない
+- [ ] 3. ナレーション原稿（cognitive rhythm／dialogue なら dialogue-writing）
+- [ ] 4. キューシート（間・注釈・同期。dialogue は utterances[]）
 - [ ] 4.5 TTS 読み正規化（辞書・未解決語）
-- [ ] 5. TTS 生成
+- [ ] 5. TTS 生成（dialogue は発話ごと＋ターン間 pause）
 - [ ] 6. 書き出し（動きなし→ffmpeg 静止画結合／モーションあり→Remotion ± Motion Canvas）
-- [ ] 7. 検証（間・同期・配置・読み・mp4 健全性）
+- [ ] 7. 検証（間・同期・配置・読み・対話品質・mp4 健全性）
 ```
 
 制作中は `process-log.md`（または同等）に工程・判断・NG→修正を残す。
@@ -84,6 +94,15 @@ Task Progress:
 
 japanese-technical-writing の提示順で、動画全体の主張を一文にし、スライド枚数の上限を決める。
 1 概念を不必要に細切れにしない。接続が弱い分割は、枚数を減らすか橋渡し原稿を足す。
+
+### 1.5 語り口の選択（monologue / dialogue）
+
+| モード | 向く案件 | SoT |
+|--------|----------|-----|
+| `monologue`（既定） | 短い告知・手順・単独語り | `slides[].narration` |
+| `dialogue` | 理解確認・誤解訂正・つまずきの先回りが中心 | `slides[].utterances[]`（同一スライドで `narration` を併記しない） |
+
+対話は話者を増やすことが目的ではない。詳細: [references/dialogue-writing.md](references/dialogue-writing.md)
 
 ### 2. スライド設計（全画面）
 
@@ -128,6 +147,7 @@ Marp → PNG のあと、**全ページを画像として目視**する。合格
 - 文字・表・コードが端で欠けていない
 - 埋め込み図が歪んでいない（`max-width` + `height: auto` 等）
 - 生 Mermaid／生 `$...$` が出ていない
+- dialogue で対話カードを使う場合、カードと本文が重なっていない（最小高・下端安全域）
 
 NG 時の修正順（情報削除を最初にしない）: note 退避 → 重複除去 → 表／コード焦点化 → **意味単位の枚分割** → 配置組替 → 下限付き局所 compact。  
 `overflow: hidden` で隠すのは修正ではない。
@@ -140,32 +160,49 @@ cognitive-rhythm-writing に従う。加えて動画固有の制約:
 
 - **スライド間の接続文を書く**。次枚の見出しを突然出さない。
 - **遷移の直前で回収または橋を置く**。「では〜を見る」型の進行実況だけで繋がない（cognitive-rhythm の駄文判定と同じ）。
-- 1 枚あたり、聞き手が視線を置ける長さを確保する。早口で埋めない。
+- 1 枚あたり、視聴者が視線を置ける長さを確保する。早口で埋めない。
+- `dialogue` のときは [references/dialogue-writing.md](references/dialogue-writing.md) に従う。会話劇口調を優先し、各台詞へ cognitive-rhythm を機械適用しない。メタな不安宣言や説明カード字幕は使わない。
 
 ### 4. キューシート
 
-原稿・音声・画面を結ぶ単一の SoT を置く（YAML 推奨）。最低限のフィールド:
+原稿・音声・画面を結ぶ単一の SoT を置く（YAML 推奨）。`meta.narration_mode` は `monologue`（既定）または `dialogue`。
+
+共通フィールド:
 
 - `slide_id` / 画像パス
-- `narration`（読み上げ全文。製品名は英語のままでよい）
-- `pause_after_ms`（既定 **500**。当該スライドのナレーション終了後〜次スライド開始前の認知的な間。尺は `audio_duration_ms + pause_after_ms`）
+- `pause_after_ms`（既定 **500**。当該スライドのナレーション終了後〜次スライド開始前の認知的な間。尺は音声実測合計＋ターン間 pause＋`pause_after_ms`）
 - `cues[]`: 必須は `at_ms` / `type` / `duration_ms`。空間系 cue（`highlight` 等）は `target`、`motion` は `clip` パスなど type 依存フィールドを使う
+
+monologue:
+
+- `narration`（読み上げ全文。製品名は英語のままでよい）
+
+dialogue:
+
+- `utterances[]`（`id` / `speaker`（役割 ID） / `narration`）。同一スライドでトップレベル `narration` を併記しない
+- `meta.speakers` で役割 → エンジン／話者を解決する
+- `pause_between_turns_ms`（既定候補 **250**。話者交替の短い間）
+- cue は単一発話の実測区間内に収める（ターンをまたがない）
 
 同期の設計原則とスキーマ: [references/timeline-and-sync.md](references/timeline-and-sync.md)
 
 ### 4.5 TTS 読み正規化（必須）
 
-`narration` は SoT のまま維持する。VOICEVOX に渡す直前に、プロジェクト辞書（例: `script/pronunciation.yml`）で英字・固有語をカタカナ等へ正規化する。
+`narration`（および dialogue の各 `utterances[].narration`）は SoT のまま維持する。VOICEVOX に渡す直前に、プロジェクト辞書（例: `script/pronunciation.yml`）で英字・固有語をカタカナ等へ正規化する。
 
 - 未知の英字語を自動ローマ字推測しない（未解決として止める／警告する）
 - 変換ログを残す
 - 固有語の初出をスポット試聴する
+- 読み辞書を話者ごとに複製しない（必要時だけ話者別 override）
 
 詳細: [references/tts-pronunciation.md](references/tts-pronunciation.md)
 
 ### 5. TTS
 
-既定は VOICEVOX・冥鳴ひまり。**合成に使う文字列は 4.5 適用後の `tts_text`**。意味内容は `narration` と一致させる。  
+monologue 既定は VOICEVOX・冥鳴ひまり。dialogue は `meta.speakers` の役割解決に従う。**合成に使う文字列は 4.5 適用後の `tts_text`**。意味内容は SoT の `narration` と一致させる。
+
+dialogue では発話ごとに WAV を生成し、実測長と `pause_between_turns_ms` を累積してタイムラインを確定する。スライド単位の一括 WAV に戻してターン同期を失わない。
+
 Irodori-TTS はサブプラン（[references/tts-and-stack.md](references/tts-and-stack.md)）。
 
 ### 6. 書き出し（Remotion × Motion Canvas／ffmpeg）
@@ -190,16 +227,19 @@ Remotion 未使用ならその旨を README / process-log に残す。書き出�
 
 - [ ] 各スライドのナレーション終了後（次スライドへ移る前）に、おおむね 0.5 秒の無音または静止の間がある
 - [ ] 早送り感がない（接続文なしの硬切替がない）
-- [ ] 各 cue が、対応する発話区間内に収まっている
+- [ ] 各 cue が、対応する発話区間内に収まっている（dialogue ではターンをまたがない）
 - [ ] 全画面表示で、常設の左右要点パネルがない
 - [ ] 各枚の画面がナレーションを追える密度（下位項目・具体例）で、要約しすぎていない
 - [ ] 概念枚で図・表・数式が必要なとき、採用済みで、生 Mermaid／生 `$...$` が画面に出ていない
 - [ ] Mermaid ノード改行に `\n` リテラルが残っていない（`<br/>` を使う）
 - [ ] **全 PNG で文字が端欠けしていない**（工程 2.5 再確認）
 - [ ] **埋め込み画像のアスペクト比が歪んでいない**
+- [ ] dialogue の対話カードがある場合、本文と重ならず、動画プレビューでも欠けていない
+- [ ] dialogue のとき、聞き手が優等生要約係になっておらず、理解確認または誤解訂正がある
+- [ ] dialogue のとき、発話ごとの WAV とターン間 pause から尺が解決されている
 - [ ] **読み辞書があり、主要固有語・略語の音声が破綻していない**
-- [ ] 原稿が cognitive-rhythm / JT writing の依存手順を経ている
-- [ ] TTS が既定（VOICEVOX・冥鳴ひまり）または明示された代替である
+- [ ] 原稿が cognitive-rhythm / JT writing（および dialogue なら dialogue-writing）の依存手順を経ている
+- [ ] TTS が既定（VOICEVOX・冥鳴ひまり）または `meta.speakers`／明示された代替である
 - [ ] 最終 mp4 の健全性（`pix_fmt` が unknown でない、1 フレーム抽出可）を確認した
 - [ ] `process-log.md` に工程と NG→修正が残っている
 
@@ -214,7 +254,7 @@ Remotion 未使用ならその旨を README / process-log に残す。書き出�
     manuscript.md   # 通し原稿（任意）
     cues.yaml       # キューシート SoT
     pronunciation.yml  # TTS 読み辞書
-  audio/            # TTS WAV、変換ログ
+  audio/            # TTS WAV、変換ログ（dialogue は発話単位のサブディレクトリ可）
   motion/           # Motion Canvas ソース（任意）
   remotion/         # Remotion ソース
   out/              # 書き出し
@@ -223,6 +263,7 @@ Remotion 未使用ならその旨を README / process-log に残す。書き出�
 
 ## 追加資料
 
+- [references/dialogue-writing.md](references/dialogue-writing.md) — 解説役＋聞き手の原稿規範
 - [references/timeline-and-sync.md](references/timeline-and-sync.md) — 同期・間・スキーマ
 - [references/slide-design.md](references/slide-design.md) — 全画面スライドの設計と柔軟性
 - [references/slide-layout-qa.md](references/slide-layout-qa.md) — はみ出し・画像比の配置 QA
