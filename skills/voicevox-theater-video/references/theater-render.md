@@ -68,3 +68,4 @@ concat（中間は VFR 可）→ **納品は CFR 30 に正規化**
 
 - intro/outro は毎フレーム RGBA 合成のため壁時計の主因になりやすい（実測で outro が全体の約 20% 超もあり得る）
 - 工程別 wall（intro / utterance / outro / encode / CFR 正規化）をベンチに残す
+- **同一ターゲット実測（Ch3 s01–s08+outro, 映像≈235s）**: legacy（全面30・Pillow・libx264）≈99s に対し、新手法の合成＋セグメントencodeのみ≈95s（約4%短縮）。納品用 CFR30 正規化を含めると ≈110s で **総時間は遅くなり得る**。短い pause を NVENC で多数回すと起動オーバーヘッドも効く。速度目的なら CFR を任意化し、intro/outro の再合成削減を先に検討する
