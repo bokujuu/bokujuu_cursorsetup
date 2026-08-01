@@ -57,7 +57,7 @@ Updated: 2026/08/01 19:03
 | フォント（字幕） | 源真ゴシック P Heavy | 失敗時: MS UI Gothic → メイリオ → default |
 | フォント（スライド） | 源真ゴシック P Medium/Bold | 同上 |
 
-詳細: [references/theater-layout.md](references/theater-layout.md) / [references/theater-render.md](references/theater-render.md) / [references/intro-entrance.md](references/intro-entrance.md) / [references/outro-exit.md](references/outro-exit.md)
+詳細: [references/theater-layout.md](references/theater-layout.md) / [references/theater-render.md](references/theater-render.md) / [references/subtitle-typography.md](references/subtitle-typography.md) / [references/intro-entrance.md](references/intro-entrance.md) / [references/outro-exit.md](references/outro-exit.md)
 
 ## 制作フロー（劇場追加分）
 
@@ -79,7 +79,7 @@ Theater extras:
 
 1. **対面**: 左=解説役（中央向き）、右=聞き手（中央向き）。全身反転レイヤが無ければ画像反転可
 2. **口パク**: 無音では閉じる。実音開始から **0.1s 後**に開き始め（音声が先）
-3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。`$...$` は数式として描く。全行まとめて ①キャラ色縁 ②黒縁 ③白文字
+3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。和文数値はフルサイズ。`$...$` は数式。latin 識別子のみ任意縮小。全行まとめて ①キャラ色縁 ②黒縁 ③白文字（[subtitle-typography.md](references/subtitle-typography.md)）
 4. **立ち絵**: 胴体を切り捨てない。入らない部分は画面外へ
 5. **一時ファイル**: フレーム PNG を成果物として残さない
 6. **導入**: 音なしで登場完了してから最初の発話
