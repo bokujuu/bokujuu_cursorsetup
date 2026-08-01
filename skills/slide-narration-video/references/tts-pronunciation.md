@@ -1,5 +1,7 @@
 # TTS 読み正規化（英語・アルファベット）
 
+Updated: 2026/08/01 20:40
+
 VOICEVOX は日本語向けエンジンである。英字のまま渡すと、製品名や略語が破綻した読みになる（例: Gigatoken → 「ギガトケン」）。
 
 ## 原則
@@ -70,10 +72,12 @@ terms:
 
 `generate-tts`（または同等）は次の順とする。
 
-1. `narration` を読む
-2. 辞書を適用して `tts_text` を得る
+1. `meta.narration_mode` を読む
+   - `monologue`: `slides[].narration` を読む
+   - `dialogue`: `slides[].utterances[]` を定義順に読み、各 `narration` を処理する（トップレベル `narration` だけを見ない）
+2. 辞書を適用して各入力の `tts_text` を得る
 3. 未解決の英字語があれば WARNING／ERROR（製品名らしき語は ERROR 推奨）
-4. `tts_text` で VOICEVOX を呼ぶ
+4. `tts_text` で VOICEVOX を呼ぶ（dialogue は発話ごとの WAV）
 5. 変換ログを `audio/` に残す（適用語・未解決）
 6. 固有語・略語の初出を最低一度スポット試聴する
 

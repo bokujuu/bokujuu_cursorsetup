@@ -1,6 +1,6 @@
 # TTS と描画スタック
 
-Updated: 2026/08/01 01:27
+Updated: 2026/08/01 20:40
 
 ## 描画スタック（確定方針）
 
@@ -59,11 +59,10 @@ Remotion 未使用なら README / `process-log.md` にその旨を残す。
 
 - エンジン: VOICEVOX
 - monologue 既定話者: **冥鳴ひまり**
-- dialogue: `meta.speakers` で役割（`teacher` / `listener` 等）→ 話者を解決する。特定キャラを skill 共通既定に固定しない
+- dialogue: `meta.speakers` で役割（`teacher` / `listener` 等）→ 話者を解決する。親 skill 単体では特定キャラを共通既定に固定しない。**劇場プロファイル**は `voicevox-theater-video` のプロファイル既定（明示上書きまで）に従う
 - 向き: バッチ生成、安定したキャラ声、CPU 中心で負荷が軽い
-- 運用（monologue）: キューシートの `narration` を文またはスライド単位で WAV 化し、実測長を同期に使う
-- 運用（dialogue）: **発話ごと**に WAV を生成し、実測長と `pause_between_turns_ms` を累積してタイムラインを確定する。スライド単位の一括 WAV に戻さない
-- 推奨パス例: `audio/<slide_id>/<utterance_id>.wav`（または同等の発話単位）
+- 運用（monologue）: キューシートの `narration` を文またはスライド単位で WAV 化し、実測長を同期に使う。推奨パス: `audio/<slide_id>.wav`
+- 運用（dialogue）: **発話ごと**に WAV を生成し、実測長と `pause_between_turns_ms` を累積してタイムラインを確定する。スライド単位の一括 WAV に戻さない。推奨パス: `audio/<slide_id>/<utterance_id>.wav`
 - **読み正規化**: 英字・固有語は TTS 直前にプロジェクト辞書でカタカナ化する。SoT 本文を場当たりカタカナ化しない。詳細は [tts-pronunciation.md](tts-pronunciation.md)
 - VOICEVOX ユーザー辞書 API への永続依存はしない（再現性のため。使うならプロジェクト辞書から都度投入）
 
@@ -96,12 +95,30 @@ Remotion 未使用なら README / `process-log.md` にその旨を残す。
 
 ## 音声ファイル規約（推奨）
 
+**monologue**（スライド単位）:
+
 ```
 audio/
   s01.wav
   s02.wav
-  ...
 ```
 
 - ファイル名は `slide_id` と一致させる
-- スライド間の間は、音声末尾への無音付与か Remotion 側の空白か、どちらかに統一しキューに明記する
+
+**dialogue**（発話単位）:
+
+```
+audio/
+  s01/
+    s01-u01.wav
+    s01-u02.wav
+  s02/
+    s02-u01.wav
+```
+
+- パスは `audio/<slide_id>/<utterance_id>.wav`（または同等）。スライド単位 WAV に潰さない
+- 検証は両レイアウトを受け付ける（`meta.narration_mode` に合わせて存在確認）
+
+共通:
+
+- スライド間／ターン間の間は、音声末尾への無音付与かタイムライン側の空白か、どちらかに統一しキューに明記する

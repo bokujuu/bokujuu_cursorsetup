@@ -1,6 +1,6 @@
 # Subtitle typography (display size & symbols)
 
-Updated: 2026/08/01 20:15
+Updated: 2026/08/01 20:40
 
 字幕の**見た目サイズ**と**記号の書き方**を揃えるための不変条件。  
 SoT は `utterances[].narration`。読みは `pronunciation.yml` → `tts_text`（画面に出さない）。

@@ -1,16 +1,16 @@
 ---
 name: voicevox-theater-video
 description: >-
-  VOICEVOX 劇場レイアウトの全画面スライド対話動画。立ち絵バストアップ、ワイプ字幕、
+  VOICEVOX 劇場レイアウトの全画面スライド対話動画。立ち絵（胴体クロップなし）、ワイプ字幕、
   口パク（実音波形同期）、登場／退場（弾む歩き＋Y回転）、表情切替を Pillow＋ffmpeg で合成する。
   slide-narration-video の dialogue 拡張。Use when VOICEVOX劇場、立ち絵つき解説対話、
-  ひまり／つむぎ劇場、theater profile、弾む登場・退場演出のとき。単純な Marp＋TTS のみ、
+  theater profile、弾む登場・退場演出のとき。単純な Marp＋TTS のみ、
   Remotion 主軸、モノローグ専用は slide-narration-video に委譲。
 ---
 
 # VOICEVOX 劇場動画（slide-narration 拡張）
 
-Updated: 2026/08/01 19:03
+Updated: 2026/08/01 20:39
 
 `slide-narration-video` の **dialogue 劇場プロファイル**を、立ち絵・字幕・口パク・登場／退場演出まで含めて設計・実装する拡張 skill。
 原稿・SoT・語り口は親 skill に従い、本 skill は **画面合成とレンダ規約**を担う。
@@ -44,18 +44,31 @@ Updated: 2026/08/01 19:03
 - 立ち絵なしの ffmpeg 静止画結合のみ
 - 会話劇そのものが目的で解説・理解確認がないコンテンツ
 
+## プロファイル既定（明示上書きまで）
+
+キューに `meta.speakers` / 素材指定が無いときの**本プロファイル既定**（ユーザーが別指定したらそちらを正とする）:
+
+| 役割 ID | 配置 | 既定話者 | テーマ色 RGB |
+|---------|------|----------|--------------|
+| `teacher` | 左（中央向き） | 冥鳴ひまり | (155, 93, 229) |
+| `listener` | 右（中央向き） | 春日部つむぎ | (232, 168, 56) |
+
+立ち絵素材の既定候補: とらっかぁ系 PSD 等の全身スプライト（胴体をクロップしない）。ライセンス／クレジットは案件側で確認する。
+
+キュー上は役割 ID を書き、話者名は `meta.speakers`（または上記既定）で解決する。
+
 ## 既定スタック（劇場）
 
 | 層 | 既定 | 備考 |
 |----|------|------|
-| スライド | 白テーマ PNG（Marp または Pillow 直描き） | ClearType フリンジ回避のため Pillow＋源真ゴシックを推奨。出典図は親 skill に従い抽出配置 |
-| 立ち絵 | とらっかぁ系 PSD → 全身スプライト（胴体クロップしない） | 画面下へはみ出させて連続感を出す |
+| スライド | 白テーマ PNG（Marp または Pillow 直描き） | ClearType 対策として Pillow＋源真ゴシックを**推奨**（必須固定ではない）。出典図は親 skill |
+| 立ち絵 | 全身スプライト（上記プロファイル既定の素材候補） | 画面下へはみ出させて連続感。胴体クロップ禁止 |
 | 合成 | Pillow（RGBA）→ ffmpeg rawvideo pipe | フレーム PNG を残さない |
-| TTS | VOICEVOX（役割は `meta.speakers`） | 発話ごと WAV。読みは辞書、字幕は `narration` |
-| 字幕数式 | `$...$` を mathtext 等でビットマップ挿入 | カタカナ読みを字幕に出さない |
+| TTS | VOICEVOX（役割は `meta.speakers` またはプロファイル既定） | 発話ごと WAV。読みは辞書、字幕は `narration` |
+| 字幕数式 | `$...$` を flatten／MATH_MASK | カタカナ読みを字幕に出さない。[subtitle-typography.md](references/subtitle-typography.md) |
 | fps | 30 | 登場／退場の見え方用 |
-| フォント（字幕） | 源真ゴシック P Heavy | 失敗時: MS UI Gothic → メイリオ → default |
-| フォント（スライド） | 源真ゴシック P Medium/Bold | 同上 |
+| フォント（字幕） | 源真ゴシック P Heavy（推奨） | 失敗時: MS UI Gothic → メイリオ → default |
+| フォント（スライド） | 源真ゴシック P Medium/Bold（推奨） | 同上 |
 
 詳細: [references/theater-layout.md](references/theater-layout.md) / [references/theater-render.md](references/theater-render.md) / [references/subtitle-typography.md](references/subtitle-typography.md) / [references/intro-entrance.md](references/intro-entrance.md) / [references/outro-exit.md](references/outro-exit.md)
 
@@ -77,20 +90,18 @@ Theater extras:
 
 ## 不変条件（短縮）
 
-1. **対面**: 左=解説役（中央向き）、右=聞き手（中央向き）。全身反転レイヤが無ければ画像反転可
-2. **口パク**: 無音では閉じる。実音開始から **0.1s 後**に開き始め（音声が先）
-3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。数字・単独変数は実測インクで光学拡大。`$...$` は flatten または MATH_MASK。latin 識別子のみ任意縮小。全角化で高さ合わせしない。全行まとめて ①キャラ色縁 ②黒縁 ③白文字（[subtitle-typography.md](references/subtitle-typography.md)）
+1. **対面**: 左=`teacher`、右=`listener`（中央向き）。全身反転レイヤが無ければ画像反転可
+2. **口パク**: 無音では閉じる。実音開始から **0.1s 後**に開き始め（音声が先）。SoT は 0.1s（0.2s と書かない）
+3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。表示区間は発話 cue の実測区間のみ（`pause_between_turns_ms` を含めない）。光学サイズは [subtitle-typography.md](references/subtitle-typography.md)。全行まとめて ①色縁 ②黒縁 ③白文字
 4. **立ち絵**: 胴体を切り捨てない。入らない部分は画面外へ
 5. **一時ファイル**: フレーム PNG を成果物として残さない
 6. **導入**: 音なしで登場完了してから最初の発話
 7. **退場**: 本編後に音なしで外側向き回転→歩き去り→フェード
 
-## 参照プロトタイプ
+## 参照実装の置き場
 
-実装の参照実装（ローカル試作）:
-
-`temp/sakurai-ch3-theater/scripts/render-theater.py`  
-（字幕 LaTeX・outro 込み。global skill は規約の SoT、コードは案件へコピーしてよい）
+global skill の SoT は本ディレクトリの Markdown 規約である。実装コードは案件 repo または `templates/project-skills/` へ置く。  
+gitignored の `temp/` 試作は配布 SoT にしない（ローカル検証の一例にすぎない）。
 
 ## 検証
 
@@ -98,9 +109,8 @@ Theater extras:
 - 退場クリップが無音で、Y 回転のあと外側へ歩きフェードする
 - 最初の発話前に口が無音で動いていない
 - 字幕に「三点二」「エイチバー」など TTS 用表記が出ておらず、`3.2` / `$\\hbar$` 等が原文どおり
-- 2行字幕で下行縁が上行の白字に乗らない
-- `python -m py_compile` 対象スクリプト / `ffmpeg` で最終 mp4 再生可能
+- `第3章` の数字・`$J$` 等が和文と視覚高が揃う（[subtitle-typography.md](references/subtitle-typography.md)）
 
-## メモ
+## メモリ
 
-運用知見は [references/skill-memory.md](references/skill-memory.md) へ追記する。
+運用知見: [references/skill-memory.md](references/skill-memory.md)

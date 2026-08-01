@@ -1,5 +1,7 @@
 # 劇場レンダ規約
 
+Updated: 2026/08/01 20:40
+
 ## パイプライン
 
 ```text
@@ -38,6 +40,7 @@ concat → 最終 mp4
 詳細: [subtitle-typography.md](subtitle-typography.md)
 
 - 画面字幕は `utterances[].narration`（人間可読 SoT）。`tts_text`／発音辞書のカナは**出さない**
+- **表示区間**: 当該発話 cue の実測開始〜終了のみ。`pause_between_turns_ms` は字幕尺に含めない（次ターンへ食い込ませない）
 - 節番号はアラビア数字（`3.1`）。人名・群名はラテン（`SU(2)`、`Wigner–Eckart`）
 - **和文数値**は半角のまま、実測インク高さで光学拡大（基準=`第`/`章`）。全角化は高さ合わせに使わない
 - **0.72 倍**は latin 識別子一塊だけ（`SU(2)`）。内部数字を再拡大しない
