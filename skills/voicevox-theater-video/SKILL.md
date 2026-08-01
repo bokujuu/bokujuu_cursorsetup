@@ -79,7 +79,7 @@ Theater extras:
 
 1. **対面**: 左=解説役（中央向き）、右=聞き手（中央向き）。全身反転レイヤが無ければ画像反転可
 2. **口パク**: 無音では閉じる。実音開始から **0.1s 後**に開き始め（音声が先）
-3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。和文数値はフルサイズ。`$...$` は数式。latin 識別子のみ任意縮小。全行まとめて ①キャラ色縁 ②黒縁 ③白文字（[subtitle-typography.md](references/subtitle-typography.md)）
+3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。数字・単独変数は実測インクで光学拡大。`$...$` は flatten または MATH_MASK。latin 識別子のみ任意縮小。全角化で高さ合わせしない。全行まとめて ①キャラ色縁 ②黒縁 ③白文字（[subtitle-typography.md](references/subtitle-typography.md)）
 4. **立ち絵**: 胴体を切り捨てない。入らない部分は画面外へ
 5. **一時ファイル**: フレーム PNG を成果物として残さない
 6. **導入**: 音なしで登場完了してから最初の発話
