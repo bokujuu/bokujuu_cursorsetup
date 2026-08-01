@@ -37,7 +37,9 @@ concat → 最終 mp4
 
 - 画面字幕は `utterances[].narration`（人間可読 SoT）。`tts_text`／発音辞書のカナは**出さない**
 - 節番号はアラビア数字（`3.2`）。人名・群名はラテン（`SU(2)`、`Wigner–Eckart`）
-- 数式・記号は `$...$` で挟み、mathtext 等でビットマップ挿入してから縁取りマスクを取る
+- 数式・記号は `$...$` で挟む。**単純な記号は同一字幕フォントへ flatten**し、従来の `build_outline_masks`（高解像度フォント→MaxFilter→余白付き）を通す
+- 複雑な `$...$` のみビットマップ挿入する。その場合も **字幕フォント高に LANCZOS で高さ合わせ**し、縁取りキャンバスに `outer_w+8` の透明余白を必ず付ける（余白なし MaxFilter は外縁が矩形化する）
+- matplotlib の高 dpi 生出力をそのまま並べない（48px 日本語より数倍大きく見える）
 - 読みの正規化は親 skill の [tts-pronunciation.md](../../slide-narration-video/references/tts-pronunciation.md)
 
 ## スライド文字
