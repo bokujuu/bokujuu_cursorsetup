@@ -8,6 +8,9 @@ Thumbs.db
 .env
 .env.*
 
+# 検証出力・試作動画など（コミット不要）
+temp/
+
 # MCP: 実キー入りファイルはコミットしない
 mcp/mcp.json
 mcp/mcp.local.json
