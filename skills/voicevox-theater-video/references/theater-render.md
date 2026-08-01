@@ -1,6 +1,6 @@
 # 劇場レンダ規約
 
-Updated: 2026/08/01 20:40
+Updated: 2026/08/02 07:53
 
 ## パイプライン
 
@@ -9,57 +9,62 @@ Updated: 2026/08/01 20:40
 スライド PNG
 発話 WAV（VOICEVOX）
         ↓
-Pillow 合成（導入 / 発話 / pause）
+合成（Pillow + 推奨: NumPy ROI blend / OpenCV dilate）
         ↓
-ffmpeg rawvideo pipe + AAC
+ffmpeg rawvideo pipe → H.264（NVENC 可なら）+ AAC
         ↓
-concat → 最終 mp4
+concat（中間は VFR 可）→ **納品は CFR 30 に正規化**
 ```
 
 フレーム PNG をディスクに残して結合する方式は重いので避ける（pipe または一時ディレクトリ即削除）。
+
+## fps（用途別）
+
+| 区間 | 既定 fps | 理由 |
+|------|----------|------|
+| intro / outro（弾む・Y回転） | **30** | モーションの見え方 |
+| 本編発話・ターン pause | **15** | 口パク程度の低運動。合成フレーム数を半減 |
+| **納品ファイル** | **CFR 30** | 15fps 区間はフレーム複製。VFR のまま納品しない |
+
+中間セグメントの VFR concat（`-c copy`）は作業用。最終だけ `fps=30` で正規化する。
+
+## エンコーダ
+
+1. 起動時に **微小クリップで NVENC 実エンコード probe**（一覧に名前があるだけでは不十分）
+2. 成功 → `h264_nvenc`（例: `-preset p4 -rc vbr -cq 23 -b:v 0`）
+3. 失敗 → `libx264 -preset medium -crf 23`
+4. 使用した encoder をログ／ベンチに残す
+
+## 合成の高速化（推奨）
+
+- 字幕マスク膨張: OpenCV `MORPH_ELLIPSE` dilate
+- 立ち絵 overlay: NumPy による ROI だけの Porter-Duff over
+- 発話クリップは口開閉2枚を先に焼き、pipe で差し替え
+- intro/outro は毎フレーム合成のため高コスト。静的レイヤ再利用が次の最適化候補
 
 ## 口パク
 
 1. WAV の RMS で発話区間を検出（短いギャップは結合）
 2. 区間開始 + **100ms** から開閉交互（既定 150ms）
 3. 無音・区間外は閉じ
-4. fps 既定は **30**
+4. 本編 fps は上記表（15）。遅れ SoT は **0.1s**
 
 ## 字幕縁取り（D 系統）
 
-- 幅: MaxFilter 膨張（参考 outer≈10 / inner≈3.5 @ 最終 px 相当）
-- Blur: 弱め（広いガウシアンハローは避ける）
-- 合成順（**全行まとめて**）:
-  1. キャラ色縁
-  2. 黒縁
-  3. 白文字（Blur ほぼ無し）
-- スーパーサンプル後、マスクを BOX 縮小してから着色するとフリンジが減る
+- 幅: 円形／楕円 dilate（参考 outer≈7–10 / inner≈2.5–3.5）
+- Blur: 弱め
+- 合成順（**全行まとめて**）: 色縁 → 黒縁 → 白文字
+- スーパーサンプル後、マスクを BOX 縮小してから着色
 
 ## 字幕テキスト（表示 ≠ TTS）
 
 詳細: [subtitle-typography.md](subtitle-typography.md)
 
-- 画面字幕は `utterances[].narration`（人間可読 SoT）。`tts_text`／発音辞書のカナは**出さない**
-- **表示区間**: 当該発話 cue の実測開始〜終了のみ。`pause_between_turns_ms` は字幕尺に含めない（次ターンへ食い込ませない）
-- 節番号はアラビア数字（`3.1`）。人名・群名はラテン（`SU(2)`、`Wigner–Eckart`）
-- **和文数値**は半角のまま、実測インク高さで光学拡大（基準=`第`/`章`）。全角化は高さ合わせに使わない
-- **0.72 倍**は latin 識別子一塊だけ（`SU(2)`）。内部数字を再拡大しない
-- 数式は `$...$`。単純式は半角 unicode flatten＋変数 boost。複雑式のみ MATH_MASK＋余白付き円形縁取り
-- matplotlib 高 dpi 生出力をそのまま並べない
-
-## 縁取り
-
-- 余白 `outer_w+8` 付き。円形ダイレーション（正方形 MaxFilter 単体は使わない）
-- 合成順は全行まとめて 色縁→黒縁→白字
-
-## スライド文字
-
-- Chromium/Marp の ClearType 色フリンジが出やすい → Pillow＋源真ゴシック直描きを優先
-- 過度な 2×LANCZOS はハローの原因。ネイティブ描画か、縮小するなら BOX＋α注意
-- 出典図・先頭出典行は親 skill の figures-and-math / slide-design に従う
+- 画面字幕は `utterances[].narration`。TTS カナは出さない
+- 表示区間は発話 cue の実測区間のみ（`pause_between_turns_ms` を含めない）
+- 光学サイズ規約は subtitle-typography に従う
 
 ## 負荷メモ
 
-- 発話クリップは口開閉の **2 枚**だけ合成し、時間方向は pipe で切替
-- 導入・退場だけは毎フレーム姿勢が変わるためコスト高。尺は各 2〜3 秒程度に抑える
-- `$...$` が多い発話は字幕合成が重い。必要最小の数式島に留める
+- intro/outro は毎フレーム RGBA 合成のため壁時計の主因になりやすい（実測で outro が全体の約 20% 超もあり得る）
+- 工程別 wall（intro / utterance / outro / encode / CFR 正規化）をベンチに残す

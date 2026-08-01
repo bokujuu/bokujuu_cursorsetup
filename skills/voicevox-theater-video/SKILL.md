@@ -10,7 +10,7 @@ description: >-
 
 # VOICEVOX 劇場動画（slide-narration 拡張）
 
-Updated: 2026/08/01 20:39
+Updated: 2026/08/02 07:53
 
 `slide-narration-video` の **dialogue 劇場プロファイル**を、立ち絵・字幕・口パク・登場／退場演出まで含めて設計・実装する拡張 skill。
 原稿・SoT・語り口は親 skill に従い、本 skill は **画面合成とレンダ規約**を担う。
@@ -66,7 +66,7 @@ Updated: 2026/08/01 20:39
 | 合成 | Pillow（RGBA）→ ffmpeg rawvideo pipe | フレーム PNG を残さない |
 | TTS | VOICEVOX（役割は `meta.speakers` またはプロファイル既定） | 発話ごと WAV。読みは辞書、字幕は `narration` |
 | 字幕数式 | `$...$` を flatten／MATH_MASK | カタカナ読みを字幕に出さない。[subtitle-typography.md](references/subtitle-typography.md) |
-| fps | 30 | 登場／退場の見え方用 |
+| fps | 本編 **15**／intro・outro **30**。納品は **CFR 30** | 中間 VFR は作業用。NVENC 可なら映像エンコードに使用 |
 | フォント（字幕） | 源真ゴシック P Heavy（推奨） | 失敗時: MS UI Gothic → メイリオ → default |
 | フォント（スライド） | 源真ゴシック P Medium/Bold（推奨） | 同上 |
 
