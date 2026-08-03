@@ -24,7 +24,7 @@
 | **指示ずれ・セッション折り返し** | skill `agent-handoff-recovery` |
 | **非自明タスクの着手・観測優先の推論** | skill `fable-style-reasoning` → ずれ発生後は `agent-handoff-recovery` |
 | **Grok / Composer の使い分け** | [model-routing.md](model-routing.md) → ループ上書きは `templates/loop-orchestration/` |
-| **Skill 化・進化（繰り返し手順）** | `templates/project-skills/` → 対象リポの `.codex/skills/`。技術特化は `implement-with-practices` |
+| **Skill 化・進化（繰り返し手順）** | まず既存の global / repo-local skill と `templates/project-skills/` を検索し、ギャップがある場合のみ対象リポの `.codex/skills/` に作成。`verify` → `.codex/practice-registry.json` 登録（`verification_commands` 実行）の順。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | `templates/structure-viz/` → 対象リポの `docs/` または静的サイト |
 | **人間向けの視覚ドキュメント（MD + HTML）** | skill `md-html-visual-doc` → 文章の論理は `japanese-technical-writing`。スライド動画は `slide-narration-video`、transcript は `cursor-session-doc` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |

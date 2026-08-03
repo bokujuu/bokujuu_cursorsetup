@@ -37,12 +37,13 @@ if [[ -f "${MANAGED_STATE}" ]]; then
       stale_names+=("${name}")
     fi
   done < "${MANAGED_STATE}"
+else
+  for name in "${LEGACY_MANAGED_NAMES[@]}"; do
+    if [[ ! -d "${SRC}/${name}" ]]; then
+      stale_names+=("${name}")
+    fi
+  done
 fi
-for name in "${LEGACY_MANAGED_NAMES[@]}"; do
-  if [[ ! -d "${SRC}/${name}" ]]; then
-    stale_names+=("${name}")
-  fi
-done
 
 for name in "${stale_names[@]}"; do
   [[ -n "${name}" ]] || continue

@@ -29,7 +29,14 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
 
-`skills/` 配下が `~/.codex/skills/<skill名>/` にコピーされます（既存は上書き）。
+`skills/` 配下が `~/.codex/skills/<skill名>/` にコピーされます（同名の既存skillは上書き）。
+
+インストール時には、単純な上書きに加えて管理対象の同期も行われます。
+
+- `~/.codex/skills/.bokujuu-cursorsetup-managed.txt` が、このリポジトリで管理するskill名の一覧です。
+- marker に記録されたskillがrepoから消えている場合、そのskillのインストール先ディレクトリを削除します。
+- marker がまだ無い既存環境では、installer内のlegacy移行リスト名を初回だけ削除し、完了後にmarkerを作成します。
+- marker にないユーザー独自ディレクトリは削除しません（初回移行時のlegacy移行リスト名を除く）。
 
 Cursor / Codex は `.codex/skills` をグローバル skill として読み込みます。
 

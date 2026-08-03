@@ -23,6 +23,7 @@ if (-not (Test-Path $Src)) {
 New-Item -ItemType Directory -Force -Path $Dst | Out-Null
 
 $ManagedState = Join-Path $Dst ".bokujuu-cursorsetup-managed.txt"
+$HasManagedState = Test-Path -LiteralPath $ManagedState
 $LegacyManagedNames = @(
     # One-time migration for names managed before the ownership marker existed.
     "codex-session-doc",
@@ -35,7 +36,7 @@ $CurrentSkillDirs = @(Get-ChildItem -LiteralPath $Src -Directory | Sort-Object N
 $CurrentSkillNames = @($CurrentSkillDirs | Select-Object -ExpandProperty Name)
 $PreviousManagedNames = @()
 
-if (Test-Path -LiteralPath $ManagedState) {
+if ($HasManagedState) {
     $PreviousManagedNames = @(
         Get-Content -LiteralPath $ManagedState -ErrorAction Stop |
             ForEach-Object { $_.Trim() } |
@@ -43,7 +44,10 @@ if (Test-Path -LiteralPath $ManagedState) {
     )
 }
 
-$KnownManagedNames = @($PreviousManagedNames) + @($LegacyManagedNames)
+$KnownManagedNames = @($PreviousManagedNames)
+if (-not $HasManagedState) {
+    $KnownManagedNames += $LegacyManagedNames
+}
 $StaleManagedNames = @(
     $KnownManagedNames |
         Sort-Object -Unique |

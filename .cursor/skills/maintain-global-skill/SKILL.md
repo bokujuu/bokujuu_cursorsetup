@@ -22,7 +22,7 @@ description: >-
 1. **SoT 更新** — 仕様・公開範囲が変わる場合は先に MANIFEST / rule-index を直す
 2. **実装** — `skills/<slug>/` を作成または最小変更
    - `SKILL.md` frontmatter: `name:` はフォルダ名と一致
-   - `description:` は長さではなく、発火条件・用途・主要な除外条件をモデルが判別できる最短の記述にする。trigger 語の羅列を目的にしない。body の責務を description で過大に宣言しない。近接 Skill との境界が曖昧な場合だけ除外条件を書く。同じ情報を言い換えて重複させない。`skill-lifecycle`（タスクカテゴリ）と `implement-with-practices`（ライブラリ/API 特化）の境界を守る
+   - `description:` は長さではなく、発火条件・用途・主要な除外条件をモデルが判別できる最短の記述にする。trigger 語の羅列を目的にしない。body の責務を description で過大に宣言しない。近接 Skill との境界が曖昧な場合だけ除外条件を書く。同じ情報を言い換えて重複させない。`templates/project-skills/`（タスクカテゴリ）と `implement-with-practices`（ライブラリ/API 特化）の境界を守る
    - 外部取込みは `references/sources.md` に upstream URL を記載
 3. **一覧反映** — [MANIFEST.md](../../../MANIFEST.md) の skills 表に行追加。[docs/rule-index.md](../../../docs/rule-index.md) にユーザー向け行を追加（必要時）。[INSTALL.md](../../../INSTALL.md) の動作確認項目を追加（任意 skill の場合は「任意」明記）
 4. **インストール**

@@ -1,6 +1,6 @@
 # Global suitability 判定と knowledge-base 知見化
 
-更新: 2026/06/22 07:01
+更新: 2026/08/03 11:01
 
 ## 目的
 
