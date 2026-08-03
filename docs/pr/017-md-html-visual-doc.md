@@ -15,7 +15,7 @@ Agent→人間向けの手順・比較・ギャラリー文書で、Markdown に
 
 | 既存 | 境界 |
 |------|------|
-| `system-structure-viz` | リポ構造の長期図 |
+| `templates/structure-viz/` | リポ構造の長期図 |
 | `slide-narration-video` | スライド＋TTS。Mermaid 事前レンダは共有パターン |
 | `japanese-technical-writing` | 散文の論理・体裁 |
 | `cursor-session-doc` | transcript 掘り起こし。本 skill は閲覧整形 |

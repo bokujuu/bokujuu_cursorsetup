@@ -78,7 +78,6 @@ MCP は User Rules / `.cursorrules` では設定できません。グローバ�
    - 新規チャットで User Rules が効いているか確認
    - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
    - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
-   - （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
    - （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
    - （任意）`cognitive-rhythm-writing` で「緩急を付けて書いて」「平坦な文章を診断して」が動作するか確認
    - （任意）`slide-narration-video` で「全画面スライド解説動画を作って」「Marp＋ナレーション」「対話形式の解説」が動作するか確認（依存 skill も install 済みであること）

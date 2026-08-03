@@ -3,7 +3,7 @@ name: md-html-visual-doc
 description: >-
   Agent→人間向けの視覚ドキュメントを、Markdown に選択的 HTML を混ぜて作る。
   フロー図・画像引用・折りたたみ・比較ビューが必要なとき、および「MD だと読みにくい」
-  「HTML で見やすく」と言われたときに使う。アーキテクチャ長期図は system-structure-viz、
+  「HTML で見やすく」と言われたときに使う。アーキテクチャ長期図は `templates/structure-viz/`、
   スライド動画は slide-narration-video、Cursor 対話ダッシュボードは canvas、
   過去セッション掘り起こしは cursor-session-doc に委譲。
 disable-model-invocation: false
@@ -23,7 +23,7 @@ disable-model-invocation: false
 
 | 依頼 | 委譲先 |
 |------|--------|
-| リポ構造・依存の長期図 | `system-structure-viz` |
+| リポ構造・依存の長期図 | `templates/structure-viz/` |
 | Marp + TTS 解説動画 | `slide-narration-video` |
 | セッション内の対話型ダッシュボード | Cursor `canvas` skill |
 | 散文の構成・文法だけ | `japanese-technical-writing` |
@@ -81,7 +81,7 @@ npx --yes @mermaid-js/mermaid-cli@11.4.0 -i {成果物ディレクトリ}/flow.m
 
 4. GitHub 等でフェンスが確実に描画される場合のみ、二次として ```mermaid を併記してよい（一次は画像）。
 
-アーキテクチャの長期 SoT 図は本 skill ではなく `system-structure-viz`。
+アーキテクチャの長期 SoT 図は本 skill ではなく `templates/structure-viz/` を使う。
 
 ## 報告テンプレ（ユーザー向け・短い）
 

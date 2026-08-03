@@ -66,7 +66,7 @@ PR レビューでは、次の順で判断する。
 ### 判断の目安
 
 - **user-rules/** — 口調・出力形式・最小変更など、常時適用のコミュニケーション枠のみ（約 50 行規模）。コーディング規約や MCP 方針は入れない。
-- **skills/** — タスク起動時に適用する手順。`description:` でトリガーと対象外を明示する。`skill-lifecycle`（タスクカテゴリ）と `implement-with-practices`（ライブラリ/API 特化）の境界を守る。
+- **skills/** — タスク起動時に適用する手順。`description:` でトリガーと対象外を明示する。
 - **templates/** — 対象リポへコピーして使う規約・雛形。global install だけでは効かない。
 - **docs/** — 配布物ではなく、設計・運用・移行の説明。本 repo の reviewer / maintainer 向け。
 - **AGENTS.md** — この repo 内エージェントの作業ルール。グローバル設定そのものではない。
@@ -162,7 +162,7 @@ medium: この内容は `bokujuu_cursorsetup` の global 設定としては範�
 global に入れてよい場合の例:
 
 ```md
-low: 既存の `skill-lifecycle` と責務が重複しています。新規 skill ではなく、既存 skill の references 更新を検討してください。
+low: 既存の skill と責務が重複しています。新規 skill ではなく、既存 skill の references 更新を検討してください。
 ```
 
 知見化不要の例:

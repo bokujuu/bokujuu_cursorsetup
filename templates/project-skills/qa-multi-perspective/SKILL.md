@@ -74,4 +74,4 @@ P5 は **migration モードで必須**。new-feature では「既存データ�
 ## 関連
 
 - 着想・除去した固有要素: [references/sources.md](references/sources.md)
-- グローバル: `abstract-source-patterns`（パターン抽出）、`skill-lifecycle`（skill 化）
+- グローバル: `abstract-source-patterns`（パターン抽出）

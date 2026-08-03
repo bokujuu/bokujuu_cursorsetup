@@ -24,7 +24,6 @@
 ## 関連 skill
 
 - `anti-human-bottleneck` — 回復は自律、質問は最小
-- `retrospective-codify` — 再発パターンのルール化
 
 ## 出自
 

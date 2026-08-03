@@ -1,6 +1,6 @@
 # Project-local skills template
 
-Copy into a **target repository** to start `.codex/skills/` and a practice registry. Used by the global skill `skill-lifecycle`.
+Copy into a **target repository** to start `.codex/skills/` and a practice registry.
 
 ## Layout after copy
 
@@ -58,6 +58,5 @@ Copy-Item -Recurse skills/cognitive-rhythm-writing <target-repo>/.codex/skills/
 
 ## Related
 
-- Global skill: `skill-lifecycle` (install via `scripts/install.ps1`)
+- Repository-local skills are maintained with the target repository's `AGENTS.md` and registry.
 - Global skill: `repo-agent-bootstrap` — AGENTS.md + repo-local skill + registry の一括初期構築・メンテナンス（同等の雛形を skill 内 `assets/templates/` に同梱）
-- [docs/references/muse-autoskill.md](../../docs/references/muse-autoskill.md)

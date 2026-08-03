@@ -162,7 +162,6 @@ For Cloud Agent transcripts under `/tmp/cursor/cloud-agent-transcripts/`, parent
 | `agent-handoff-recovery` | After drift; this skill prevents + full-mode discipline |
 | `anti-human-bottleneck` | Human-call boundary in Phase 3 |
 | `ralph-loop` | Outer loop; this skill runs inside each iteration |
-| `retrospective-codify` | After Phase 4 — codify learnings |
 
 ## Output template (full mode — when to use)
 

@@ -11,7 +11,7 @@
 | [TaiNgo6798/visual-explaining-skill](https://github.com/TaiNgo6798/visual-explaining-skill) | コード解説用単体 HTML | Node 依存が重い。配置: 参考のみ |
 | [Agents365-ai/mermaid-skill](https://github.com/Agents365-ai/mermaid-skill) | NL → `.mmd` → PNG/SVG | レンダ手段として有用。slide 技能と重複しうる |
 | Cursor Canvas / Docs Canvas | チャット横の React 成果 | 委譲（本 skill 対象外） |
-| 本 repo `system-structure-viz` | 構造可視化 Tier 1–3 | 境界を維持。本 skill は人間向け手順・比較・ギャラリー |
+| `templates/structure-viz/` | 構造可視化 Tier 1 / 3 | 本 skill は人間向け手順・比較・ギャラリー |
 
 ### パターンカード（abstract-source-patterns 形式）
 
@@ -48,7 +48,7 @@
 | 資産 | 関係 |
 |------|------|
 | `japanese-technical-writing` | 文章の論理・体裁。本 skill はチャネル（MD/HTML/図） |
-| `system-structure-viz` | リポ構造の長期図 |
+| `templates/structure-viz/` | リポ構造の長期図 |
 | `slide-narration-video` | スライド動画。Mermaid 事前レンダは共有パターン |
 | `cursor-session-doc` | transcript 掘り起こし・要約。本 skill は閲覧用整形のみ |
 | Cursor `canvas` | セッション内対話ダッシュボード |
