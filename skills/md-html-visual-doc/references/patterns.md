@@ -50,7 +50,7 @@ GitHub / 多くの MD プレビューは上記を許可。厳密 CommonMark の�
 - 紫グラデ / カードだらけ / 絵文字装飾 UI
 - Obsidian 専用 `![[wikilink]]` を配布ドキュメントの主経路にする
 - MD に巨大 Base64 画像や数 MB のインラインデータ
-- アーキテクチャ全体図の SoT 化（→ `system-structure-viz`）
+- アーキテクチャ全体図の SoT 化（→ `templates/structure-viz/`）
 - Canvas / React ダッシュボード（→ canvas skill）
 - 外部データやログを HTML エスケープせず文字列連結で埋め込むこと
 

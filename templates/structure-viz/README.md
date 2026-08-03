@@ -1,6 +1,6 @@
 # Structure visualization template
 
-Used by the global skill `system-structure-viz`. Copy parts into a **target repository** as needed.
+Copy parts into a **target repository** as needed.
 
 ## Tier 1 (docs)
 
@@ -21,7 +21,3 @@ Keep `architecture.md` and the site in sync when both exist (same module names a
 ## Tier 2
 
 Use Cursor's bundled `canvas` skill; do not copy this folder for Tier 2.
-
-## Related
-
-- [skills/system-structure-viz/SKILL.md](../../skills/system-structure-viz/SKILL.md)

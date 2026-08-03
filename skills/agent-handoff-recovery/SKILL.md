@@ -16,7 +16,7 @@ disable-model-invocation: false
 
 Stop "keep coding on the wrong track" loops. Reconcile **track, SoT, plan status, and verification** before more edits.
 
-Works with `anti-human-bottleneck` (recover autonomously; ask the user only when blocked), `fable-style-reasoning` (anchor in plan + subagent synthesis in full mode), and `retrospective-codify` (after recovery, codify recurring gaps).
+Works with `anti-human-bottleneck` (recover autonomously; ask the user only when blocked) and `fable-style-reasoning` (anchor in plan + subagent synthesis in full mode).
 
 ## Self-check triggers (any one → run recovery)
 

@@ -52,7 +52,7 @@ description: >-
 1. `AGENTS.md.template` → repo 直下へ。プレースホルダを埋める（日付は実時刻を取得）
 2. `skill/` → `.cursor/skills/<slug>/` へ。手順・ドメイン知識・合格基準を具体化し、
    調査で拾った手戻りを `references/skill-memory.md` に初期知見として記録
-3. `practice-registry.json` → `.codex/practice-registry.json`（`status: draft`）
+3. `practice-registry.json` → `.codex/practice-registry.json`（`status: draft`）。skillを追加・更新したらregistryにも対応するentryを追加し、登録済みの `verification_commands` を実行する
 
 ### 4. 検証コマンドの恒久化（推奨）
 
@@ -79,7 +79,7 @@ description: >-
 2. registry の `verification_commands` を再実行。失敗 = ドリフトの証拠
 3. ずれた記述を修正し、`skill-memory.md` に1行追記
 4. 安定運用できている draft skill は `approved` へ昇格
-5. 新しい繰り返しタスクが生まれていれば skill を追加（`skill-lifecycle` の検索→作成順を守る）
+5. 新しい繰り返しタスクが生まれていれば、対象リポジトリの `.codex/skills/` に skill を追加し、`.codex/practice-registry.json` に登録して、登録済みの `verification_commands` を全て実行
 
 ---
 
@@ -111,6 +111,5 @@ description: >-
 - [references/survey-guide.md](references/survey-guide.md) — 調査・transcript マイニング詳細
 - [references/maintenance-checklist.md](references/maintenance-checklist.md) — メンテナンス チェックリスト
 - [assets/templates/](assets/templates/) — AGENTS.md / skill / registry 雛形
-- 関連グローバル skill: `skill-lifecycle`（skill の検索→draft→registry→promote）、
-  `cursor-session-doc`（過去セッションの本格的な掘り起こし）、`retrospective-codify`（失敗の知見化）、
+- 関連グローバル skill: `cursor-session-doc`（過去セッションの本格的な掘り起こし）、
   `fable-style-reasoning`（非自明タスクの観測優先推論・plan 先頭錨）

@@ -18,14 +18,10 @@
 |--------|------|
 | `anti-human-bottleneck` | ローカル可逆な自律解決と、commit/push/deploy 等の承認境界。sync 時は `%USERPROFILE%\.codex\skills\` から |
 | `cursor-session-doc` | Cursor `agent-transcripts/*.jsonl` 用（本 repo 内で管理） |
-| `empirical-prompt-tuning` | 同上 |
 | `implement-with-practices` | 同上 |
 | `ralph-loop` | 同上 |
-| `retrospective-codify` | 同上 |
 | `web-research-resolve` | 旧 `.cursor/commands/websearch-resolve` を skill 化 |
 | `agent-handoff-recovery` | 指示ずれ・Plan/verify 折り返し（本 repo 内で管理） |
-| `skill-lifecycle` | タスクカテゴリ Skill の検索・draft 化・registry・改良 |
-| `system-structure-viz` | 構造・依存の Tier 別可視化（docs / canvas / 静的サイト） |
 | `japanese-doc-review` | 日本語文書レビュー・校正指摘（[himadajin/skills](https://github.com/himadajin/skills) より取込） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（同上） |
 | `repo-agent-bootstrap` | エージェント基盤（AGENTS.md・repo ローカル skill・registry・検証）の初期構築とメンテナンス。AGENTS.md / skill / registry 雛形を `assets/templates/` に同梱（グローバル install 後も単体で動作） |
@@ -38,7 +34,7 @@
 | `slide-narration-video` | 全画面スライド＋TTS 解説動画（monologue／dialogue＝理解確認型の解説役＋聞き手）。Marp / ffmpeg 静止画結合（動きなし） / Remotion・Motion Canvas（モーションあり）、VOICEVOX 既定。配置 QA・TTS 読み正規化ゲートあり。原稿・構成は `japanese-technical-writing` と `cognitive-rhythm-writing` に相対パス依存。設計: [docs/pr/015-slide-narration-video.md](docs/pr/015-slide-narration-video.md) / 追記: [docs/pr/017-slide-narration-ffmpeg-mermaid.md](docs/pr/017-slide-narration-ffmpeg-mermaid.md) |
 | `voicevox-theater-video` | `slide-narration-video` の劇場拡張。全身立ち絵（胴体クロップなし）、ワイプ字幕（色縁→黒縁→白字）、実音波形同期口パク（+0.1s）、AviUtl「弾む」系の無音登場／Y回転＋弾む退場。合成は Pillow＋ffmpeg pipe |
 | `power-query-refactor` | Power Query M の編集方針（挙動保持・配置原則・notes・Table.Buffer）。帳票品質は `excel-deliverable-quality`、COM export/import は各リポへ委譲。設計源: [bokujuu/powerquery_refactor](https://github.com/bokujuu/powerquery_refactor)。設計: [docs/pr/016-power-query-refactor.md](docs/pr/016-power-query-refactor.md) |
-| `md-html-visual-doc` | Agent→人間向けの視覚ドキュメント（Markdown + 選択的 HTML）。Companion HTML / 事前レンダ図 / `<details>` 等。構造長期図は `system-structure-viz`、スライドは `slide-narration-video`、transcript は `cursor-session-doc` に委譲。外部 VisualCave 等は丸導入せずパターンのみ。設計: [docs/pr/017-md-html-visual-doc.md](docs/pr/017-md-html-visual-doc.md) |
+| `md-html-visual-doc` | Agent→人間向けの視覚ドキュメント（Markdown + 選択的 HTML）。Companion HTML / 事前レンダ図 / `<details>` 等。スライドは `slide-narration-video`、transcript は `cursor-session-doc` に委譲。外部 VisualCave 等は丸導入せずパターンのみ。設計: [docs/pr/017-md-html-visual-doc.md](docs/pr/017-md-html-visual-doc.md) |
 
 ## hooks/（任意・Windows）
 
@@ -137,7 +133,6 @@
 | `user-rules-guide.md` | Settings への貼り方（1 ファイル運用） |
 | `migration-from-legacy.md` | 旧 `.cursor/` からの移行 |
 | `hooks-handoff-recovery.md` | handoff recovery 設計メモ |
-| `references/muse-autoskill.md` | MUSE-Autoskill と本 repo の対応表 |
 | `pr/` | PR 設計メモ |
 | `review/global-suitability-and-knowledge-capture.md` | PR レビュー: global suitability 判定と knowledge-base 知見化 |
 

@@ -21,7 +21,7 @@ AGENTS.md が既にある repo で実施。所要 10–20 分を目安に、全�
 
 - [ ] 前回以降の手戻り・気づきを `references/skill-memory.md` に1行追記
 - [ ] 2回以上問題なく再利用できた draft skill を `approved` に昇格
-- [ ] 新しい繰り返しタスクがあれば skill 追加（`skill-lifecycle` の検索→作成順で）
+- [ ] 新しい繰り返しタスクがあれば対象リポジトリの `.codex/skills/` に追加し、`.codex/practice-registry.json` に登録して、登録済みの `verification_commands` を全て実行
 - [ ] 使われなくなった skill は registry から外すか SKILL.md に廃止予定を明記
 
 ## 4. 仕上げ

@@ -22,7 +22,51 @@ if (-not (Test-Path $Src)) {
 
 New-Item -ItemType Directory -Force -Path $Dst | Out-Null
 
-Get-ChildItem $Src -Directory | ForEach-Object {
+$ManagedState = Join-Path $Dst ".bokujuu-cursorsetup-managed.txt"
+$HasManagedState = Test-Path -LiteralPath $ManagedState
+$LegacyManagedNames = @(
+    # One-time migration for names managed before the ownership marker existed.
+    "codex-session-doc",
+    "empirical-prompt-tuning",
+    "retrospective-codify",
+    "skill-lifecycle",
+    "system-structure-viz"
+)
+$CurrentSkillDirs = @(Get-ChildItem -LiteralPath $Src -Directory | Sort-Object Name)
+$CurrentSkillNames = @($CurrentSkillDirs | Select-Object -ExpandProperty Name)
+$PreviousManagedNames = @()
+
+if ($HasManagedState) {
+    $PreviousManagedNames = @(
+        Get-Content -LiteralPath $ManagedState -ErrorAction Stop |
+            ForEach-Object { $_.Trim() } |
+            Where-Object { $_ }
+    )
+}
+
+$KnownManagedNames = @($PreviousManagedNames)
+if (-not $HasManagedState) {
+    $KnownManagedNames += $LegacyManagedNames
+}
+$StaleManagedNames = @(
+    $KnownManagedNames |
+        Sort-Object -Unique |
+        Where-Object {
+            $_ -match '^[A-Za-z0-9_-]+$' -and $_ -notin $CurrentSkillNames
+        }
+)
+
+foreach ($name in $StaleManagedNames) {
+    $target = Join-Path $Dst $name
+    if (Test-Path -LiteralPath $target) {
+        Write-Host "[REMOVE] retired skill -> $target"
+        if (-not $WhatIf) {
+            Remove-Item -LiteralPath $target -Recurse -Force
+        }
+    }
+}
+
+$CurrentSkillDirs | ForEach-Object {
     $target = Join-Path $Dst $_.Name
     Write-Host "[COPY] $($_.Name) -> $target"
     if ($WhatIf) {
@@ -32,6 +76,10 @@ Get-ChildItem $Src -Directory | ForEach-Object {
         Remove-Item $target -Recurse -Force
     }
     Copy-Item $_.FullName $target -Recurse -Force
+}
+
+if (-not $WhatIf) {
+    $CurrentSkillNames | Set-Content -LiteralPath $ManagedState -Encoding UTF8
 }
 
 Write-Host "[OK] Global skills installed under $Dst"

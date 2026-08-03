@@ -29,7 +29,14 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
 
-`skills/` 配下が `~/.codex/skills/<skill名>/` にコピーされます（既存は上書き）。
+`skills/` 配下が `~/.codex/skills/<skill名>/` にコピーされます（同名の既存skillは上書き）。
+
+インストール時には、単純な上書きに加えて管理対象の同期も行われます。
+
+- `~/.codex/skills/.bokujuu-cursorsetup-managed.txt` が、このリポジトリで管理するskill名の一覧です。
+- marker に記録されたskillがrepoから消えている場合、そのskillのインストール先ディレクトリを削除します。
+- marker がまだ無い既存環境では、installer内のlegacy移行リスト名を初回だけ削除し、完了後にmarkerを作成します。
+- marker にないユーザー独自ディレクトリは削除しません（初回移行時のlegacy移行リスト名を除く）。
 
 Cursor / Codex は `.codex/skills` をグローバル skill として読み込みます。
 
@@ -78,7 +85,6 @@ MCP は User Rules / `.cursorrules` では設定できません。グローバ�
    - 新規チャットで User Rules が効いているか確認
    - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
    - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
-   - （任意）`skill-lifecycle` / `system-structure-viz` が `~/.codex/skills/` に存在するか確認
    - （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
    - （任意）`cognitive-rhythm-writing` で「緩急を付けて書いて」「平坦な文章を診断して」が動作するか確認
    - （任意）`slide-narration-video` で「全画面スライド解説動画を作って」「Marp＋ナレーション」「対話形式の解説」が動作するか確認（依存 skill も install 済みであること）

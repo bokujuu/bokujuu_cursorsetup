@@ -83,15 +83,13 @@ disable-model-invocation: false
 - 外部 CLI / npm パッケージの丸ごと同梱
 - 単一スタック・単一プロダクト機能（Codex `/goal` 等）への依存
 - 具体手順の羅列で判断基準に昇華していないもの
-- 既存 `ralph-loop` / `skill-lifecycle` と責務が重なるもの（追記を優先）
+- 既存の skill / references と責務が重なるもの（追記を優先）
 
 ## 関連 skill・ドキュメント
 
 | 参照 | 用途 |
 |------|------|
 | [global-suitability-and-knowledge-capture.md](../../docs/review/global-suitability-and-knowledge-capture.md) | 2 段階判定（global → knowledge-base） |
-| `skill-lifecycle` | 抽出パターンを repo-local skill 化するとき |
-| `retrospective-codify` | 採用後の失敗からルール化するとき |
 | `repo-agent-bootstrap` | ルーター型 AGENTS パターンの展開先 |
 | [references/sources.md](references/sources.md) | 本 skill の着想・採用先例 |
 

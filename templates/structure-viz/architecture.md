@@ -1,6 +1,6 @@
 # Architecture overview
 
-> Generated/maintained per `system-structure-viz` skill. Update when top-level layout or major dependencies change.
+> Generated/maintained as the repository's architecture SoT. Update when top-level layout or major dependencies change.
 
 ## Module layers
 
