@@ -5,3 +5,5 @@
 - 2026/08/01 20:39 (Sol): `第3章` の数字縮小は誤分類＋フォント実インク。半角＋光学 boost。規約は `subtitle-typography.md`。
 - 2026/08/01 20:39 (PR#41): description トリガから固有話者名を外し、役割ベースに。temp/ 試作パスは配布 SoT にしない。
 - 2026/08/02 08:50: 速度既定は全面 30fps CFR + Pillow `alpha_composite` + libx264 + concat copy。字幕マスクのみ任意 OpenCV `MORPH_ELLIPSE`（無ければ Pillow perimeter dilate）。測定ログ（Sakurai Ch3 intro+s01–s08+outro ≈235s）3回中央値85.6s vs legacy99.2s。body15 / NumPy ROI / 短尺NVENC / VFR→CFR 再エンコードは速度既定から除外。規約本文のターゲット表記は案件名を避け抽象化する（PR#42 review）。
+- 2026/08/05 00:36 (Issue #44/#45): Sakurai Ch3 系をプロファイル既定化（ひまり left+face_flip、つむぎ right、FACE_GAP 42%、口 0.1s、同位相バウンス、呼称）。`theater-presets.md` / `dialogue-density.md` 追加。メタ指示の本文混入禁止、密度 medium 既定・high で理解確認、前提語の先出しを明文化。
+- 2026/08/05 00:55: 口調・一人称・呼称の SoT はボイボ寮（https://voicevox.hiroshiba.jp/dormitory/）。ひまり＋つむぎ既定は寮と一致済みのため再照会不要、と明記。
