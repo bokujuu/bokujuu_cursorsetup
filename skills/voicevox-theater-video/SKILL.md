@@ -10,7 +10,7 @@ description: >-
 
 # VOICEVOX 劇場動画（slide-narration 拡張）
 
-Updated: 2026/08/05 10:32
+Updated: 2026/08/05 10:36
 
 `slide-narration-video` の **dialogue 劇場プロファイル**を、立ち絵・字幕・口パク・登場／退場演出まで含めて設計・実装する拡張 skill。
 原稿・SoT・語り口は親 skill に従い、本 skill は **画面合成・レンダ規約・劇場プロファイル既定**を担う。
@@ -54,7 +54,7 @@ Updated: 2026/08/05 10:32
 | `teacher` | 左下 | **true**（中央向き） | 冥鳴ひまり（id 14） | (155, 93, 229) | 相手=つむぎ先輩／私（[ボイボ寮](https://voicevox.hiroshiba.jp/dormitory/) 一致済み） |
 | `listener` | 右下 | false（中央向き） | 春日部つむぎ（id 8） | (232, 168, 56) | 相手=ひまっち／あーし（同上） |
 
-立ち絵素材の既定候補: とらっかぁ系 PSD 等の全身スプライト（胴体をクロップしない）。口は `closed`/`open`、表情は default/question/think/understand/surprise。ライセンス／クレジットは案件側で確認する。
+立ち絵素材の既定候補: とらっかぁ系 PSD 等の全身スプライト（胴体をクロップしない）。**ひまり＋つむぎの private use 向け**の既定であり、公開配布や別キャラ制作の前提にはしない。口は `closed`/`open`、表情は default/question/think/understand/surprise。ライセンス／クレジットは案件側で確認する。
 
 口調・一人称・呼称は [ボイボ寮](https://voicevox.hiroshiba.jp/dormitory/)／[呼称表](https://voicevox.hiroshiba.jp/dormitory/call_names/) を正とする。**ひまり＋つむぎ既定のままなら**上表・`theater-presets.md` の `call_names` を再照会なしで使ってよい。別キャラに替えるときだけ寮を確認する。
 
