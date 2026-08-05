@@ -10,11 +10,11 @@ description: >-
 
 # VOICEVOX 劇場動画（slide-narration 拡張）
 
-Updated: 2026/08/05 00:55
+Updated: 2026/08/05 10:32
 
 `slide-narration-video` の **dialogue 劇場プロファイル**を、立ち絵・字幕・口パク・登場／退場演出まで含めて設計・実装する拡張 skill。
 原稿・SoT・語り口は親 skill に従い、本 skill は **画面合成・レンダ規約・劇場プロファイル既定**を担う。
-数値・話者・呼称の既定は Sakurai Ch3 系制作で収束した値（[references/theater-presets.md](references/theater-presets.md)）。呼称の出典は [ボイボ寮](https://voicevox.hiroshiba.jp/dormitory/)。
+数値・話者・呼称の既定は経験的に収束した値（[references/theater-presets.md](references/theater-presets.md)）。呼称の出典は [ボイボ寮](https://voicevox.hiroshiba.jp/dormitory/)。
 
 ## 親 skill（必須）
 
@@ -64,9 +64,9 @@ Updated: 2026/08/05 00:55
 
 劇場 dialogue では [references/dialogue-density.md](references/dialogue-density.md) に従う。
 
-- 既定密度: **medium**（おおよそ 4〜5 発話・話者交替 3。厚い内容は `high`＝7 発話＋理解確認／再解説）
+- 既定密度: **medium**（おおよそ 4〜5 発話・話者交替 3。厚い内容は `high`＝7 発話。理解確認必須。必要時に再解説）
 - 理解確認: 質問→回答→相槌／訂正→確認→（必要なら）再解説
-- 前提説明: 知らないと崩れる語を AI が先に短く説明する（ユーザー指定を優先し不足を補う）
+- 前提説明: テーマ理解に必要な前提・背景を AI が先に短く説明する（ユーザー指定を優先し不足を補う）
 - **メタ指示禁止**: reasoning effort・校正・内部作業語（例: `extrahigh`）を動画本文・読み辞書へ入れない
 
 ## 既定スタック（劇場）

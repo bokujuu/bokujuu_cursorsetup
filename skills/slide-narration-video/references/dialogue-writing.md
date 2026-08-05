@@ -1,13 +1,13 @@
 # 対話形式の原稿規範（解説役＋聞き手）
 
-Updated: 2026/08/05 00:55
+Updated: 2026/08/05 10:32
 
 一方的な講義だと、視聴者の理解が止まった時点で以降が崩れる。
 対話形式は話者を増やすためではなく、**キャラクター同士の会話劇として、つまずき・早合点・訂正を画面内に置く**ために使う。
 
 VOICEVOX／ボイロ劇場の会話劇を優先する。説明資料の読み上げを二人に分けたものではない。
 
-劇場プロファイルでの密度・前提・メタ分離の詳細: [`../../voicevox-theater-video/references/dialogue-density.md`](../../voicevox-theater-video/references/dialogue-density.md)。
+口調・会話劇の書き方は本ファイルを正とする。密度・前提・メタ分離の詳細 SoT は [`../../voicevox-theater-video/references/dialogue-density.md`](../../voicevox-theater-video/references/dialogue-density.md)（要約を親側に複製しない）。
 
 ## いつ使うか
 

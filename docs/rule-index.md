@@ -30,7 +30,7 @@
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語の読み物・解説文の緩急（認知リズム）** | skill `cognitive-rhythm-writing` → 技術文書の土台は `japanese-technical-writing` |
 | **全画面スライド解説動画（Marp＋TTS）** | skill `slide-narration-video` → 構成は `japanese-technical-writing`、原稿の緩急は `cognitive-rhythm-writing`。理解確認が中心なら `dialogue`（解説役＋聞き手）、短い告知・手順は `monologue`。動きなしは ffmpeg 静止画結合、モーションありは Remotion／Motion Canvas。配置 QA（はみ出し・画像比）と TTS 読み正規化あり |
-| **VOICEVOX 劇場レイアウト動画（立ち絵＋ワイプ字幕）** | skill `voicevox-theater-video` → 親 `slide-narration-video`（dialogue）。全身立ち絵・口パク（実音＋0.1s遅れ）・弾む登場／退場・字幕3パス縁取り。プロファイル既定はひまり／つむぎ（Sakurai 系）。会話密度・前提・メタ分離は `dialogue-density.md` |
+| **VOICEVOX 劇場レイアウト動画（立ち絵＋ワイプ字幕）** | skill `voicevox-theater-video` → 親 `slide-narration-video`（dialogue）。全身立ち絵・口パク（実音＋0.1s遅れ）・弾む登場／退場・字幕3パス縁取り。プロファイル既定はひまり／つむぎ。会話密度・前提・メタ分離は `dialogue-density.md` |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 | **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) → skill `abstract-source-patterns` |
 | **外部記事・repo の採用判断** | skill `abstract-source-patterns` → [global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |

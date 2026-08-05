@@ -1,6 +1,6 @@
 # 劇場レイアウト
 
-Updated: 2026/08/05 00:36
+Updated: 2026/08/05 10:32
 
 数値・話者メタの完全表は [theater-presets.md](theater-presets.md)。
 
