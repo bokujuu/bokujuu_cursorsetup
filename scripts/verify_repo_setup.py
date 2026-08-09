@@ -16,6 +16,7 @@ MANIFEST = REPO_ROOT / "MANIFEST.md"
 AGENTS = REPO_ROOT / "AGENTS.md"
 REGISTRY = REPO_ROOT / ".codex" / "practice-registry.json"
 INSTALL_PS1 = REPO_ROOT / "scripts" / "install.ps1"
+INSTALL_SH = REPO_ROOT / "scripts" / "install.sh"
 
 REQUIRED_TEMPLATE_PATHS = [
     "templates/project-skills/README.md",
@@ -145,6 +146,29 @@ def verify_install_ps1(errors: list[str]) -> None:
         ok("install.ps1 Root path pattern")
 
 
+def verify_codex_mcp_installers(errors: list[str]) -> None:
+    if not INSTALL_PS1.is_file():
+        return
+
+    powershell_text = INSTALL_PS1.read_text(encoding="utf-8")
+    for marker in ("InstallCodexMcp", "CodexFilesystemRoot", "codex mcp add"):
+        if marker not in powershell_text:
+            errors.append(f"install.ps1: missing Codex MCP marker: {marker}")
+    if all(marker in powershell_text for marker in ("InstallCodexMcp", "codex mcp add")):
+        ok("install.ps1 Codex MCP registration")
+
+    if not INSTALL_SH.is_file():
+        errors.append("Missing scripts/install.sh")
+        return
+
+    shell_text = INSTALL_SH.read_text(encoding="utf-8")
+    for marker in ("--install-codex-mcp", "--codex-filesystem-root", "codex mcp add"):
+        if marker not in shell_text:
+            errors.append(f"install.sh: missing Codex MCP marker: {marker}")
+    if all(marker in shell_text for marker in ("--install-codex-mcp", "codex mcp add")):
+        ok("install.sh Codex MCP registration")
+
+
 def verify_templates(errors: list[str]) -> None:
     for rel in REQUIRED_TEMPLATE_PATHS:
         path = REPO_ROOT / rel
@@ -215,6 +239,7 @@ def main() -> int:
     verify_agents_and_registry(errors)
     verify_skills_manifest(errors)
     verify_install_ps1(errors)
+    verify_codex_mcp_installers(errors)
     verify_templates(errors)
     verify_installed_skills(errors, repo_only=args.repo_only)
     verify_loop_kit_subprocess(errors)

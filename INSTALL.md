@@ -57,7 +57,11 @@ GitHub を更新しても **Settings は自動では変わりません**。
 
 ## 4. MCP（任意）
 
-MCP は User Rules / `.cursorrules` では設定できません。グローバルは `%USERPROFILE%\.cursor\mcp.json`、プロジェクト単位は `<repo>/.cursor/mcp.json` です（詳細は [mcp/README.md](mcp/README.md)）。
+MCP は User Rules / `.cursorrules` では設定できません。Cursor と Codex では設定ファイルと登録方法が異なります（詳細は [mcp/README.md](mcp/README.md)）。
+
+### 4.1 Cursor
+
+グローバルは `%USERPROFILE%\.cursor\mcp.json`、プロジェクト単位は `<repo>/.cursor/mcp.json` です。
 
 1. [mcp/README.md](mcp/README.md) を読む
 2. 未設定なら `.\scripts\install.ps1 -InstallMcp`（既存 `mcp.json` は上書きしない）、または `mcp/mcp.template.json` を手動マージ
@@ -65,7 +69,32 @@ MCP は User Rules / `.cursorrules` では設定できません。グローバ�
 4. 必要なら `mcp/mcp.optional.json` から excel / github / playwright / serena を追加（github は PAT）
 5. ローカル専用の `mcp/mcp.json` として保存してもよい（`.gitignore` 済み）
 
-雛形の既定: filesystem / memory / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
+### 4.2 Codex CLI（ユーザー全体）
+
+Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。次のコマンドは、公式の `codex mcp add` を使って現在のユーザーへ memory と Codex Sol / Terra / Luna を登録します。既存の同名サーバーは上書きしません。
+
+**Windows**
+
+```powershell
+.\scripts\install.ps1 -InstallCodexMcp
+```
+
+filesystem MCP も登録する場合:
+
+```powershell
+.\scripts\install.ps1 -InstallCodexMcp -CodexFilesystemRoot $env:USERPROFILE
+```
+
+**Linux / macOS / WSL**
+
+```bash
+bash scripts/install.sh --install-codex-mcp
+bash scripts/install.sh --install-codex-mcp --codex-filesystem-root "$HOME"
+```
+
+filesystem のルートを指定しない場合は、ファイルアクセスを追加しない安全側の動作になります。登録後は `codex mcp list` で確認し、Codex Desktop / CLI / IDE を再起動してください。
+
+雛形の既定（Cursor 用）: filesystem / memory / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
 
 ## 5. 動作確認
 
@@ -108,4 +137,4 @@ MCP は User Rules / `.cursorrules` では設定できません。グローバ�
 | ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 1 ファイル運用を確認 |
 | MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
 | filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |
-| Codex MCP（sol/terra/luna）が無い | `codex` が PATH にあるか確認。雛形を再マージして Cursor 再起動 |
+| Codex MCP（sol/terra/luna）が無い | `codex` が PATH にあるか確認し、`install.ps1 -InstallCodexMcp` または `install.sh --install-codex-mcp` を再実行。`codex mcp list` と Codex 再起動も確認 |
