@@ -36,6 +36,36 @@ if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
 
 `install.ps1 -InstallMcp` でも、グローバル `mcp.json` が **無いときだけ** 雛形を配置します。
 
+## Codex CLI への入れ方（ユーザー全体）
+
+Codex CLI の MCP 設定は `mcp.json` ではなく、ユーザー設定の `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）に保存されます。詳細は [Codex 公式 MCP ドキュメント](https://developers.openai.com/codex/mcp/) を参照してください。Codex CLI で次を実行すると、memory と Codex Sol / Terra / Luna を現在のユーザーへ登録できます。
+
+```powershell
+.\scripts\install.ps1 -InstallCodexMcp
+```
+
+filesystem MCP も登録する場合は、アクセスを許可するディレクトリを明示してください。ユーザーのホーム全体を許可する例は次のとおりです。必要に応じて、より狭いプロジェクト用フォルダを指定してください。
+
+```powershell
+.\scripts\install.ps1 -InstallCodexMcp -CodexFilesystemRoot $env:USERPROFILE
+```
+
+Linux / macOS / WSL では次を使います。
+
+```bash
+bash scripts/install.sh --install-codex-mcp --codex-filesystem-root "$HOME"
+```
+
+この処理は Codex 公式の `codex mcp add` を使うため、既存の `~/.codex/config.toml` 全体を置き換えません。同名サーバーが既にある場合も上書きせず、スキップします。filesystem の対象を指定しない場合は、最小権限のため filesystem だけ登録しません。
+
+登録結果は次で確認できます。
+
+```powershell
+codex mcp list
+```
+
+設定後、Codex Desktop / CLI / IDE を再起動してください。`codex mcp add` を使わず手動で設定する場合は、既存の `~/.codex/config.toml` に同じ MCP サーバー設定をマージしてください。個人の絶対パス、トークン、秘密情報はリポジトリへ保存しないでください。
+
 ## filesystem のルート
 
 テンプレの `"."` は **Cursor 起動時の cwd** に依存します。安定させるには、許可したいプロジェクトルートの**絶対パス**に差し替えてください。
@@ -73,10 +103,10 @@ if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
 
 | 現象 | 対処 |
 |------|------|
-| MCP が一覧に出ない | Cursor 再起動、`mcp.json` の JSON 構文確認 |
+| MCP が一覧に出ない | Cursor は再起動と `mcp.json` の JSON 構文確認、Codex は再起動と `codex mcp list` を確認 |
 | GitHub 401 | `Authorization` が `Bearer <token>` 形式か確認 |
 | filesystem が意図しないパスを見る | `"."` を絶対パスに変更 |
-| Codex MCP が起動しない | `codex` が PATH にあるか、`codex doctor` を確認 |
+| Codex MCP が起動しない | `codex` が PATH にあるか、`codex mcp get <name> --json` と `codex doctor` を確認 |
 | npx / uvx が見つからない | Node.js / `pip install uv` をインストール |
 
 旧 `.cursor/MCP_README.md` の内容は本ファイルに集約しました。

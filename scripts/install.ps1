@@ -8,7 +8,11 @@ param(
     [switch]$WhatIf,
     [switch]$SkipHooks,
     # グローバル mcp.json が無いときだけ mcp.template.json を配置する
-    [switch]$InstallMcp
+    [switch]$InstallMcp,
+    # Codex CLI のユーザー設定へ MCP サーバーを登録する
+    [switch]$InstallCodexMcp,
+    # 指定時だけ filesystem MCP を登録する（未指定ならファイルアクセスを追加しない）
+    [string]$CodexFilesystemRoot
 )
 
 $ErrorActionPreference = "Stop"
@@ -131,6 +135,86 @@ if ($InstallMcp) {
     }
 }
 
+if ($InstallCodexMcp) {
+    $CodexCommand = Get-Command codex -ErrorAction SilentlyContinue
+    if (-not $CodexCommand -and -not $WhatIf) {
+        Write-Error "codex command not found. Add Codex CLI to PATH before using -InstallCodexMcp."
+    }
+
+    $FilesystemRoot = $CodexFilesystemRoot
+    if ($FilesystemRoot -and -not $WhatIf) {
+        $FilesystemRoot = (Resolve-Path -LiteralPath $FilesystemRoot -ErrorAction Stop).Path
+    }
+
+    function Add-CodexMcpServer {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$Name,
+            [Parameter(Mandatory = $true)]
+            [string]$Command,
+            [Parameter(Mandatory = $false)]
+            [string[]]$Arguments = @()
+        )
+
+        $DisplayCommand = (@($Command) + @($Arguments)) -join " "
+        if ($WhatIf) {
+            Write-Host "[WHATIF] codex mcp add $Name -- $DisplayCommand"
+            return
+        }
+
+        & $CodexCommand.Path mcp get $Name --json *> $null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "[SKIP] Codex MCP already exists: $Name"
+            return
+        }
+
+        Write-Host "[ADD] Codex MCP $Name -> $DisplayCommand"
+        & $CodexCommand.Path mcp add $Name -- $Command @Arguments
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to add Codex MCP server: $Name"
+        }
+    }
+
+    if ($FilesystemRoot) {
+        Add-CodexMcpServer -Name "filesystem" -Command "npx" -Arguments @(
+            "-y",
+            "@modelcontextprotocol/server-filesystem",
+            $FilesystemRoot
+        )
+    }
+    else {
+        Write-Host "[SKIP] Codex MCP filesystem (pass -CodexFilesystemRoot to enable)"
+    }
+
+    Add-CodexMcpServer -Name "memory" -Command "npx" -Arguments @(
+        "-y",
+        "@modelcontextprotocol/server-memory"
+    )
+    Add-CodexMcpServer -Name "codex-sol" -Command "codex" -Arguments @(
+        "mcp-server",
+        "-c",
+        'model="gpt-5.6-sol"'
+    )
+    Add-CodexMcpServer -Name "codex-terra" -Command "codex" -Arguments @(
+        "mcp-server",
+        "-c",
+        'model="gpt-5.6-terra"'
+    )
+    Add-CodexMcpServer -Name "codex-luna" -Command "codex" -Arguments @(
+        "mcp-server",
+        "-c",
+        'model="gpt-5.6-luna"'
+    )
+
+    if ($WhatIf) {
+        Write-Host "[NEXT] WhatIf only: Codex MCP config was not changed"
+    }
+    else {
+        Write-Host "[OK] Codex MCP registered in the user-wide Codex configuration (run 'codex mcp list' to verify)"
+    }
+}
+
 Write-Host "[NEXT] User Rules: see docs\user-rules-guide.md (user-rule-cursor-communication.md only)"
 Write-Host "[NEXT] Handoff recovery (optional): skill agent-handoff-recovery"
-Write-Host "[NEXT] MCP (optional): see mcp\README.md  or  .\scripts\install.ps1 -InstallMcp"
+Write-Host "[NEXT] Cursor MCP (optional): see mcp\README.md  or  .\scripts\install.ps1 -InstallMcp"
+Write-Host "[NEXT] Codex MCP (optional): .\scripts\install.ps1 -InstallCodexMcp -CodexFilesystemRoot <trusted-folder>"
