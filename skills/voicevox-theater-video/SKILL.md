@@ -10,7 +10,7 @@ description: >-
 
 # VOICEVOX 劇場動画（slide-narration 拡張）
 
-Updated: 2026/08/05 10:36
+Updated: 2026/08/09 23:44
 
 `slide-narration-video` の **dialogue 劇場プロファイル**を、立ち絵・字幕・口パク・登場／退場演出まで含めて設計・実装する拡張 skill。
 原稿・SoT・語り口は親 skill に従い、本 skill は **画面合成・レンダ規約・劇場プロファイル既定**を担う。
@@ -25,6 +25,8 @@ Updated: 2026/08/05 10:36
 3. [`../slide-narration-video/references/tts-pronunciation.md`](../slide-narration-video/references/tts-pronunciation.md) — 字幕＝`narration`、読み＝辞書→`tts_text`
 4. [`../japanese-technical-writing/SKILL.md`](../japanese-technical-writing/SKILL.md) — スライドの論理
 5. （monologue 接続のみ）[`../cognitive-rhythm-writing/SKILL.md`](../cognitive-rhythm-writing/SKILL.md)
+
+`dialogue` の各台詞は親の `dialogue-writing` を主規範とする。JT はスライド論理・用語導入、cognitive-rhythm は monologue または場面接続だけを担当し、劇場側は密度・前提・メタ分離・画面合成を担当する。
 
 本 skill を選ぶ条件: **立ち絵劇場レイアウト**が成果物の一部である。スライド＋音声だけの案件は親 skill のみでよい。
 
@@ -103,7 +105,7 @@ Theater extras:
 - [ ] T5. 字幕: narration 原文＋$LaTeX$／全行 色縁→黒縁→白文字
 - [ ] T6. 退場: Y回転→弾む歩きアウト＋フェード（導入と同パラメータ）
 - [ ] T7. concat → mp4 検証（導入／退場無音・口閉じ・縁・字幕記号）
-- [ ] T8. 原稿検証: 発話数／交替／理解確認／メタ語混入なし／前提漏れなし
+- [ ] T8. 原稿検証: 発話数／交替／理解確認／発話可能性／主体・対象・動作の明確さ／メタ語混入なし／前提漏れなし
 ```
 
 ## 不変条件（短縮）

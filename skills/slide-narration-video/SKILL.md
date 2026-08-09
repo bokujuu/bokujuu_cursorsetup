@@ -10,7 +10,7 @@ description: >-
 
 # 全画面スライド解説動画
 
-Updated: 2026/08/01 20:40
+Updated: 2026/08/09 23:44
 
 理解を深めるための解説動画を、**全画面スライド＋ナレーション＋必要時の注釈**で作る。
 左右分割テンプレや編集ソフト前提のワークフローは採らない。
@@ -21,12 +21,14 @@ Updated: 2026/08/01 20:40
 
 ## 併用する規範（必須）
 
-着手前に次を読む。本 skill は原稿・構成の品質を両 skill に委譲する。
+着手前に次を読む。依存先は同じ文体を重ね掛けするためではなく、成果物の担当範囲を分担するために使う。
 
 1. [`../japanese-technical-writing/SKILL.md`](../japanese-technical-writing/SKILL.md)  
    スライド／原稿の情報提示順（境界→構成要素→因果→例外）、用語導入、テンプレート方針。
 2. [`../cognitive-rhythm-writing/SKILL.md`](../cognitive-rhythm-writing/SKILL.md)  
    ナレーション原稿の緩急・拍・未回収の緊張。読み上げ文は「説明の読み上げ」ではなく、考え進む声で書く。
+
+`dialogue` の各台詞は `references/dialogue-writing.md` を主規範とする。`japanese-technical-writing` はスライドの論理・用語導入・情報提示順に、`cognitive-rhythm-writing` は `monologue` の原稿と `dialogue` の場面接続・話題転換にだけ適用する。JT の常体指定・テンプレート文体や cognitive-rhythm の文の拍を、dialogue の各台詞へ直接移さない。
 
 依存の使い分け:
 
@@ -36,7 +38,7 @@ Updated: 2026/08/01 20:40
 | monologue 原稿の文の拍・接続 | cognitive-rhythm-writing |
 | dialogue の各台詞（会話劇） | 本 skill の dialogue-writing |
 | dialogue の場面接続のみ | cognitive-rhythm-writing（各台詞へ機械適用しない） |
-| 立ち絵劇場の合成・口パク・登場演出 | [`../voicevox-theater-video/SKILL.md`](../voicevox-theater-video/SKILL.md) |
+| 立ち絵劇場の合成・口パク・登場演出 | 劇場プロファイル側の拡張 skill |
 | 尺・同期・レンダリング分担（非劇場） | 本 skill |
 
 ## 適用範囲
@@ -156,7 +158,7 @@ NG 時の修正順（情報削除を最初にしない）: note 退避 → 重�
 
 ### 3. ナレーション原稿
 
-cognitive-rhythm-writing に従う。加えて動画固有の制約:
+`monologue` は cognitive-rhythm-writing に従う。`dialogue` の各台詞は dialogue-writing を主規範とし、cognitive-rhythm-writing はスライド間の接続・場面転換だけに使う。加えて動画固有の制約:
 
 - **スライド間の接続文を書く**。次枚の見出しを突然出さない。
 - **遷移の直前で回収または橋を置く**。「では〜を見る」型の進行実況だけで繋がない（cognitive-rhythm の駄文判定と同じ）。
@@ -238,7 +240,7 @@ Remotion 未使用ならその旨を README / process-log に残す。書き出�
 - [ ] dialogue のとき、聞き手が優等生要約係になっておらず、理解確認または誤解訂正がある
 - [ ] dialogue のとき、発話ごとの WAV とターン間 pause から尺が解決されている
 - [ ] **読み辞書があり、主要固有語・略語の音声が破綻していない**
-- [ ] 原稿が cognitive-rhythm / JT writing（および dialogue なら dialogue-writing）の依存手順を経ている
+- [ ] `monologue` は cognitive-rhythm-writing と JT の構成確認を、`dialogue` は dialogue-writing（台詞）・JT（スライド論理）・cognitive-rhythm（場面接続）の分担を経ている
 - [ ] TTS が既定（VOICEVOX・冥鳴ひまり）または `meta.speakers`／明示された代替である
 - [ ] 最終 mp4 の健全性（`pix_fmt` が unknown でない、1 フレーム抽出可）を確認した
 - [ ] `process-log.md` に工程と NG→修正が残っている
