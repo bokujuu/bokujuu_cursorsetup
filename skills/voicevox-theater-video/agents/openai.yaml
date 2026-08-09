@@ -1,4 +1,4 @@
 interface:
   display_name: "VOICEVOX劇場動画"
   short_description: "slide-narration-video の劇場拡張。立ち絵・ワイプ字幕・口パク・弾む登場／退場。"
-  default_prompt: "$voicevox-theater-video を使い、親 skill slide-narration-video の dialogue 規約に従ったうえで、VOICEVOX劇場レイアウト（立ち絵・ワイプ字幕・実音同期口パク・無音の弾む登場と Y 回転＋弾む退場）で解説対話動画を進めてください。"
+  default_prompt: "$voicevox-theater-video を使い、親 skill slide-narration-video の dialogue-writing（発話可能性・意味の明確さを含む）と劇場の密度規約に従ったうえで、VOICEVOX劇場レイアウト（立ち絵・ワイプ字幕・実音同期口パク・無音の弾む登場と Y 回転＋弾む退場）で解説対話動画を進めてください。"

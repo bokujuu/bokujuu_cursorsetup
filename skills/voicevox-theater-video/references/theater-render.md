@@ -41,7 +41,7 @@ intro／outro／本編を分けて 15fps にする案は、同一ターゲット
 - legacy（Pillow perimeter dilate）≈99.2s
 - legacy + OpenCV dilate 中央値≈85.6s（3回: 85.6 / 87.3 / 84.5）
 
-他環境での同等短縮は保証しない。速度改善を主張する変更は、同一ターゲットで legacy 比の壁時計を測ってから採用する。案件名付きの測定ログは `skill-memory.md` または案件 repo 側に置く。
+他環境での同等短縮は保証しない。速度改善を主張する変更は、同一ターゲットで legacy 経路との実測処理時間を比較してから採用する。案件名付きの測定ログは `skill-memory.md` または案件 repo 側に置く。
 
 ## 口パク
 
