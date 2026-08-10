@@ -7,8 +7,10 @@
 param(
     [switch]$WhatIf,
     [switch]$SkipHooks,
-    # グローバル mcp.json が無いときだけ mcp.template.json を配置する
+    # グローバル Cursor mcp.json が無いときだけ mcp.template.json を配置する（既存動作）
     [switch]$InstallMcp,
+    # Codex の config.toml と AGENTS.md だけを更新する。Cursor 側は変更しない。
+    [switch]$InstallCodex,
     # Codex CLI のユーザー設定へ MCP サーバーを登録する
     [switch]$InstallCodexMcp,
     # 指定時だけ filesystem MCP を登録する（未指定ならファイルアクセスを追加しない）
@@ -87,6 +89,89 @@ if (-not $WhatIf) {
 }
 
 Write-Host "[OK] Global skills installed under $Dst"
+
+if ($InstallCodex) {
+    $CodexDir = Join-Path $env:USERPROFILE ".codex"
+    $CodexConfigPath = Join-Path $CodexDir "config.toml"
+    $CodexAgentsPath = Join-Path $CodexDir "AGENTS.md"
+    $CodexMcpTemplatePath = Join-Path $Root "mcp\codex-mcp.template.toml"
+    $UserRulesSourcePath = Join-Path $Root "user-rules\user-rule-cursor-communication.md"
+    $ManagedBegin = "# BEGIN bokujuu-cursorsetup managed Codex MCP"
+    $ManagedEnd = "# END bokujuu-cursorsetup managed Codex MCP"
+
+    foreach ($required in @($CodexMcpTemplatePath, $UserRulesSourcePath)) {
+        if (-not (Test-Path -LiteralPath $required)) {
+            Write-Error "Codex source file not found: $required"
+        }
+    }
+
+    Write-Host "[CODEX] Synchronize global AGENTS.md from Cursor User Rules"
+    if (-not $WhatIf) {
+        New-Item -ItemType Directory -Force -Path $CodexDir | Out-Null
+    }
+
+    $agentsDifferent = $true
+    if (Test-Path -LiteralPath $CodexAgentsPath) {
+        $agentsDifferent = ((Get-FileHash -Algorithm SHA256 -LiteralPath $CodexAgentsPath).Hash -ne
+            (Get-FileHash -Algorithm SHA256 -LiteralPath $UserRulesSourcePath).Hash)
+    }
+    if (-not $agentsDifferent) {
+        Write-Host "[OK] Codex AGENTS.md already matches $UserRulesSourcePath"
+    }
+    elseif ($WhatIf) {
+        Write-Host "[WHATIF] Would back up and replace $CodexAgentsPath"
+    }
+    else {
+        if (Test-Path -LiteralPath $CodexAgentsPath) {
+            $backupStamp = Get-Date -Format "yyyyMMdd-HHmmss"
+            $backupPath = "$CodexAgentsPath.bak-$backupStamp"
+            Copy-Item -LiteralPath $CodexAgentsPath -Destination $backupPath -Force
+            Write-Host "[BACKUP] $CodexAgentsPath -> $backupPath"
+        }
+        Copy-Item -LiteralPath $UserRulesSourcePath -Destination $CodexAgentsPath -Force
+        Write-Host "[OK] Wrote $CodexAgentsPath"
+    }
+
+    Write-Host "[CODEX] Synchronize managed MCP blocks in $CodexConfigPath"
+    $templateText = (Get-Content -LiteralPath $CodexMcpTemplatePath -Raw -Encoding UTF8).Trim()
+    $configText = ""
+    if (Test-Path -LiteralPath $CodexConfigPath) {
+        $configText = Get-Content -LiteralPath $CodexConfigPath -Raw -Encoding UTF8
+    }
+
+    $managedPattern = "(?ms)^" + [regex]::Escape($ManagedBegin) + "\r?\n.*?^" +
+        [regex]::Escape($ManagedEnd) + "\r?\n?"
+    if ($configText -match [regex]::Escape($ManagedBegin)) {
+        $newConfigText = [regex]::Replace($configText, $managedPattern, $templateText + "`r`n")
+    }
+    else {
+        $managedNames = @("filesystem", "memory", "codex-sol", "codex-terra", "codex-luna")
+        $existingManaged = @(
+            $managedNames | Where-Object {
+                $configText -match ("(?m)^\[mcp_servers\." + [regex]::Escape($_) + "\]\s*$")
+            }
+        )
+        if ($existingManaged.Count -gt 0) {
+            Write-Error ("Existing unmanaged Codex MCP sections found ({0}). " -f ($existingManaged -join ", ")) +
+                "Refuse to overwrite; merge mcp\codex-mcp.template.toml manually."
+        }
+        elseif ([string]::IsNullOrWhiteSpace($configText)) {
+            $newConfigText = $templateText + "`r`n"
+        }
+        else {
+            $newConfigText = $configText.TrimEnd() + "`r`n`r`n" + $templateText + "`r`n"
+        }
+    }
+
+    if ($WhatIf) {
+        Write-Host "[WHATIF] Would write Codex MCP configuration"
+    }
+    else {
+        $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText($CodexConfigPath, $newConfigText, $utf8NoBom)
+        Write-Host "[OK] Codex MCP configured (restart Codex or start a new task)"
+    }
+}
 
 $HooksSrc = Join-Path $Root "hooks"
 $HookScript = Join-Path $HooksSrc "handoff-stop-check.py"
@@ -217,4 +302,5 @@ if ($InstallCodexMcp) {
 Write-Host "[NEXT] User Rules: see docs\user-rules-guide.md (user-rule-cursor-communication.md only)"
 Write-Host "[NEXT] Handoff recovery (optional): skill agent-handoff-recovery"
 Write-Host "[NEXT] Cursor MCP (optional): see mcp\README.md  or  .\scripts\install.ps1 -InstallMcp"
+Write-Host "[NEXT] Codex global setup (no Cursor changes): .\scripts\install.ps1 -InstallCodex -SkipHooks"
 Write-Host "[NEXT] Codex MCP (optional): .\scripts\install.ps1 -InstallCodexMcp -CodexFilesystemRoot <trusted-folder>"

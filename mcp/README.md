@@ -36,15 +36,34 @@ if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
 
 `install.ps1 -InstallMcp` でも、グローバル `mcp.json` が **無いときだけ** 雛形を配置します。
 
-## Codex CLI への入れ方（ユーザー全体）
+## Codex への入れ方
 
-Codex CLI の MCP 設定は `mcp.json` ではなく、ユーザー設定の `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）に保存されます。詳細は [Codex 公式 MCP ドキュメント](https://developers.openai.com/codex/mcp/) を参照してください。Codex CLI で次を実行すると、memory と Codex Sol / Terra / Luna を現在のユーザーへ登録できます。
+Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MCP は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）の `mcp_servers` で管理します。詳細は [Codex 公式 MCP ドキュメント](https://developers.openai.com/codex/mcp/) を参照してください。
+
+### 完全設定（推奨）
+
+Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、Codex `AGENTS.md` を設定するには次を実行します。
+
+```powershell
+.\scripts\install.ps1 -InstallCodex -SkipHooks
+```
+
+この処理は次だけを変更します。
+
+- `%USERPROFILE%\.codex\config.toml`: `mcp/codex-mcp.template.toml` の管理ブロックを追加・更新
+- `%USERPROFILE%\.codex\AGENTS.md`: `user-rules/user-rule-cursor-communication.md` を完全コピー（既存ファイルは日時付きバックアップ）
+
+Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。Sol / Terra / Luna はレビュー用の別 Codex セッションとして呼び出すため、MCPツール承認を `default_tools_approval_mode = "approve"` にしています。filesystem / memory は追加の承認設定を持たず、クライアントの既定承認に従います。
+
+### 既存互換経路
+
+先行運用との互換性のため、公式の `codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きせず、filesystem は root を指定した場合だけ登録します。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodexMcp
 ```
 
-filesystem MCP も登録する場合は、アクセスを許可するディレクトリを明示してください。ユーザーのホーム全体を許可する例は次のとおりです。必要に応じて、より狭いプロジェクト用フォルダを指定してください。
+filesystem MCP も登録する場合は、アクセスを許可するディレクトリを明示してください。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodexMcp -CodexFilesystemRoot $env:USERPROFILE
@@ -53,10 +72,11 @@ filesystem MCP も登録する場合は、アクセスを許可するディレ�
 Linux / macOS / WSL では次を使います。
 
 ```bash
+bash scripts/install.sh --install-codex-mcp
 bash scripts/install.sh --install-codex-mcp --codex-filesystem-root "$HOME"
 ```
 
-この処理は Codex 公式の `codex mcp add` を使うため、既存の `~/.codex/config.toml` 全体を置き換えません。同名サーバーが既にある場合も上書きせず、スキップします。filesystem の対象を指定しない場合は、最小権限のため filesystem だけ登録しません。
+`-InstallCodex` と `-InstallCodexMcp` を併用した場合、管理ブロック側の同名サーバーを優先し、`codex mcp add` は重複登録を行いません。
 
 登録結果は次で確認できます。
 
@@ -86,7 +106,7 @@ codex mcp list
 | codex-terra | Codex MCP（GPT-5.6 Terra 既定） | バランス・高ボリューム |
 | codex-luna | Codex MCP（GPT-5.6 Luna 既定） | 軽量・日常作業 |
 
-各 Codex エントリは既存の `codex mcp-server` 起動をベースに、`-c model="gpt-5.6-..."` で既定モデルだけ分けています。呼び出し時の `model` 引数で上書きも可能です。
+各 Codex エントリは既存の `codex mcp-server` 起動をベースに、`-c model="gpt-5.6-..."` で既定モデルだけ分けています。呼び出し時の `model` 引数で上書きも可能です。Codex 用の TOML 正本は `mcp/codex-mcp.template.toml` です。
 
 **削除したもの**: `context7`（ライブラリ docs 用。不要のため template から外した）
 

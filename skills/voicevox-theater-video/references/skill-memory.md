@@ -9,3 +9,4 @@
 - 2026/08/05 00:55: 口調・一人称・呼称の SoT はボイボ寮（https://voicevox.hiroshiba.jp/dormitory/）。ひまり＋つむぎ既定は寮と一致済みのため再照会不要、と明記。
 - 2026/08/05 10:32 (PR#46 review): 規約本文から案件名を外しプロファイル既定として抽象化。前提説明はテーマ理解用の汎用文に縮約。`high` は理解確認必須・再解説は必要時。とらっかぁ系はひまり＋つむぎ private use の既定候補として維持。親 `dialogue-writing.md` は口調 SoT、子 `dialogue-density.md` は密度・前提・メタ分離 SoT と境界を一文固定。
 - 2026/08/05 10:36 (Sol): とらっかぁ系を「ひまり＋つむぎ private use 向け既定。公開配布・別キャラの前提にしない」と規約本文へ明記。
+- 2026/08/10 08:38: とらっかぁ素材の取得元を `tachie-sources.md` に固定。teacher は冥鳴ひまり download/16、listener は春日部つむぎ「さっぱり」download/9 を優先。ZIP は非同梱、PSD 正本、SHA-256 と取得ページを案件側で記録。

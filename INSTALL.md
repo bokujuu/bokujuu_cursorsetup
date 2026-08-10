@@ -71,9 +71,15 @@ MCP は User Rules / `.cursorrules` では設定できません。Cursor と Cod
 
 ### 4.2 Codex CLI（ユーザー全体）
 
-Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。次のコマンドは、公式の `codex mcp add` を使って現在のユーザーへ memory と Codex Sol / Terra / Luna を登録します。既存の同名サーバーは上書きしません。
+Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。今回の完全な Codex 設定（Sol / Terra / Luna、filesystem、memory、`AGENTS.md` 同期）には次を使います。Cursor 側は変更しません。
 
-**Windows**
+```powershell
+.\scripts\install.ps1 -InstallCodex -SkipHooks
+```
+
+`codex-mcp.template.toml` の管理対象は Sol / Terra / Luna / filesystem / memory です。既存の `%USERPROFILE%\.codex\AGENTS.md` はバックアップ後、Cursor User Rules 原本と同一内容に更新されます。
+
+既存の先行運用との互換性のため、`codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きしません。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodexMcp
@@ -94,7 +100,9 @@ bash scripts/install.sh --install-codex-mcp --codex-filesystem-root "$HOME"
 
 filesystem のルートを指定しない場合は、ファイルアクセスを追加しない安全側の動作になります。登録後は `codex mcp list` で確認し、Codex Desktop / CLI / IDE を再起動してください。
 
-雛形の既定（Cursor 用）: filesystem / memory / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
+`-InstallCodex` と `-InstallCodexMcp` を併用した場合、管理ブロック側の同名サーバーを優先し、`codex mcp add` は重複登録を行いません。
+
+雛形の既定: filesystem / memory / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
 
 ## 5. 動作確認
 
@@ -137,4 +145,4 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
 | ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 1 ファイル運用を確認 |
 | MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
 | filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |
-| Codex MCP（sol/terra/luna）が無い | `codex` が PATH にあるか確認し、`install.ps1 -InstallCodexMcp` または `install.sh --install-codex-mcp` を再実行。`codex mcp list` と Codex 再起動も確認 |
+| Codex MCP（sol/terra/luna）が無い | 完全設定は `install.ps1 -InstallCodex -SkipHooks`、既存互換経路は `install.ps1 -InstallCodexMcp` または `install.sh --install-codex-mcp`。`codex mcp list` と Codex 再起動も確認 |

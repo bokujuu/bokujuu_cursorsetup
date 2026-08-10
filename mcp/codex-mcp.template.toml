@@ -1,0 +1,32 @@
+# BEGIN bokujuu-cursorsetup managed Codex MCP
+
+[mcp_servers.filesystem]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem", "."]
+
+[mcp_servers.memory]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-memory"]
+
+[mcp_servers.codex-sol]
+command = "codex"
+args = ["mcp-server", "-c", "model=\"gpt-5.6-sol\""]
+default_tools_approval_mode = "approve"
+startup_timeout_sec = 60
+tool_timeout_sec = 600
+
+[mcp_servers.codex-terra]
+command = "codex"
+args = ["mcp-server", "-c", "model=\"gpt-5.6-terra\""]
+default_tools_approval_mode = "approve"
+startup_timeout_sec = 60
+tool_timeout_sec = 600
+
+[mcp_servers.codex-luna]
+command = "codex"
+args = ["mcp-server", "-c", "model=\"gpt-5.6-luna\""]
+default_tools_approval_mode = "approve"
+startup_timeout_sec = 60
+tool_timeout_sec = 600
+
+# END bokujuu-cursorsetup managed Codex MCP
