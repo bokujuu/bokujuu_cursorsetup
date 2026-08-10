@@ -38,7 +38,11 @@ if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
 
 ## Codex への入れ方
 
-Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MCP は `%USERPROFILE%\.codex\config.toml` の `mcp_servers` で管理します。Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory を設定するには次を実行します。
+Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MCP は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）の `mcp_servers` で管理します。詳細は [Codex 公式 MCP ドキュメント](https://developers.openai.com/codex/mcp/) を参照してください。
+
+### 完全設定（推奨）
+
+Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、Codex `AGENTS.md` を設定するには次を実行します。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodex -SkipHooks
@@ -51,11 +55,36 @@ Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MC
 
 Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。Sol / Terra / Luna はレビュー用の別 Codex セッションとして呼び出すため、MCPツール承認を `default_tools_approval_mode = "approve"` にしています。filesystem / memory は追加の承認設定を持たず、クライアントの既定承認に従います。
 
-設定後は Codex を再起動してから、次で確認します。
+### 既存互換経路
+
+先行運用との互換性のため、公式の `codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きせず、filesystem は root を指定した場合だけ登録します。
+
+```powershell
+.\scripts\install.ps1 -InstallCodexMcp
+```
+
+filesystem MCP も登録する場合は、アクセスを許可するディレクトリを明示してください。
+
+```powershell
+.\scripts\install.ps1 -InstallCodexMcp -CodexFilesystemRoot $env:USERPROFILE
+```
+
+Linux / macOS / WSL では次を使います。
+
+```bash
+bash scripts/install.sh --install-codex-mcp
+bash scripts/install.sh --install-codex-mcp --codex-filesystem-root "$HOME"
+```
+
+`-InstallCodex` と `-InstallCodexMcp` を併用した場合、管理ブロック側の同名サーバーを優先し、`codex mcp add` は重複登録を行いません。
+
+登録結果は次で確認できます。
 
 ```powershell
 codex mcp list
 ```
+
+設定後、Codex Desktop / CLI / IDE を再起動してください。`codex mcp add` を使わず手動で設定する場合は、既存の `~/.codex/config.toml` に同じ MCP サーバー設定をマージしてください。個人の絶対パス、トークン、秘密情報はリポジトリへ保存しないでください。
 
 ## filesystem のルート
 
@@ -94,10 +123,10 @@ codex mcp list
 
 | 現象 | 対処 |
 |------|------|
-| MCP が一覧に出ない | Cursor 再起動、`mcp.json` の JSON 構文確認 |
+| MCP が一覧に出ない | Cursor は再起動と `mcp.json` の JSON 構文確認、Codex は再起動と `codex mcp list` を確認 |
 | GitHub 401 | `Authorization` が `Bearer <token>` 形式か確認 |
 | filesystem が意図しないパスを見る | `"."` を絶対パスに変更 |
-| Codex MCP が起動しない | `codex` が PATH にあるか、`codex doctor` を確認 |
+| Codex MCP が起動しない | `codex` が PATH にあるか、`codex mcp get <name> --json` と `codex doctor` を確認 |
 | npx / uvx が見つからない | Node.js / `pip install uv` をインストール |
 
 旧 `.cursor/MCP_README.md` の内容は本ファイルに集約しました。
