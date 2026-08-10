@@ -36,6 +36,27 @@ if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
 
 `install.ps1 -InstallMcp` でも、グローバル `mcp.json` が **無いときだけ** 雛形を配置します。
 
+## Codex への入れ方
+
+Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MCP は `%USERPROFILE%\.codex\config.toml` の `mcp_servers` で管理します。Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory を設定するには次を実行します。
+
+```powershell
+.\scripts\install.ps1 -InstallCodex -SkipHooks
+```
+
+この処理は次だけを変更します。
+
+- `%USERPROFILE%\.codex\config.toml`: `mcp/codex-mcp.template.toml` の管理ブロックを追加・更新
+- `%USERPROFILE%\.codex\AGENTS.md`: `user-rules/user-rule-cursor-communication.md` を完全コピー（既存ファイルは日時付きバックアップ）
+
+Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。Sol / Terra / Luna はレビュー用の別 Codex セッションとして呼び出すため、MCPツール承認を `default_tools_approval_mode = "approve"` にしています。filesystem / memory は追加の承認設定を持たず、クライアントの既定承認に従います。
+
+設定後は Codex を再起動してから、次で確認します。
+
+```powershell
+codex mcp list
+```
+
 ## filesystem のルート
 
 テンプレの `"."` は **Cursor 起動時の cwd** に依存します。安定させるには、許可したいプロジェクトルートの**絶対パス**に差し替えてください。
@@ -56,7 +77,7 @@ if (-not (Test-Path $env:USERPROFILE\.cursor\mcp.json)) {
 | codex-terra | Codex MCP（GPT-5.6 Terra 既定） | バランス・高ボリューム |
 | codex-luna | Codex MCP（GPT-5.6 Luna 既定） | 軽量・日常作業 |
 
-各 Codex エントリは既存の `codex mcp-server` 起動をベースに、`-c model="gpt-5.6-..."` で既定モデルだけ分けています。呼び出し時の `model` 引数で上書きも可能です。
+各 Codex エントリは既存の `codex mcp-server` 起動をベースに、`-c model="gpt-5.6-..."` で既定モデルだけ分けています。呼び出し時の `model` 引数で上書きも可能です。Codex 用の TOML 正本は `mcp/codex-mcp.template.toml` です。
 
 **削除したもの**: `context7`（ライブラリ docs 用。不要のため template から外した）
 
