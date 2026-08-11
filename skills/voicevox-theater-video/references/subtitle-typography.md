@@ -21,7 +21,7 @@ SoT は `utterances[].narration`。読みは `pronunciation.yml` → `tts_text`�
 2. `baseline_offset` を使って行内の最大 ascent／descent から共通 baseline を組み、各 mask をそこへ貼る。mask の下端や tight bbox の下端を baseline の代用にしない。
 3. 光学補正は、明示的に選んだ単一 glyph の `target_height / measured_component_height` から mask に対して計算する。通常の Latin 識別子には適用しない。`font_size` の再ロードや、Latin／数字だけに固定 `0.72` を掛ける処理は追加しない。補正した場合は最終解像度 fill alpha（`alpha >= 16`）を再測定し、比率を記録する。
 4. 短い単純分数は、意味を保てる slash 表記（例: `\frac{J_1}{\hbar}` → `J1/ℏ`）へ flatten し、通常文字と同じ PLAIN_MASK で描けることを優先する。flatten 不能な `MATH_MASK` は同じ `mask, advance, baseline_offset` 契約に変換してから、通常 span と同じ supersample・縁取り・downsample 経路へ渡す。baseline は mathtext の ascent/depth 等から実測し、式全体を基準高へ押し込むだけにしない。最終 fill mask の上段・下段・stem・分数線を回帰し、内部が添字程度なら明示的な math style または安全な flatten へ切り替える。
-5. 未収録 glyph や mathtext fallback を検出できない場合は、未測定のまま合格扱いにせず、明示的な fallback mask と検証ログへ送る。最低限 `font_file`、`resolved_font_file`、`fallback_detected`、`fallback_status`、`missing_candidates`、`unknown_commands` を残す。family 解決だけで個別 glyph の fallback 不在を証明しない。
+5. 未収録 glyph や mathtext fallback を検出できない場合は、未測定のまま合格扱いにせず、明示的な fallback mask と検証ログへ送る。最低限 `font_file`、`resolved_font_file`、`fallback_detected`、`fallback_status`、`verification_basis`、`missing_candidates`、`unknown_commands` を残す。`fallback_status=verified` は、要求TTFへの解決、semantic glyph coverage、custom mathtext slotの一致をすべて記録できた場合だけ許可し、family解決だけでは個別 glyph の fallback 不在を証明しない。
 
 ## 分類（描画前）
 

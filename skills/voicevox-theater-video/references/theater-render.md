@@ -73,7 +73,7 @@ intro／outro／本編を分けて 15fps にする案は、同一ターゲット
 - 数式は `$...$`。単純式は半角 unicode flatten＋同一フォントの mask。短い分数は `J1/ℏ` のような安全な slash 表記へ flatten し、複雑式は字幕フォントの custom mathtext、または MATH_MASK を component／実インク高・baseline・縁取りまで正規化する
 - Matplotlib 高 dpi の tight-bbox 生出力、既定 DejaVu／Computer Modern の無調整混在を禁止する
 - MATH_MASK の目標高は `font_size * 0.92` の固定値ではなく、同じ字幕フォントで測った基準グリフと数式componentの実インク高から決める。alpha bbox を crop しても `baseline_offset` を捨てず、mathtext の ascent/depth 等から実測した共通 baseline（通常±1px、MATH_MASK±2px）へ合わせてから縁取りへ渡す。raw TeX 分類前の補正は禁止、MATH_MASK 化後の component／baseline 正規化は必須
-- インク高の測定は縁取り前・最終解像度の fill alpha（`alpha >= 16`）で行い、基準は `第`・`章`・`あ` の中央値。MATH_MASK は全体 bbox だけでなく分子／分母・stem・分数線を測る。custom mathtext の未収録 glyph は暗黙 fallback を検出・記録し、`fallback_status=unverified` も未確認として扱い、別 font のまま最終画面へ出さない
+- インク高の測定は縁取り前・最終解像度の fill alpha（`alpha >= 16`）で行い、基準は `第`・`章`・`あ` の中央値。MATH_MASK は全体 bbox だけでなく分子／分母・stem・分数線を測る。custom mathtext の未収録 glyph は暗黙 fallback を検出・記録し、`fallback_status=unverified` も未確認として扱う。`verified` は要求TTF、semantic glyph coverage、custom mathtext slotの一致と `verification_basis` が揃った場合だけ許可し、別 font のまま最終画面へ出さない
 
 ## 字幕安全帯
 
