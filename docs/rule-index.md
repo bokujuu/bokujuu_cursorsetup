@@ -28,6 +28,7 @@
 | **構造・依存の可視化** | `templates/structure-viz/` → 対象リポの `docs/` または静的サイト |
 | **人間向けの視覚ドキュメント（MD + HTML）** | skill `md-html-visual-doc` → 文章の論理は `japanese-technical-writing`。スライド動画は `slide-narration-video`、transcript は `cursor-session-doc` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
+| **日本語の自然さ・AI臭さ（仕事文書・リライト）** | skill `natural-japanese` → 技術文書の型・常体は `japanese-technical-writing` を先に。読み物の緩急は `cognitive-rhythm-writing`。指摘のみは `japanese-doc-review` |
 | **日本語の読み物・解説文の緩急（認知リズム）** | skill `cognitive-rhythm-writing` → 技術文書の土台は `japanese-technical-writing` |
 | **全画面スライド解説動画（Marp＋TTS）** | skill `slide-narration-video` → JT はスライド構成、`dialogue-writing` は dialogue の各台詞、cognitive-rhythm は monologue と場面接続。理解確認が中心なら `dialogue`（解説役＋聞き手）、短い告知・手順は `monologue`。動きなしは ffmpeg 静止画結合、モーションありは Remotion／Motion Canvas。配置 QA（はみ出し・画像比）と TTS 読み正規化あり |
 | **VOICEVOX 劇場レイアウト動画（立ち絵＋ワイプ字幕）** | skill `voicevox-theater-video` → 親 `slide-narration-video`（dialogue）。各台詞は `dialogue-writing`、劇場側は発話可能性の確認・会話密度・前提・メタ分離・全身立ち絵・口パク（実音＋0.1s遅れ）・弾む登場／退場・字幕3パス縁取りを担当。プロファイル既定はひまり／つむぎ。立ち絵の取得元・SHA-256・取得手順は `references/tachie-sources.md`。 |
@@ -37,7 +38,7 @@
 | **QA テスト観点（7 ペルソナ）** | 雛形 `templates/project-skills/qa-multi-perspective/` |
 | **ループ反復の Faceted prompting** | `templates/loop-orchestration/facets/` → [loop-engineering.md](loop-engineering.md) → `ralph-loop` |
 
-日本語文書 skill の運用: 執筆は `japanese-technical-writing`、読み物として読ませたい章・記事・解説の緩急は `cognitive-rhythm-writing`、全画面スライド＋ナレーション解説動画は `slide-narration-video`（上記2 skill に依存）、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。
+日本語文書 skill の運用: 技術文書の型・常体は `japanese-technical-writing`、仕事文書の自然さ・AI臭さ・「自然にして」は `natural-japanese`、読み物として読ませたい章・記事・解説の緩急は `cognitive-rhythm-writing`、全画面スライド＋ナレーション解説動画は `slide-narration-video`（上記 skill に依存）、指摘レビューは `japanese-doc-review`。「レビューして」単独は STRUCTURE のみ。全観点は `全部` / `総合` / `全観点` を指定する。チャット応答の口調（です／ます）は User Rules。文書の文体は skills に委譲する。
 
 ## グローバル skill（install 後）
 
@@ -51,6 +52,7 @@
 | `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |
 | `japanese-doc-review` | 日本語 prose のレビュー・校正指摘（固定出力形式・観点依存） |
 | `japanese-technical-writing` | 日本語技術文書の作成・改稿（テンプレート方針・5種テンプレ） |
+| `natural-japanese` | 仕事の日本語の自然さ・AI臭除去（設計→執筆→lint→収束）。`uv` は任意 |
 | `cognitive-rhythm-writing` | 説明文の認知リズム（緩急・緊張・駄文判別）。読み物向け生成／平坦文の診断 |
 | `slide-narration-video` | 全画面スライド解説動画（Marp＋VOICEVOX＋ffmpeg／Remotion／Motion Canvas）。monologue／dialogue 切替、配置 QA・読み正規化ゲートあり。依存: JT（スライド論理） / `dialogue-writing`（dialogue 台詞） / cognitive rhythm（monologue・場面接続） |
 | `voicevox-theater-video` | VOICEVOX 劇場拡張（全身立ち絵・ワイプ字幕・実音口パク+0.1s・弾む登場／退場）。`dialogue-writing` の発話可能性、ひまり／つむぎ既定・会話密度／前提／メタ分離あり。立ち絵取得元は `references/tachie-sources.md`。親: `slide-narration-video` |

@@ -46,6 +46,7 @@ For richer repo-local skills (progressive disclosure, fixed output format, templ
 
 - [skills/japanese-doc-review/](../../skills/japanese-doc-review/) — Japanese prose review
 - [skills/japanese-technical-writing/](../../skills/japanese-technical-writing/) — Japanese technical writing
+- [skills/natural-japanese/](../../skills/natural-japanese/) — Japanese naturalness / AI-smell rewrite
 - [skills/cognitive-rhythm-writing/](../../skills/cognitive-rhythm-writing/) — Japanese cognitive-rhythm writing (pace / tension)
 
 Deploy to a target repository's `.codex/skills/`:
@@ -53,6 +54,7 @@ Deploy to a target repository's `.codex/skills/`:
 ```powershell
 Copy-Item -Recurse skills/japanese-doc-review <target-repo>/.codex/skills/
 Copy-Item -Recurse skills/japanese-technical-writing <target-repo>/.codex/skills/
+Copy-Item -Recurse skills/natural-japanese <target-repo>/.codex/skills/
 Copy-Item -Recurse skills/cognitive-rhythm-writing <target-repo>/.codex/skills/
 ```
 

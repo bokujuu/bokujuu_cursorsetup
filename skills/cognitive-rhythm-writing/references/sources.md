@@ -7,3 +7,4 @@
 - 改変:
   - 併用パスを本 repo の `japanese-technical-writing` に合わせた（upstream は `japanese-tech-writing`）
   - `sources.md` / `skill-memory.md` を追加（本文は上記以外 upstream 準拠）
+  - 2026/08/19: `SKILL.md` の併用節に `natural-japanese` を追記

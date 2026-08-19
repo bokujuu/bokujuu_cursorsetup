@@ -123,6 +123,7 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
    - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
    - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
    - （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
+   - （任意）`natural-japanese` で「もっと自然な日本語に」「AIっぽさを取って」が動作するか確認（`uv` は任意。無い場合は手動チェックリスト）
    - （任意）`cognitive-rhythm-writing` で「緩急を付けて書いて」「平坦な文章を診断して」が動作するか確認
    - （任意）`slide-narration-video` で「全画面スライド解説動画を作って」「Marp＋ナレーション」「対話形式の解説」が動作するか確認（依存 skill も install 済みであること）
    - （任意）`voicevox-theater-video` で「VOICEVOX劇場」「立ち絵つき対話解説」が動作するか確認（親 `slide-narration-video` も install 済みであること）
