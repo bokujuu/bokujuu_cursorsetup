@@ -75,6 +75,23 @@
       "status": "draft"
     },
     {
+      "slug": "natural-japanese",
+      "summary": "仕事の日本語の自然さ・AI臭除去（設計→執筆→機械lint→収束）",
+      "trigger_keywords": [
+        "自然な日本語",
+        "AIっぽい",
+        "AI臭い",
+        "機械翻訳っぽい",
+        "natural-japanese"
+      ],
+      "verification_commands": [
+        "bash scripts/install.sh",
+        "python3 scripts/verify_repo_setup.py"
+      ],
+      "skill_path": "skills/natural-japanese/SKILL.md",
+      "status": "draft"
+    },
+    {
       "slug": "slide-narration-video",
       "summary": "全画面スライド＋TTSナレーション解説動画（Marp / Remotion / Motion Canvas）",
       "trigger_keywords": [

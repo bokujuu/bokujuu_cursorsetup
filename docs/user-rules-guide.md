@@ -7,6 +7,7 @@ Cursor の **Settings → Rules → User Rules** は Git と連携されませ�
 **`user-rules/user-rule-cursor-communication.md` のみ**を Settings → **Rules → User Rules** に貼る（約 50 行）。
 
 - 口調・出力形式・最小変更の共通枠のみ
+- チャット応答はです／ます。文書の文体・自然さは skills に委譲する
 - コーディング規約・MCP 方針・Git 手順などの技術詳細は**含めない**
 - 技術手順は各リポの `AGENTS.md`、`.cursor/rules/`、skills を正とする
 

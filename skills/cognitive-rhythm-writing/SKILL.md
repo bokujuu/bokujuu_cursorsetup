@@ -11,6 +11,7 @@ description: 説明的な文章に緩急を設計するための規範。緩急�
 ## 併用する規範
 
 作業前に `../japanese-technical-writing/SKILL.md` を読む。
+AI臭さ・禁止語・仕事文書の自然さは `../natural-japanese/SKILL.md`。本スキルは認知モードの切替と駄文判別を担当する。両方なら自然さを収束してから本スキルを適用する。
 
 ## 基本原理
 
