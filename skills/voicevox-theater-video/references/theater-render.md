@@ -1,6 +1,6 @@
 # 劇場レンダ規約
 
-Updated: 2026/08/02 08:43
+Updated: 2026/08/11 15:15
 
 ## パイプライン
 
@@ -11,7 +11,7 @@ Updated: 2026/08/02 08:43
         ↓
 合成（Pillow alpha_composite + 字幕マスクは OpenCV 楕円 dilate 推奨）
         ↓
-ffmpeg rawvideo pipe → libx264 + AAC
+ffmpeg rawvideo pipe → libx264 + AAC → 明示 CFR30 delivery
         ↓
 concat -c copy（ネイティブ CFR 30）
 ```
@@ -68,10 +68,24 @@ intro／outro／本編を分けて 15fps にする案は、同一ターゲット
 - 画面字幕は `utterances[].narration`（人間可読 SoT）。`tts_text`／発音辞書のカナは**出さない**
 - **表示区間**: 当該発話 cue の実測開始〜終了のみ。`pause_between_turns_ms` は字幕尺に含めない（次ターンへ食い込ませない）
 - 節番号はアラビア数字（`3.1`）。人名・群名はラテン（`SU(2)`、`Wigner–Eckart`）
-- **和文数値**は半角のまま、実測インク高さで光学拡大（基準=`第`/`章`）。全角化は高さ合わせに使わない
-- **0.72 倍**は latin 識別子一塊だけ（`SU(2)`）。内部数字を再拡大しない
-- 数式は `$...$`。単純式は半角 unicode flatten＋変数 boost。複雑式のみ MATH_MASK＋余白付き円形縁取り
-- matplotlib 高 dpi 生出力をそのまま並べない
+- **和文数値**は半角のまま、同じ字幕フォントの基準サイズで描画する。単語全体の bbox をCJK高へ合わせる補正はせず、明示した単一 glyph だけ必要時に同じ font mask を測定補正する。全角化は高さ合わせに使わない
+- latin 識別子（`SU(2)`、`v1.2`）を固定倍率で縮小・拡大しない。内部数字を別補正せず、一塊として基本ゴシックの native size で表示する
+- 数式は `$...$`。単純式は半角 unicode flatten＋同一フォントの mask。短い分数は `J1/ℏ` のような安全な slash 表記へ flatten し、複雑式は字幕フォントの custom mathtext、または MATH_MASK を component／実インク高・baseline・縁取りまで正規化する
+- Matplotlib 高 dpi の tight-bbox 生出力、既定 DejaVu／Computer Modern の無調整混在を禁止する
+- MATH_MASK の目標高は `font_size * 0.92` の固定値ではなく、同じ字幕フォントで測った基準グリフと数式componentの実インク高から決める。alpha bbox を crop しても `baseline_offset` を捨てず、mathtext の ascent/depth 等から実測した共通 baseline（通常±1px、MATH_MASK±2px）へ合わせてから縁取りへ渡す。raw TeX 分類前の補正は禁止、MATH_MASK 化後の component／baseline 正規化は必須
+- インク高の測定は縁取り前・最終解像度の fill alpha（`alpha >= 16`）で行い、基準は `第`・`章`・`あ` の中央値。MATH_MASK は全体 bbox だけでなく分子／分母・stem・分数線を測る。custom mathtext の未収録 glyph は暗黙 fallback を検出・記録し、`fallback_status=unverified` も未確認として扱う。`verified` は要求TTF、semantic glyph coverage、custom mathtext slotの一致と `verification_basis` が揃った場合だけ許可し、別 font のまま最終画面へ出さない
+
+## 字幕安全帯
+
+- 最終 outline bbox の下端から画面下端まで **56px以上**を確保する。1行・2行とも、fill bboxではなく縁取りを含む最終 bbox で測る
+- スライドの静的フッタ・出典行は字幕帯へ置かない。必要なら字幕帯より上へ移すか、劇場版では非表示にする
+- 立ち絵を字幕の背面に置くレイアウトは許容するが、顔・口・重要な手元・表情差分の視認を字幕で隠さない。最終合成フレームで alpha bbox の重なりを確認する
+
+## 最終出力 QA
+
+- `ffprobe` で 1920×1080、`yuv420p`、映像 `r_frame_rate=30/1`・`avg_frame_rate=30/1` を確認する
+- 映像パケットの継続時間が原則 `1/30` 秒で、concat の時間ベース由来の `60/1` などの誤メタデータを残さない。必要なら concat copy ではなく `fps=30` の明示再エンコードを行う
+- 音声は実聴せずに合格扱いにせず、`LaTeX`、`raw TeX`、`MATH_MASK`、`baseline_offset` 等の発音辞書語をスポット試聴する
 
 ## スライド文字
 

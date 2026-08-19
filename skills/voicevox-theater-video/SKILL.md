@@ -10,7 +10,7 @@ description: >-
 
 # VOICEVOX 劇場動画（slide-narration 拡張）
 
-Updated: 2026/08/10 08:38
+Updated: 2026/08/11 15:15
 
 `slide-narration-video` の **dialogue 劇場プロファイル**を、立ち絵・字幕・口パク・登場／退場演出まで含めて設計・実装する拡張 skill。
 原稿・SoT・語り口は親 skill に従い、本 skill は **画面合成・レンダ規約・劇場プロファイル既定**を担う。
@@ -81,11 +81,11 @@ Updated: 2026/08/10 08:38
 | 立ち絵 | 全身スプライト（上記プロファイル既定の素材候補） | 画面下へはみ出させて連続感。胴体クロップ禁止 |
 | 合成 | Pillow（RGBA）→ ffmpeg rawvideo pipe | フレーム PNG を残さない |
 | TTS | VOICEVOX（役割は `meta.speakers` またはプロファイル既定） | 発話ごと WAV。読みは辞書、字幕は `narration` |
-| 字幕数式 | `$...$` を flatten／MATH_MASK | カタカナ読みを字幕に出さない。[subtitle-typography.md](references/subtitle-typography.md) |
+| 字幕数式 | `$...$` を安全に flatten／同一字幕フォントの MATH_MASK | カタカナ読みを字幕に出さず、通常の Latin は基本ゴシックの native size、複雑式だけ MATH_MASK の実測 baseline／component QA を使う。[subtitle-typography.md](references/subtitle-typography.md) |
 | fps | **30（CFR）** | 本編15＋CFR再エンコードは同一ターゲットで総時間が改善しなかった（実測） |
 | エンコード | libx264 | 短尺多数の NVENC はオーバーヘッドで不利になり得る |
 | 字幕マスク | OpenCV 楕円 dilate（任意） | `cv2` 可なら `MORPH_ELLIPSE`。無ければ既存の Pillow perimeter dilate。速度目的で依存追加しない |
-| フォント（字幕） | 源真ゴシック P Heavy（推奨） | 失敗時: MS UI Gothic → メイリオ → default |
+| フォント（字幕） | 源真ゴシック P Heavy（推奨） | 全 span の基準フォントを統一。失敗時: MS UI Gothic → メイリオ → default。分類ごとの固定倍率縮小は禁止 |
 | フォント（スライド） | 源真ゴシック P Medium/Bold（推奨） | 同上 |
 
 詳細: [references/theater-presets.md](references/theater-presets.md) / [references/theater-layout.md](references/theater-layout.md) / [references/theater-render.md](references/theater-render.md) / [references/dialogue-density.md](references/dialogue-density.md) / [references/subtitle-typography.md](references/subtitle-typography.md) / [references/intro-entrance.md](references/intro-entrance.md) / [references/outro-exit.md](references/outro-exit.md)
@@ -104,22 +104,26 @@ Theater extras:
 - [ ] T2. スライド書き出し（フリンジ対策・出典図・先頭出典行）
 - [ ] T3. 導入: 無音弾む歩きスライドイン（左右同位相）
 - [ ] T4. 本編: 発話クリップ（口パク＝実音区間＋0.1s 遅れ）
-- [ ] T5. 字幕: narration 原文＋$LaTeX$／全行 色縁→黒縁→白文字
+- [ ] T5. 字幕: narration 原文＋$LaTeX$／同一フォント基準・光学高／baseline 正規化／全行 色縁→黒縁→白文字
 - [ ] T6. 退場: Y回転→弾む歩きアウト＋フェード（導入と同パラメータ）
-- [ ] T7. concat → mp4 検証（導入／退場無音・口閉じ・縁・字幕記号）
+- [ ] T7. concat → mp4 検証（導入／退場無音・口閉じ・縁・字幕記号・最終30fpsメタデータ）
+- [ ] T7b. 字幕安全帯検証（下端56px以上、スライドフッタ非配置、顔・口・重要な手元との非干渉）
 - [ ] T8. 原稿検証: 発話数／交替／理解確認／発話可能性／主体・対象・動作の明確さ／メタ語混入なし／前提漏れなし
+- [ ] T9. 音声スポット確認（LaTeX／raw TeX／MATH_MASK／baseline_offset 等の読み）
 ```
 
 ## 不変条件（短縮）
 
 1. **対面**: 左=`teacher`（既定ひまり・`face_flip: true`）、右=`listener`（既定つむぎ）。中央向き
 2. **口パク**: 無音では閉じる。実音開始から **0.1s 後**に開き始め（音声が先）。SoT は 0.1s（0.2s と書かない）。PSD 口レイヤは完全一致
-3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。表示区間は発話 cue の実測区間のみ（`pause_between_turns_ms` を含めない）。光学サイズは [subtitle-typography.md](references/subtitle-typography.md)。全行まとめて ①色縁 ②黒縁 ③白文字
+3. **字幕レイヤ**: `narration`（SoT）を描画。TTS 用カナは出さない。表示区間は発話 cue の実測区間のみ（`pause_between_turns_ms` を含めない）。解決済み基本ゴシックの基準サイズを全 span で共有し、Latin の自然な cap／x-height をCJKへ無理に引き伸ばさない。複雑な mathtext は実測 baseline／component と同じ縁取り経路で検証し、分類ごとの固定倍率縮小をしない。全行まとめて ①色縁 ②黒縁 ③白文字。詳細は [subtitle-typography.md](references/subtitle-typography.md)
 4. **立ち絵**: 胴体を切り捨てない。入らない部分は画面外へ
 5. **一時ファイル**: フレーム PNG を成果物として残さない
 6. **導入**: 音なしで登場完了してから最初の発話。左右バウンスは同位相
 7. **退場**: 本編後に音なしで外側向き回転→歩き去り→フェード
 8. **対話**: 密度に応じた往復と理解確認。メタ指示を本文へ入れない。前提語を先に短く説明する
+9. **字幕安全帯**: 字幕の最終 outline bbox は画面下端から56px以上を空け、スライドの静的フッタを同じ帯へ置かない。立ち絵を字幕の背面に置く劇場構成は許容するが、顔・口・重要な手元は字幕と重ねない
+10. **最終出力**: 1920×1080、30fps CFR、`r_frame_rate`／`avg_frame_rate` と実パケット間隔が一致することを ffprobe で確認する。発話区間・口パク・字幕区間の数値検証に加え、略語・数式の読みをスポット試聴する
 
 ## 参照実装の置き場
 
@@ -132,7 +136,11 @@ gitignored の `temp/` 試作は配布 SoT にしない（ローカル検証の�
 - 退場クリップが無音で、Y 回転のあと外側へ歩きフェードする
 - 最初の発話前に口が無音で動いていない
 - 字幕に「三点二」「エイチバー」など TTS 用表記が出ておらず、`3.2` / `$\\hbar$` 等が原文どおり
-- `第3章` の数字・`$J$` 等が和文と視覚高が揃う（[subtitle-typography.md](references/subtitle-typography.md)）
+- `第3章` の数字・`$J$` 等が別フォント風に見えず、基本ゴシックの native size／baseline で表示される（[subtitle-typography.md](references/subtitle-typography.md)）
+- 1080p基準48pxの単一解決フォントを全 span で共有し、`SU(2)`／`v1.2`／`$J$` を単語全体の bbox で別倍率にしない。明示的な単一 glyph 補正を行う場合だけ補正後インク高を測り、通常 span の baseline ±1px、MATH_MASK ±2px、縁取りを確認する
+- 短い分数は意味を壊さない安全な slash 表記（例: `J1/ℏ`）へ flatten できる場合は PLAIN_MASK として同じ基本ゴシックで描く。flatten できない MATH_MASK は最終 fill alpha に加えて分子／分母・stem・分数線を直接測る
+- MATH_MASK は raw TeX のまま測らず、実際に生成したマスクの最終解像度 fill alpha を直接測る。入力に `$...$` が付いていること、通過経路（PLAIN_MASK／MATH_MASK）、実測 `baseline_delta_px`、解決 font file、`fallback_status`（検出／未検証を含む）を検証ログへ残す
+- 字幕の下端安全帯と立ち絵の重要部位を最終合成フレームで確認し、スライドの静的フッタが字幕の背面に隠れていない
 
 ## メモリ
 
