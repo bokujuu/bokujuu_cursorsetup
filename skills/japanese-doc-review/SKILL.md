@@ -1,7 +1,9 @@
 ---
 name: japanese-doc-review
 description: >-
-  Use when the user asks to review, proofread, self-review, check prose quality, or identify problems in Japanese prose/documents: 「レビューして」「校正して」「問題点を指摘して」「セルフレビューして」. Trigger for pasted text, files, agent-written drafts, or review intent without a target; also for review-result write/update requests when producing or refreshing findings for a known target or prior review. Treat 構成, 文法, 誤字脱字, 表記揺れ, 文体, 総合, 全観点 and 「確認して」/「チェックして」 as triggers only with Japanese prose/document quality, review scope, or problem-identification intent. Do NOT invoke for code/PR review, drafting, summarizing, translation, abstract advice, or direct rewrites like「改善して」「自然にして」unless review findings/problem identification are requested.
+  Reviews Japanese prose and reports findings only (校正・指摘・セルフレビュー).
+  Do not invoke for code/PR review, translation, drafting, or rewrites such as
+  「自然にして」「改善して」 (natural-japanese).
 ---
 
 # japanese-doc-review
