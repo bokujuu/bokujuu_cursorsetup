@@ -34,7 +34,7 @@
 | **VOICEVOX 劇場レイアウト動画（立ち絵＋ワイプ字幕）** | skill `voicevox-theater-video` → 親 `slide-narration-video`（dialogue）。各台詞は `dialogue-writing`、劇場側は発話可能性の確認・会話密度・前提・メタ分離・全身立ち絵・口パク（実音＋0.1s遅れ）・弾む登場／退場・字幕3パス縁取りを担当。プロファイル既定はひまり／つむぎ。立ち絵の取得元・SHA-256・取得手順は `references/tachie-sources.md`。 |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 | **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) → skill `abstract-source-patterns` |
-| **セッション判断の書庫化（知見化）** | skill `capture-external-intelligence` → [bokujuu/knowledge-base](https://github.com/bokujuu/knowledge-base) の `docs/desk.md`。過去セッションは `ctx` |
+| **セッション判断の書庫化（知見化）** | skill `capture-external-intelligence` → [bokujuu/knowledge-base](https://github.com/bokujuu/knowledge-base) の `docs/desk.md`。過去セッションは `ctx`（jsonl 直読みは `cursor-session-doc`） |
 | **外部記事・repo の採用判断** | skill `abstract-source-patterns` → [global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
 | **QA テスト観点（7 ペルソナ）** | 雛形 `templates/project-skills/qa-multi-perspective/` |
 | **ループ反復の Faceted prompting** | `templates/loop-orchestration/facets/` → [loop-engineering.md](loop-engineering.md) → `ralph-loop` |
@@ -46,7 +46,7 @@
 | skill | 用途 |
 |-------|------|
 | `agent-handoff-recovery` | Plan/SoT/verify のずれを検知して状況整理 |
-| `cursor-session-doc` | 過去 Cursor セッションの jsonl 要約 |
+| `cursor-session-doc` | ctx が使えないときの jsonl 要約。履歴検索の正は `ctx` |
 | `md-html-visual-doc` | Agent→人間向け MD + 選択的 HTML（比較ビュー・ギャラリー・フロー画像） |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice |
 | `ralph-loop` | 外側ループ（Ralph）— `templates/loop-orchestration/` と併用 |

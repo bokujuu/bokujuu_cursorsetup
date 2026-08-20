@@ -1,13 +1,11 @@
 ---
 name: capture-external-intelligence
 description: >-
-  Persist reusable agent judgments to bokujuu/knowledge-base (library) instead
-  of growing AGENTS.md. Use when a session found a structure, failure, comparison,
-  or restart state that should survive the next chat; when the user mentions
-  知見化, knowledge-base, 外部知能, 書庫, desk/library, or skill promotion; or before
-  ending work that would otherwise be re-searched tomorrow. Not for typo fixes,
-  secrets, or one-off chat recap with no future decision value. Prior session
-  lookup uses ctx (ctxrs/ctx) when installed.
+  Persist reusable judgments from this work session to bokujuu/knowledge-base
+  instead of growing AGENTS.md. Use for 知見化, 書庫, desk/library, or a failure
+  that should survive the next chat. Lookup history with ctx. Not for typo
+  fixes, secrets, or third-party article/repo pattern extraction
+  (abstract-source-patterns).
 ---
 
 # capture-external-intelligence

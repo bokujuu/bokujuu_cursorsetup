@@ -1,9 +1,15 @@
 ---
 name: cursor-session-doc
-description: Cursor の過去チャット（agent transcript ID）をローカルの jsonl ログとワークスペース状態から掘り起こし、引き継ぎ用 SESSION_DOC を作成する。session ID / transcript ID の要約・アーカイブ・引き継ぎ・「あのとき何をしたか」の説明依頼で使う。原文 transcript が添付されていないときに特に有効。
+description: >-
+  Builds a SESSION_DOC from local Cursor agent-transcript jsonl when ctx
+  (ctxrs/ctx) cannot run, or when the user names a transcript/session ID to
+  extract. Prefer `ctx search` / `ctx show` for history recall.
+  Not for writing knowledge-base library notes (capture-external-intelligence).
 ---
 
 # Cursor Session Doc
+
+Prefer `ctx search` / `ctx show` ([ctxrs/ctx](https://github.com/ctxrs/ctx)) when `ctx` is on PATH. Use this skill only if ctx is missing or the user gave a transcript/session ID to extract from jsonl.
 
 まず `scripts/extract_session_context.py` を実行し、出力を `OBSERVED` の根拠とする。`INFERRED` は、ログと現在のワークスペースを読んだあとにだけ書く。
 

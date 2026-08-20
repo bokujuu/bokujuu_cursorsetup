@@ -1,6 +1,10 @@
 ---
 name: japanese-technical-writing
-description: 日本語の技術文書を作成・確認・修正するスキル。執筆時はテンプレート方針（元資料継承 / ユーザーテンプレート / スキル標準）を切り替え、構成・文法・体裁の順で品質を担保する。
+description: >-
+  Creates or revises Japanese technical documents (structure, grammar, layout;
+  template policy). Use for 技術文書・設計書・手順.
+  Not for AI-smell rewrites (natural-japanese), review-only findings
+  (japanese-doc-review), or literary rhythm (cognitive-rhythm-writing).
 ---
 
 # japanese-technical-writing

@@ -1,11 +1,11 @@
 ---
 name: abstract-source-patterns
 description: >-
-  Extract reusable abstract patterns from articles, repos, and talks before
-  adopting them into global skills, project templates, or knowledge-base notes.
-  Use when reviewing bookmarks, evaluating external tools, or deciding what to
-  copy versus what to record as reference only. Outputs pattern cards with
-  placement (global / template / knowledge-base / skip) and stripping notes.
+  Extract reusable abstract patterns from third-party articles, repos, and talks
+  before adopting them. Use when reviewing bookmarks or deciding copy vs
+  reference-only. Outputs pattern cards (global / template / knowledge-base / skip).
+  Not for capturing judgments from the current work session
+  (capture-external-intelligence).
 disable-model-invocation: false
 ---
 
