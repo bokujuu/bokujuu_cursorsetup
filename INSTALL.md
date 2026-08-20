@@ -42,7 +42,7 @@ Cursor / Codex は `.codex/skills` をグローバル skill として読み込�
 
 ### 2.1 Cursor Hooks（任意）
 
-`install.ps1` は `hooks/handoff-stop-check.py` を `%USERPROFILE%\.cursor\hooks\` にコピーし、**既存の `hooks.json` が無い場合のみ** 新規作成します。既にある場合は [hooks/README.md](hooks/README.md) の手動マージを行ってください。
+`install.ps1` は `hooks/*.py`（`handoff-stop-check.py` と `knowledge-capture-nudge.py`）を `%USERPROFILE%\.cursor\hooks\` にコピーし、**既存の `hooks.json` が無い場合のみ** 新規作成します。既にある場合は [hooks/README.md](hooks/README.md) の手動マージを行ってください（`sessionStart` を含む）。
 
 Hook を入れない場合: `.\scripts\install.ps1 -SkipHooks`
 

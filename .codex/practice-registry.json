@@ -19,6 +19,23 @@
       "status": "draft"
     },
     {
+      "slug": "capture-external-intelligence",
+      "summary": "セッション判断を knowledge-base へ残し、再現後のみ skill へ昇格",
+      "trigger_keywords": [
+        "知見化",
+        "knowledge-base",
+        "外部知能",
+        "書庫",
+        "desk",
+        "capture-external-intelligence"
+      ],
+      "verification_commands": [
+        "python3 scripts/verify_repo_setup.py --repo-only"
+      ],
+      "skill_path": "skills/capture-external-intelligence/SKILL.md",
+      "status": "draft"
+    },
+    {
       "slug": "requirement-aligned-fixtures",
       "summary": "要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest）",
       "trigger_keywords": [

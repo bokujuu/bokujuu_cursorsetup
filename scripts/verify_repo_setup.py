@@ -18,6 +18,12 @@ REGISTRY = REPO_ROOT / ".codex" / "practice-registry.json"
 INSTALL_PS1 = REPO_ROOT / "scripts" / "install.ps1"
 INSTALL_SH = REPO_ROOT / "scripts" / "install.sh"
 
+REQUIRED_HOOK_PATHS = [
+    "hooks/handoff-stop-check.py",
+    "hooks/knowledge-capture-nudge.py",
+    "hooks/hooks.template.json",
+]
+
 REQUIRED_TEMPLATE_PATHS = [
     "templates/project-skills/README.md",
     "templates/project-skills/practice-registry.json",
@@ -169,6 +175,15 @@ def verify_codex_mcp_installers(errors: list[str]) -> None:
         ok("install.sh Codex MCP registration")
 
 
+def verify_hooks(errors: list[str]) -> None:
+    for rel in REQUIRED_HOOK_PATHS:
+        path = REPO_ROOT / rel
+        if not path.is_file():
+            errors.append(f"Missing hook path: {rel}")
+        else:
+            ok(f"hook: {rel}")
+
+
 def verify_templates(errors: list[str]) -> None:
     for rel in REQUIRED_TEMPLATE_PATHS:
         path = REPO_ROOT / rel
@@ -240,6 +255,7 @@ def main() -> int:
     verify_skills_manifest(errors)
     verify_install_ps1(errors)
     verify_codex_mcp_installers(errors)
+    verify_hooks(errors)
     verify_templates(errors)
     verify_installed_skills(errors, repo_only=args.repo_only)
     verify_loop_kit_subprocess(errors)

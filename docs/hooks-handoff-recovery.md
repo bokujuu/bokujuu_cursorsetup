@@ -12,6 +12,7 @@
 |----|--------|------|
 | Skill | `skills/agent-handoff-recovery/` | 回復ループ・状況整理テンプレ（本体） |
 | Hook（任意） | `hooks/handoff-stop-check.py` | `stop` / `subagentStop` で follow-up |
+| Hook（任意） | `hooks/knowledge-capture-nudge.py` | `sessionStart` で書庫リマインド、`stop` で未コミット Markdown |
 
 プロジェクト固有の verify コマンドは **リポジトリ側** の `.cursor/handoff-recovery.local.md`（テンプレ: skill 内 `project-extension-template.md`）。
 

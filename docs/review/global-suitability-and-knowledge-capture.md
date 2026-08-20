@@ -106,7 +106,7 @@ knowledge-base のディレクトリ規約に従う（[knowledge-base AGENTS.md]
 | トラブルシュート | `docs/technology/` または `docs/research/` |
 | 作業手順として安定したもの | `docs/technology/` または `docs/work/` |
 
-配置に迷う場合は `docs/research/` に置き、後で整理する。
+配置に迷う場合は `docs/research/`（`layer: inbox`）に置き、後で整理する。常時入口は knowledge-base の [docs/desk.md](https://github.com/bokujuu/knowledge-base/blob/main/docs/desk.md)。セッション中の知見化手順はグローバル skill `capture-external-intelligence`。
 
 ## knowledge-base ノートの front matter 例
 
