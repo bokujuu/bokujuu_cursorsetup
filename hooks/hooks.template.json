@@ -1,6 +1,12 @@
 {
   "version": 1,
   "hooks": {
+    "sessionStart": [
+      {
+        "command": "python \"{{HOOKS_DIR}}/knowledge-capture-nudge.py\" sessionStart",
+        "timeout": 10
+      }
+    ],
     "subagentStop": [
       {
         "command": "python \"{{HOOKS_DIR}}/handoff-stop-check.py\" subagentStop",
@@ -10,6 +16,11 @@
     "stop": [
       {
         "command": "python \"{{HOOKS_DIR}}/handoff-stop-check.py\" stop",
+        "timeout": 15,
+        "loop_limit": 1
+      },
+      {
+        "command": "python \"{{HOOKS_DIR}}/knowledge-capture-nudge.py\" stop",
         "timeout": 15,
         "loop_limit": 1
       }

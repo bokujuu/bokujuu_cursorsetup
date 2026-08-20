@@ -183,11 +183,13 @@ if (-not $SkipHooks -and (Test-Path $HookScript)) {
     Write-Host "[COPY] hooks -> $HookDstDir"
     if (-not $WhatIf) {
         New-Item -ItemType Directory -Force -Path $HookDstDir | Out-Null
-        Copy-Item $HookScript (Join-Path $HookDstDir "handoff-stop-check.py") -Force
+        Get-ChildItem -LiteralPath $HooksSrc -Filter *.py | ForEach-Object {
+            Copy-Item $_.FullName (Join-Path $HookDstDir $_.Name) -Force
+        }
 
         if (Test-Path $HooksJsonPath) {
             Write-Host "[WARN] hooks.json already exists: $HooksJsonPath"
-            Write-Host "       Merge subagentStop/stop from hooks\hooks.template.json (see hooks\README.md)"
+            Write-Host "       Merge sessionStart/subagentStop/stop from hooks\hooks.template.json (see hooks\README.md)"
         }
         elseif (Test-Path $TemplatePath) {
             $hookDirEscaped = $HookDstDir -replace '\\', '/'

@@ -1,6 +1,6 @@
 # AGENTS.md — bokujuu_cursorsetup
 
-更新: 2026/06/22 07:01
+更新: 2026/08/20 16:15
 
 ## このリポジトリの目的
 
@@ -22,6 +22,7 @@ Cursor / Codex 向けの**グローバル設定一式**（User Rules 原本・�
 | ループオーケストレーション | [docs/loop-engineering.md](docs/loop-engineering.md) |
 | **Grok / Composer の使い分け** | [docs/model-routing.md](docs/model-routing.md) |
 | **PR レビュー（global suitability / 知見化）** | [docs/review/global-suitability-and-knowledge-capture.md](docs/review/global-suitability-and-knowledge-capture.md) |
+| **セッション判断の書庫化** | skill `capture-external-intelligence` → [bokujuu/knowledge-base](https://github.com/bokujuu/knowledge-base) の `docs/desk.md` |
 
 ## PR レビュー運用
 

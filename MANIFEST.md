@@ -29,6 +29,7 @@
 | `excel-deliverable-quality` | Excel/CSV 成果物の品質・レイアウト規約。常時: スクリプトで生成し `.xlsm` 手編集しない／数式エラーゼロ・数式優先・出典注記・納品前検証。場面依存（必須でない）: 人間が入力する成果物では役割を色で区別（カラーコードは固定しない）・配布帳票の印刷規律・内部データの very hidden 隔離。COM を第一・openpyxl+LibreOffice を代替とし、COM 手順は `templates/project-rules/excel/excel-com-automation.mdc` に委譲。設計源: ユーザー運用リポ [htmlPCAFmock](https://github.com/bokujuu/htmlPCAFmock) / [utf_ken_all](https://github.com/bokujuu/utf_ken_all) の一般化。着想元: [anthropics/skills `xlsx`](https://github.com/anthropics/skills)（Proprietary のため原則のみ参照・本文は独自実装） |
 | `non-interactive-hang` | エージェントが verify を素早く回すための非対話ループ（人間 pause 維持・実測 timeout・秒単位 watchdog 自己検証）。考え方: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)。雛形: `templates/project-ci/non-interactive-hang/` |
 | `abstract-source-patterns` | 記事・repo から抽象パターンを抽出し global / template / knowledge-base への配置を判定。PR レビュー・ブックマーク評価と併用 |
+| `capture-external-intelligence` | セッションで得た判断を knowledge-base（机／書庫）へ残す。AGENTS.md 肥大化を避ける。`ctx` で過去セッション検索。昇格は再現後のみ |
 | `requirement-aligned-fixtures` | 要件・スキーマに沿ったダミーデータ設計。三軸バランス（決定性・変動・グループ）、volume tier、カバレッジ行列、Generation Spec・manifest。併用: 定番メソッド（static/seeded/factory）、factory_boy+Faker、lifelike-synthetic-data-generator（`references/companion-tools.md`）。表形式・PCAF 型は `references/tabular-excel.md`。帳票は `excel-deliverable-quality` |
 | `fable-style-reasoning` | Observation-first agent reasoning for Cursor agents（Grok / Composer; backbone: verbatim [Anthropic System Prompts — Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) + series supplement in `references/official-excerpts.md`; supplement: [shotatykr trace](https://x.com/shotatykr/status/2074035238116769851) Phase 0–4; light/full; plan-top anchor）。設計: [docs/pr/012-fable-style-reasoning.md](docs/pr/012-fable-style-reasoning.md)。モデル併用: [docs/model-routing.md](docs/model-routing.md) |
 | `cognitive-rhythm-writing` | 説明的な日本語文章の認知リズム（観察→逡巡→断定→再観察・未回収の緊張・緩みと駄文の判別）。読み物として読ませたい章・記事・解説の生成／平坦な文の診断・修正。併用: `japanese-technical-writing`。出典: [k16shikano gist](https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432)。設計: [docs/pr/014-cognitive-rhythm-writing.md](docs/pr/014-cognitive-rhythm-writing.md) |
@@ -42,6 +43,7 @@
 | ファイル | 内容 |
 |----------|------|
 | `handoff-stop-check.py` | Cursor `stop` / `subagentStop` 用 |
+| `knowledge-capture-nudge.py` | Cursor `sessionStart` / `stop`（未コミット Markdown 時） |
 | `hooks.template.json` | `install.ps1` が `%USERPROFILE%\.cursor\hooks.json` に展開 |
 | `README.md` | 手動マージ手順 |
 

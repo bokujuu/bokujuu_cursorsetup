@@ -34,6 +34,7 @@
 | **VOICEVOX 劇場レイアウト動画（立ち絵＋ワイプ字幕）** | skill `voicevox-theater-video` → 親 `slide-narration-video`（dialogue）。各台詞は `dialogue-writing`、劇場側は発話可能性の確認・会話密度・前提・メタ分離・全身立ち絵・口パク（実音＋0.1s遅れ）・弾む登場／退場・字幕3パス縁取りを担当。プロファイル既定はひまり／つむぎ。立ち絵の取得元・SHA-256・取得手順は `references/tachie-sources.md`。 |
 | **日本語文書レビュー（校正・指摘）** | skill `japanese-doc-review` |
 | **bokujuu_cursorsetup の PR レビュー** | [review/global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) → skill `abstract-source-patterns` |
+| **セッション判断の書庫化（知見化）** | skill `capture-external-intelligence` → [bokujuu/knowledge-base](https://github.com/bokujuu/knowledge-base) の `docs/desk.md`。過去セッションは `ctx` |
 | **外部記事・repo の採用判断** | skill `abstract-source-patterns` → [global-suitability-and-knowledge-capture.md](review/global-suitability-and-knowledge-capture.md) |
 | **QA テスト観点（7 ペルソナ）** | 雛形 `templates/project-skills/qa-multi-perspective/` |
 | **ループ反復の Faceted prompting** | `templates/loop-orchestration/facets/` → [loop-engineering.md](loop-engineering.md) → `ralph-loop` |
@@ -60,6 +61,7 @@
 | `power-query-refactor` | Power Query M の編集方針（配置・notes・Table.Buffer）。COM export/import は各リポへ |
 | `non-interactive-hang` | 非対話 verify・実測 timeout・watchdog 秒検証 |
 | `abstract-source-patterns` | 外部ソースから抽象パターン抽出・配置判定（global / template / knowledge-base） |
+| `capture-external-intelligence` | 仕事中の判断を knowledge-base へ残す（机は小さく、書庫へ再接続）。skill 昇格は再現後 |
 | `requirement-aligned-fixtures` | 要件に沿ったダミーデータ設計（tier・三軸バランス・カバレッジ・manifest） |
 | `fable-style-reasoning` | Observation-first reasoning for Cursor agents（Grok / Composer; backbone: official excerpts / supplement: Phase 0–4; light/full） |
 
