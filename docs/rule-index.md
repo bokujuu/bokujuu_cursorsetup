@@ -27,6 +27,7 @@
 | **Skill 化・進化（繰り返し手順）** | まず既存の global / repo-local skill と `templates/project-skills/` を検索し、ギャップがある場合のみ対象リポの `.codex/skills/` に作成。`verify` → `.codex/practice-registry.json` 登録（`verification_commands` 実行）の順。技術特化は `implement-with-practices` |
 | **構造・依存の可視化** | `templates/structure-viz/` → 対象リポの `docs/` または静的サイト |
 | **人間向けの視覚ドキュメント（MD + HTML）** | skill `md-html-visual-doc` → 文章の論理は `japanese-technical-writing`。スライド動画は `slide-narration-video`、transcript は `cursor-session-doc` |
+| **超簡単な絵解説（ELI5）** | skill `eli5` → 大きな絵と少ない言葉の HTML。比較表・手順ギャラリーは `md-html-visual-doc`、スライド動画は `slide-narration-video` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語の自然さ・AI臭さ（仕事文書・リライト）** | skill `natural-japanese` → 技術文書の型・常体は `japanese-technical-writing` を先に。読み物の緩急は `cognitive-rhythm-writing`。指摘のみは `japanese-doc-review` |
 | **日本語の読み物・解説文の緩急（認知リズム）** | skill `cognitive-rhythm-writing` → 技術文書の土台は `japanese-technical-writing` |
@@ -48,6 +49,7 @@
 | `agent-handoff-recovery` | Plan/SoT/verify のずれを検知して状況整理 |
 | `cursor-session-doc` | ctx が使えないときの jsonl 要約。履歴検索の正は `ctx` |
 | `md-html-visual-doc` | Agent→人間向け MD + 選択的 HTML（比較ビュー・ギャラリー・フロー画像） |
+| `eli5` | 知らない人向けの大きな絵＋少ない言葉の HTML（`/eli5`）。upstream 原文 |
 | `implement-with-practices` | ライブラリ/API 特化の repo-local practice |
 | `ralph-loop` | 外側ループ（Ralph）— `templates/loop-orchestration/` と併用 |
 | `repo-agent-bootstrap` | AGENTS.md / registry / verify の初期構築 |
