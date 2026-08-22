@@ -37,6 +37,7 @@
 | `voicevox-theater-video` | `slide-narration-video` の劇場拡張。全身立ち絵（胴体クロップなし）、ワイプ字幕（色縁→黒縁→白字）、実音波形同期口パク（+0.1s）、AviUtl「弾む」系の無音登場／Y回転＋弾む退場。プロファイル既定はひまり／つむぎ（ひまり優先版・つむぎ「さっぱり」版の取得元は `references/tachie-sources.md`）。`dialogue-writing` の発話可能性に加え、会話密度・前提・メタ分離を持つ。合成は Pillow＋ffmpeg pipe |
 | `power-query-refactor` | Power Query M の編集方針（挙動保持・配置原則・notes・Table.Buffer）。帳票品質は `excel-deliverable-quality`、COM export/import は各リポへ委譲。設計源: [bokujuu/powerquery_refactor](https://github.com/bokujuu/powerquery_refactor)。設計: [docs/pr/016-power-query-refactor.md](docs/pr/016-power-query-refactor.md) |
 | `md-html-visual-doc` | Agent→人間向けの視覚ドキュメント（Markdown + 選択的 HTML）。Companion HTML / 事前レンダ図 / `<details>` 等。スライドは `slide-narration-video`、transcript は `cursor-session-doc` に委譲。外部 VisualCave 等は丸導入せずパターンのみ。設計: [docs/pr/017-md-html-visual-doc.md](docs/pr/017-md-html-visual-doc.md) |
+| `eli5` | 大きな絵と少ない言葉の HTML で、知らない人向けに説明する（`/eli5`）。本文は [anthropics/claude-plugins-community eli5](https://github.com/anthropics/claude-plugins-community/tree/main/eli5) の原文。設計: [docs/pr/019-eli5.md](docs/pr/019-eli5.md) |
 
 ## hooks/（任意・Windows）
 
