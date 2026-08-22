@@ -1,6 +1,6 @@
 # 劇場レンダ規約
 
-Updated: 2026/08/11 15:15
+Updated: 2026/08/22 14:02
 
 ## パイプライン
 
@@ -74,6 +74,8 @@ intro／outro／本編を分けて 15fps にする案は、同一ターゲット
 - Matplotlib 高 dpi の tight-bbox 生出力、既定 DejaVu／Computer Modern の無調整混在を禁止する
 - MATH_MASK の目標高は `font_size * 0.92` の固定値ではなく、同じ字幕フォントで測った基準グリフと数式componentの実インク高から決める。alpha bbox を crop しても `baseline_offset` を捨てず、mathtext の ascent/depth 等から実測した共通 baseline（通常±1px、MATH_MASK±2px）へ合わせてから縁取りへ渡す。raw TeX 分類前の補正は禁止、MATH_MASK 化後の component／baseline 正規化は必須
 - インク高の測定は縁取り前・最終解像度の fill alpha（`alpha >= 16`）で行い、基準は `第`・`章`・`あ` の中央値。MATH_MASK は全体 bbox だけでなく分子／分母・stem・分数線を測る。custom mathtext の未収録 glyph は暗黙 fallback を検出・記録し、`fallback_status=unverified` も未確認として扱う。`verified` は要求TTF、semantic glyph coverage、custom mathtext slotの一致と `verification_basis` が揃った場合だけ許可し、別 font のまま最終画面へ出さない
+- 1080p の和文基準サイズは **48px**（[subtitle-typography.md](subtitle-typography.md)）。和文が立ち絵に対して小さく見えることと、Latin／数字だけが相対縮小されることは別問題。後者は `font_size * 0.72` の span 別ロードと識別子 bbox の CJK 合わせが原因で、現行 SoT では禁止（GitHub PR #50）
+- 案件側 `render-theater.py` を旧試作からコピーすると、skill が直っても画面は旧挙動のまま。コピー後に `0.72` shrink／span 別 `font_size` が残っていないか照合する
 
 ## 字幕安全帯
 
