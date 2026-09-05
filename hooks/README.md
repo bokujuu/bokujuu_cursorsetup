@@ -4,9 +4,13 @@
 
 `knowledge-capture-nudge.py` は `sessionStart` で knowledge-base（机／書庫）への再接続を短く注入し、`stop` では未コミットの Markdown があるときだけ知見化を促します。
 
+## 有効化
+
+既定では追加しません。配置済みでも対象repoに `.cursor/handoff-recovery.local.md`（復旧）または `.cursor/knowledge-capture.local.md`（知見化）がある場合だけ通知します。通常タスクの完了を古い計画や未コミットMarkdownだけで延長しません。
+
 ## インストール
 
-Windows では `scripts/install.ps1` が以下を実行します:
+Windows では `scripts/install.ps1 -InstallHooks` が以下を実行します:
 
 1. `hooks/handoff-stop-check.py` → `%USERPROFILE%\.cursor\hooks\`
 2. `hooks/hooks.template.json` を展開して `%USERPROFILE%\.cursor\hooks.json` を生成（**既存がある場合は手動マージ**）

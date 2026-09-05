@@ -20,7 +20,7 @@ Cursor / Codex 向けの**グローバル設定一式**（User Rules 原本・�
 | タスク別ルール・skill 参照 | [docs/rule-index.md](docs/rule-index.md) |
 | **グローバル skill の追加・更新** | `.cursor/skills/maintain-global-skill/SKILL.md`（標準手順） |
 | ループオーケストレーション | [docs/loop-engineering.md](docs/loop-engineering.md) |
-| **Grok / Composer の使い分け** | [docs/model-routing.md](docs/model-routing.md) |
+| **Astra の運用・モデル選択** | [docs/model-routing.md](docs/model-routing.md) |
 | **PR レビュー（global suitability / 知見化）** | [docs/review/global-suitability-and-knowledge-capture.md](docs/review/global-suitability-and-knowledge-capture.md) |
 | **セッション判断の書庫化** | skill `capture-external-intelligence` → [bokujuu/knowledge-base](https://github.com/bokujuu/knowledge-base) の `docs/desk.md` |
 

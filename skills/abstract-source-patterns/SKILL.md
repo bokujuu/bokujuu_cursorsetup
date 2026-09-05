@@ -13,7 +13,7 @@ disable-model-invocation: false
 
 外部ソース（記事・GitHub・Speaker Deck 等）から**再利用可能な抽象パターン**を抜き出し、`bokujuu_cursorsetup` / `knowledge-base` への配置判断材料を作る。
 
-直接取り込み（fork・install・全文コピー）の前に必ずこの skill を通す。抽象化そのものが成果物の主目的になる場面で使う。
+抽象化と配置判断を依頼された場面で使う。単純な取り込みの前提工程にはしない。
 
 ## いつ使うか
 

@@ -9,7 +9,7 @@ description: >-
 # maintain-global-skill — グローバル skill の追加・更新
 
 ルール・仕様の SoT は [MANIFEST.md](../../../MANIFEST.md) と [docs/rule-index.md](../../../docs/rule-index.md)。
-実装は `skills/<slug>/`。配布は `scripts/install.ps1` → `~/.codex/skills/`。
+実装は `skills/<slug>/`。配布は `scripts/install.ps1` → `~/.codex/skills/`（Cursor互換）。退役した原本は `archive/` へ移し、`scripts/retired-skills.json` に登録する。配置済みの旧版はインストーラーが検出範囲外へ退避する。
 
 ## いつ使うか
 
@@ -17,7 +17,7 @@ description: >-
 - 既存 skill の SKILL.md / references を更新し、同梱一覧と整合させるとき
 - skill 追加後に検証して PR を出すとき（過去セッションで繰り返し依頼あり）
 
-## 手順（この順を崩さない）
+## 手順の目安
 
 1. **SoT 更新** — 仕様・公開範囲が変わる場合は先に MANIFEST / rule-index を直す
 2. **実装** — `skills/<slug>/` を作成または最小変更
@@ -60,5 +60,5 @@ description: >-
 
 ## メモ
 
-運用で得た知見は [references/skill-memory.md](references/skill-memory.md) に1行ずつ追記する。
+再利用価値のある変更理由だけを既存記録に残す。毎回のskill-memory追記や新スキル作成は不要。
 `.codex/practice-registry.json` に `draft` で登録済み。安定したら `approved` へ。

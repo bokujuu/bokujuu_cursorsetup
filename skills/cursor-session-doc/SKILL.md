@@ -115,4 +115,4 @@ python $env:USERPROFILE\.codex\skills\cursor-session-doc\scripts\extract_session
 ## codex-session-doc からの移行
 
 - 旧 `codex-session-doc` は Codex Desktop / CLI 用。Cursor では **本 skill を使う**。
-- 両方インストールしてもよいが、ID の種類が違う（混同しない）。
+- Codexの履歴は利用環境の履歴取得機能を使う。旧スキルの再インストールは不要。

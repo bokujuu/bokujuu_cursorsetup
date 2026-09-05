@@ -19,9 +19,9 @@ Updated: 2026/08/09 23:44
 **解説役＋聞き手の対話（`dialogue`）**で理解確認・質問・誤解訂正を画面内に置く（[references/dialogue-writing.md](references/dialogue-writing.md)）。
 未指定の既定は `monologue`（現行互換）。
 
-## 併用する規範（必須）
+## 文章の補助資料（必要な場合のみ）
 
-着手前に次を読む。依存先は同じ文体を重ね掛けするためではなく、成果物の担当範囲を分担するために使う。
+文章の構成や緩急に具体的な問題があるときだけ参照する。動画制作の前提として一括で読み込まない。
 
 1. [`../japanese-technical-writing/SKILL.md`](../japanese-technical-writing/SKILL.md)  
    スライド／原稿の情報提示順（境界→構成要素→因果→例外）、用語導入、テンプレート方針。
@@ -73,7 +73,7 @@ Updated: 2026/08/09 23:44
 
 ## 制作フロー
 
-次の順を崩さない。後工程で論理を取り返すコストが高い。
+音声と画像が確定してから最終同期を決める。原稿・画像の設計は並行してよい。以下は制作時の目安。
 
 ```text
 Task Progress:
@@ -81,7 +81,7 @@ Task Progress:
 - [ ] 1.5 語り口の選択（monologue / dialogue）← 概念の理解確認が中心なら dialogue を推奨
 - [ ] 2. スライド設計（全画面・柔軟。dialogue なら一時対話カードの安全域）
 - [ ] 2.2 出典図の要否（ソースに図があり文字再現が非効率なら抽出配置。先頭枚に参考URL）
-- [ ] 2.5 スライド配置 QA（はみ出し・画像比・対話カード）← 合格まで 3 に進まない
+- [ ] 2.5 スライド配置 QA（はみ出し・画像比・対話カード）← 最終合成までに修正する
 - [ ] 3. ナレーション原稿（cognitive rhythm／dialogue なら dialogue-writing）
 - [ ] 4. キューシート（間・注釈・同期。dialogue は utterances[]）
 - [ ] 4.5 TTS 読み正規化（辞書・未解決語）
@@ -142,7 +142,7 @@ japanese-technical-writing の提示順で、動画全体の主張を一文に�
 
 ### 2.5 スライド配置 QA（必須ゲート）
 
-Marp → PNG のあと、**全ページを画像として目視**する。合格するまで工程 3 に進まない。
+Marp → PNG のあと、**全ページを画像として目視**する。配置の問題を最終合成までに修正する。独立した原稿作成は進めてよい。
 
 確認項目:
 
@@ -158,7 +158,7 @@ NG 時の修正順（情報削除を最初にしない）: note 退避 → 重�
 
 ### 3. ナレーション原稿
 
-`monologue` は cognitive-rhythm-writing に従う。`dialogue` の各台詞は dialogue-writing を主規範とし、cognitive-rhythm-writing はスライド間の接続・場面転換だけに使う。加えて動画固有の制約:
+`monologue` の緩急を特に調整するときは cognitive-rhythm-writing を参照できる。`dialogue` の各台詞は dialogue-writing を主規範とし、cognitive-rhythm-writing はスライド間の接続・場面転換だけに使う。加えて動画固有の制約:
 
 - **スライド間の接続文を書く**。次枚の見出しを突然出さない。
 - **遷移の直前で回収または橋を置く**。「では〜を見る」型の進行実況だけで繋がない（cognitive-rhythm の駄文判定と同じ）。
@@ -240,7 +240,6 @@ Remotion 未使用ならその旨を README / process-log に残す。書き出�
 - [ ] dialogue のとき、聞き手が優等生要約係になっておらず、理解確認または誤解訂正がある
 - [ ] dialogue のとき、発話ごとの WAV とターン間 pause から尺が解決されている
 - [ ] **読み辞書があり、主要固有語・略語の音声が破綻していない**
-- [ ] `monologue` は cognitive-rhythm-writing と JT の構成確認を、`dialogue` は dialogue-writing（台詞）・JT（スライド論理）・cognitive-rhythm（場面接続）の分担を経ている
 - [ ] TTS が既定（VOICEVOX・冥鳴ひまり）または `meta.speakers`／明示された代替である
 - [ ] 最終 mp4 の健全性（`pix_fmt` が unknown でない、1 フレーム抽出可）を確認した
 - [ ] `process-log.md` に工程と NG→修正が残っている

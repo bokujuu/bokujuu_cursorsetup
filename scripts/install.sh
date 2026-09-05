@@ -3,10 +3,15 @@
 set -euo pipefail
 
 install_codex_mcp=false
+sync_args=()
 codex_filesystem_root=""
 
 while (($# > 0)); do
   case "$1" in
+    --dry-run)
+      sync_args+=(--dry-run)
+      shift
+      ;;
     --install-codex-mcp)
       install_codex_mcp=true
       shift
@@ -20,7 +25,7 @@ while (($# > 0)); do
       shift 2
       ;;
     --help|-h)
-      echo "Usage: ./scripts/install.sh [--install-codex-mcp] [--codex-filesystem-root PATH]"
+      echo "Usage: ./scripts/install.sh [--dry-run] [--install-codex-mcp] [--codex-filesystem-root PATH]"
       exit 0
       ;;
     *)
@@ -31,72 +36,10 @@ while (($# > 0)); do
 done
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SRC="${ROOT}/skills"
-DST="${HOME}/.codex/skills"
-
-if [[ ! -d "${SRC}" ]]; then
-  echo "[ERROR] skills folder not found: ${SRC}" >&2
-  exit 1
+python3 "${ROOT}/scripts/sync_skills.py" "${sync_args[@]}"
+if [[ " ${sync_args[*]} " == *" --dry-run "* ]]; then
+  exit 0
 fi
-
-mkdir -p "${DST}"
-
-MANAGED_STATE="${DST}/.bokujuu-cursorsetup-managed.txt"
-LEGACY_MANAGED_NAMES=(
-  # One-time migration for names managed before the ownership marker existed.
-  "codex-session-doc"
-  "empirical-prompt-tuning"
-  "retrospective-codify"
-  "skill-lifecycle"
-  "system-structure-viz"
-)
-
-current_names=()
-for skill_dir in "${SRC}"/*/; do
-  [[ -d "${skill_dir}" ]] || continue
-  current_names+=("$(basename "${skill_dir}")")
-done
-
-stale_names=()
-if [[ -f "${MANAGED_STATE}" ]]; then
-  while IFS= read -r name; do
-    [[ "${name}" =~ ^[A-Za-z0-9_-]+$ ]] || continue
-    if [[ ! -d "${SRC}/${name}" ]]; then
-      stale_names+=("${name}")
-    fi
-  done < "${MANAGED_STATE}"
-else
-  for name in "${LEGACY_MANAGED_NAMES[@]}"; do
-    if [[ ! -d "${SRC}/${name}" ]]; then
-      stale_names+=("${name}")
-    fi
-  done
-fi
-
-for name in "${stale_names[@]}"; do
-  [[ -n "${name}" ]] || continue
-  target="${DST}/${name}"
-  if [[ -d "${target}" ]]; then
-    echo "[REMOVE] retired skill -> ${target}"
-    rm -rf "${target}"
-  fi
-done
-
-for skill_dir in "${SRC}"/*/; do
-  [[ -d "${skill_dir}" ]] || continue
-  name="$(basename "${skill_dir}")"
-  target="${DST}/${name}"
-  echo "[COPY] ${name} -> ${target}"
-  rm -rf "${target}"
-  cp -a "${skill_dir}" "${target}"
-done
-
-printf '%s\n' "${current_names[@]}" > "${MANAGED_STATE}"
-
-find "${DST}" -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
-
-echo "[OK] Global skills installed under ${DST}"
-echo "[NEXT] Apply user-rules/ to Cursor Settings -> Rules -> User Rules (see docs/user-rules-guide.md)"
 
 codex_mcp_add_if_missing() {
   local name="$1"
@@ -130,5 +73,24 @@ if [[ "${install_codex_mcp}" == true ]]; then
   codex_mcp_add_if_missing "codex-sol" codex mcp-server -c 'model="gpt-5.6-sol"'
   codex_mcp_add_if_missing "codex-terra" codex mcp-server -c 'model="gpt-5.6-terra"'
   codex_mcp_add_if_missing "codex-luna" codex mcp-server -c 'model="gpt-5.6-luna"'
+
+  uvx_cmd="$(command -v uvx 2>/dev/null || true)"
+  if [[ -z "${uvx_cmd}" && -x "${HOME}/.local/bin/uvx" ]]; then
+    uvx_cmd="${HOME}/.local/bin/uvx"
+  fi
+  if [[ -z "${uvx_cmd}" ]]; then
+    uvx_cmd="uvx"
+  fi
+  if codex mcp get blender --json >/dev/null 2>&1; then
+    echo "[SKIP] Codex MCP already exists: blender"
+  else
+    echo "[ADD] Codex MCP blender -> ${uvx_cmd} --python 3.11 blender-mcp"
+    codex mcp add blender \
+      --env UV_PYTHON_PREFERENCE=only-managed \
+      --env DISABLE_TELEMETRY=true \
+      --env BLENDER_HOST=localhost \
+      --env BLENDER_PORT=9876 \
+      -- "${uvx_cmd}" --python 3.11 blender-mcp
+  fi
   echo "[OK] Codex MCP registered in the user-wide Codex configuration (run 'codex mcp list' to verify)"
 fi

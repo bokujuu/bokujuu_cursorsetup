@@ -77,13 +77,19 @@ def main() -> int:
     event = (sys.argv[1] if len(sys.argv) > 1 else "stop").strip().lower()
     data = _read_input()
 
+    roots = [root for root in _workspace_roots(data)
+             if (root / '.cursor' / 'knowledge-capture.local.md').is_file()]
+    if not roots:
+        print('{}')
+        return 0
+
     if event in ("sessionstart", "session_start"):
         print(json.dumps({"additional_context": DESK_HINT}, ensure_ascii=True))
         return 0
 
     if event == "stop":
         md_hits: list[str] = []
-        for root in _workspace_roots(data):
+        for root in roots:
             if root.is_dir():
                 md_hits.extend(_uncommitted_markdown(root))
         if not md_hits:

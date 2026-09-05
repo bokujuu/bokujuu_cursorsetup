@@ -2,8 +2,7 @@
 name: capture-external-intelligence
 description: >-
   Persist reusable judgments from this work session to bokujuu/knowledge-base
-  instead of growing AGENTS.md. Use for 知見化, 書庫, desk/library, or a failure
-  that should survive the next chat. Lookup history with ctx. Not for typo
+  instead of growing AGENTS.md. Use for 知見化, 書庫, desk/library, when explicitly asked to preserve session judgments. Lookup history with ctx. Not for typo
   fixes, secrets, or third-party article/repo pattern extraction
   (abstract-source-patterns).
 ---
@@ -16,7 +15,7 @@ description: >-
 
 ## いつ動くか
 
-次のいずれかなら、ユーザーに聞かずこの手順に入る（commit / push / PR は依頼があるときだけ）。
+知見化・書庫への保存を依頼された場合に使う。以下は記録候補の判断材料であり、通常作業から別repoへの書込みを自動起動しない。
 
 - 同じ失敗や調査を、新しいチャットでやり直しそう
 - 配置判断（global / template / 案件ローカル / 書庫）が出た

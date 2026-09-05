@@ -21,11 +21,11 @@ description: >-
 
 1. **人間とエージェントの入口を分ける** — pause は人間用だけ。エージェントは `scripts/ci/run_*.py` または `NO_PAUSE=1` + watchdog。
 2. **成功の上限は実測** — `timeout_sec = ceil(p95 × 1.5) + 5`。計測コマンド = 検証コマンド。
-3. **重い verify の前に秒テスト** — `test_watchdog.py`（Excel 不要）を先に PASS させる。
+3. **watchdog 自体を検証** — 導入・変更時に `test_watchdog.py`（Excel 不要）を通す。通常の verify ごとには繰り返さない。
 
 ## 手順（プロジェクトに展開済みの場合）
 
-1. **高速自己検証**（毎回・最初）
+1. **高速自己検証**（導入・watchdog変更・実行環境変更時）
 
    ```powershell
    python scripts/ci/test_watchdog.py

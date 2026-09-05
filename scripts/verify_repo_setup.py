@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -162,6 +163,8 @@ def verify_codex_mcp_installers(errors: list[str]) -> None:
             errors.append(f"install.ps1: missing Codex MCP marker: {marker}")
     if all(marker in powershell_text for marker in ("InstallCodexMcp", "codex mcp add")):
         ok("install.ps1 Codex MCP registration")
+    if "blender-mcp" not in powershell_text:
+        errors.append("install.ps1: missing blender MCP registration")
 
     if not INSTALL_SH.is_file():
         errors.append("Missing scripts/install.sh")
@@ -173,6 +176,18 @@ def verify_codex_mcp_installers(errors: list[str]) -> None:
             errors.append(f"install.sh: missing Codex MCP marker: {marker}")
     if all(marker in shell_text for marker in ("--install-codex-mcp", "codex mcp add")):
         ok("install.sh Codex MCP registration")
+    if "blender-mcp" not in shell_text:
+        errors.append("install.sh: missing blender MCP registration")
+
+    toml_path = REPO_ROOT / "mcp" / "codex-mcp.template.toml"
+    if toml_path.is_file():
+        toml_text = toml_path.read_text(encoding="utf-8")
+        if "[mcp_servers.blender]" not in toml_text or "blender-mcp" not in toml_text:
+            errors.append("codex-mcp.template.toml: missing blender MCP")
+        else:
+            ok("codex-mcp.template.toml blender MCP")
+    else:
+        errors.append("Missing mcp/codex-mcp.template.toml")
 
 
 def verify_hooks(errors: list[str]) -> None:
@@ -212,6 +227,31 @@ def verify_installed_skills(errors: list[str], *, repo_only: bool) -> None:
             )
         else:
             ok(f"installed: {slug}")
+            for original in skill_dir.rglob('*'):
+                if not original.is_file() or '__pycache__' in original.parts:
+                    continue
+                copied = installed.parent / original.relative_to(skill_dir)
+                if not copied.is_file() or hashlib.sha256(original.read_bytes()).digest() != hashlib.sha256(copied.read_bytes()).digest():
+                    errors.append(f"installed content differs: {slug}/{original.relative_to(skill_dir)}")
+
+
+def verify_retirement(errors: list[str], *, repo_only: bool) -> None:
+    path = REPO_ROOT / 'scripts' / 'retired-skills.json'
+    retired = json.loads(path.read_text(encoding='utf-8'))
+    for name in retired:
+        if not re.fullmatch(r'[A-Za-z0-9_-]+', name):
+            errors.append(f'Invalid retired name: {name!r}')
+            continue
+        archived = REPO_ROOT / 'archive/pre-astra-20260905/skills' / name / 'SKILL.md.archived'
+        if (SKILLS_DIR / name).exists() or not archived.is_file():
+            errors.append(f'Retirement incomplete: {name}')
+        if not repo_only:
+            for product in ['.codex', '.cursor', '.agents']:
+                if (Path.home() / product / 'skills' / name).exists():
+                    errors.append(f'Retired skill still installed: {product}/{name}')
+    if list((REPO_ROOT / 'archive/pre-astra-20260905').rglob('SKILL.md')):
+        errors.append('Archive contains discoverable SKILL.md')
+    ok('retirement boundary checked')
 
 
 def verify_loop_kit_subprocess(errors: list[str]) -> None:
@@ -258,6 +298,7 @@ def main() -> int:
     verify_hooks(errors)
     verify_templates(errors)
     verify_installed_skills(errors, repo_only=args.repo_only)
+    verify_retirement(errors, repo_only=args.repo_only)
     verify_loop_kit_subprocess(errors)
 
     if errors:

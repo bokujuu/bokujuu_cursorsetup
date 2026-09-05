@@ -53,26 +53,6 @@
       "status": "draft"
     },
     {
-      "slug": "fable-style-reasoning",
-      "summary": "Observation-first reasoning for Cursor agents (Grok / Composer; verbatim backbone + Phase 0–4 supplement, plan-top anchor)",
-      "trigger_keywords": [
-        "fable-style",
-        "observation-first",
-        "done criteria",
-        "verify method",
-        "recon",
-        "Fable",
-        "Grok",
-        "Composer"
-      ],
-      "verification_commands": [
-        "bash scripts/install.sh",
-        "python3 scripts/verify_repo_setup.py"
-      ],
-      "skill_path": "skills/fable-style-reasoning/SKILL.md",
-      "status": "draft"
-    },
-    {
       "slug": "cognitive-rhythm-writing",
       "summary": "説明的な日本語文章の認知リズム（緩急・未回収の緊張・緩みと駄文の判別）",
       "trigger_keywords": [

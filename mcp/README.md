@@ -42,7 +42,7 @@ Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MC
 
 ### 完全設定（推奨）
 
-Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、Codex `AGENTS.md` を設定するには次を実行します。
+Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、blender、Codex `AGENTS.md` を設定するには次を実行します。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodex -SkipHooks
@@ -53,7 +53,7 @@ Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、Codex 
 - `%USERPROFILE%\.codex\config.toml`: `mcp/codex-mcp.template.toml` の管理ブロックを追加・更新
 - `%USERPROFILE%\.codex\AGENTS.md`: `user-rules/user-rule-cursor-communication.md` を完全コピー（既存ファイルは日時付きバックアップ）
 
-Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。Sol / Terra / Luna はレビュー用の別 Codex セッションとして呼び出すため、MCPツール承認を `default_tools_approval_mode = "approve"` にしています。filesystem / memory は追加の承認設定を持たず、クライアントの既定承認に従います。
+Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。Sol / Terra / Luna はレビュー用の別 Codex セッションとして呼び出すため、MCPツール承認を `default_tools_approval_mode = "approve"` にしています。filesystem / memory / blender は追加の承認設定を持たず、クライアントの既定承認に従います。blender は Cursor 側と同じ `uvx --python 3.11 blender-mcp`（ホスト `localhost:9876`）です。GUI から起動する Codex 向けに、`install.ps1 -InstallCodex` は見つかった `uvx` の絶対パスへ置き換えます。
 
 ### 既存互換経路
 
@@ -102,6 +102,7 @@ codex mcp list
 |------|------|------|
 | filesystem | ローカルファイル | ルートは絶対パス推奨 |
 | memory | セッション間メモ | |
+| blender | Blender シーン操作（`blender-mcp`） | アドオン側で Start MCP Server が必要。Cursor と同時起動は公式非推奨 |
 | codex-sol | Codex MCP（GPT-5.6 Sol 既定） | 旗艦・難しいエージェント作業 |
 | codex-terra | Codex MCP（GPT-5.6 Terra 既定） | バランス・高ボリューム |
 | codex-luna | Codex MCP（GPT-5.6 Luna 既定） | 軽量・日常作業 |
@@ -127,6 +128,7 @@ codex mcp list
 | GitHub 401 | `Authorization` が `Bearer <token>` 形式か確認 |
 | filesystem が意図しないパスを見る | `"."` を絶対パスに変更 |
 | Codex MCP が起動しない | `codex` が PATH にあるか、`codex mcp get <name> --json` と `codex doctor` を確認 |
-| npx / uvx が見つからない | Node.js / `pip install uv` をインストール |
+| blender MCP が繋がらない | Blender で MCP for Blender アドオンを有効化し、N パネルから **Start MCP Server**。ポートは `9876`。`uvx` が見つからない GUI 起動では `uvx` を絶対パスにする |
+| npx / uvx が見つからない | Node.js / uv 公式インストーラを入れる。Windows の `uvx` は多く `%USERPROFILE%\.local\bin\uvx.exe` |
 
 旧 `.cursor/MCP_README.md` の内容は本ファイルに集約しました。

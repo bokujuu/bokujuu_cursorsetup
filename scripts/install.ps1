@@ -7,6 +7,7 @@
 param(
     [switch]$WhatIf,
     [switch]$SkipHooks,
+    [switch]$InstallHooks,
     # グローバル Cursor mcp.json が無いときだけ mcp.template.json を配置する（既存動作）
     [switch]$InstallMcp,
     # Codex の config.toml と AGENTS.md だけを更新する。Cursor 側は変更しない。
@@ -19,76 +20,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
-$Src = Join-Path $Root "skills"
-$Dst = Join-Path $env:USERPROFILE ".codex\skills"
-
-if (-not (Test-Path $Src)) {
-    Write-Error "skills folder not found: $Src"
-}
-
-New-Item -ItemType Directory -Force -Path $Dst | Out-Null
-
-$ManagedState = Join-Path $Dst ".bokujuu-cursorsetup-managed.txt"
-$HasManagedState = Test-Path -LiteralPath $ManagedState
-$LegacyManagedNames = @(
-    # One-time migration for names managed before the ownership marker existed.
-    "codex-session-doc",
-    "empirical-prompt-tuning",
-    "retrospective-codify",
-    "skill-lifecycle",
-    "system-structure-viz"
-)
-$CurrentSkillDirs = @(Get-ChildItem -LiteralPath $Src -Directory | Sort-Object Name)
-$CurrentSkillNames = @($CurrentSkillDirs | Select-Object -ExpandProperty Name)
-$PreviousManagedNames = @()
-
-if ($HasManagedState) {
-    $PreviousManagedNames = @(
-        Get-Content -LiteralPath $ManagedState -ErrorAction Stop |
-            ForEach-Object { $_.Trim() } |
-            Where-Object { $_ }
-    )
-}
-
-$KnownManagedNames = @($PreviousManagedNames)
-if (-not $HasManagedState) {
-    $KnownManagedNames += $LegacyManagedNames
-}
-$StaleManagedNames = @(
-    $KnownManagedNames |
-        Sort-Object -Unique |
-        Where-Object {
-            $_ -match '^[A-Za-z0-9_-]+$' -and $_ -notin $CurrentSkillNames
-        }
-)
-
-foreach ($name in $StaleManagedNames) {
-    $target = Join-Path $Dst $name
-    if (Test-Path -LiteralPath $target) {
-        Write-Host "[REMOVE] retired skill -> $target"
-        if (-not $WhatIf) {
-            Remove-Item -LiteralPath $target -Recurse -Force
-        }
-    }
-}
-
-$CurrentSkillDirs | ForEach-Object {
-    $target = Join-Path $Dst $_.Name
-    Write-Host "[COPY] $($_.Name) -> $target"
-    if ($WhatIf) {
-        return
-    }
-    if (Test-Path $target) {
-        Remove-Item $target -Recurse -Force
-    }
-    Copy-Item $_.FullName $target -Recurse -Force
-}
-
-if (-not $WhatIf) {
-    $CurrentSkillNames | Set-Content -LiteralPath $ManagedState -Encoding UTF8
-}
-
-Write-Host "[OK] Global skills installed under $Dst"
+$syncArgs = @()
+if ($WhatIf) { $syncArgs += "--dry-run" }
+& python (Join-Path $Root "scripts\sync_skills.py") @syncArgs
+if ($LASTEXITCODE -ne 0) { throw "Skill synchronization failed" }
 
 if ($InstallCodex) {
     $CodexDir = Join-Path $env:USERPROFILE ".codex"
@@ -134,6 +69,20 @@ if ($InstallCodex) {
 
     Write-Host "[CODEX] Synchronize managed MCP blocks in $CodexConfigPath"
     $templateText = (Get-Content -LiteralPath $CodexMcpTemplatePath -Raw -Encoding UTF8).Trim()
+    $uvxCommand = Get-Command uvx -ErrorAction SilentlyContinue
+    $uvxPath = $null
+    if ($uvxCommand -and $uvxCommand.Source) {
+        $uvxPath = $uvxCommand.Source
+    }
+    elseif (Test-Path -LiteralPath (Join-Path $env:USERPROFILE ".local\bin\uvx.exe")) {
+        $uvxPath = Join-Path $env:USERPROFILE ".local\bin\uvx.exe"
+    }
+    if ($uvxPath) {
+        $uvxToml = "command = '" + ($uvxPath -replace "'", "''") + "'"
+        $templateText = $templateText.Replace("[mcp_servers.blender]`r`ncommand = `"uvx`"", "[mcp_servers.blender]`r`n$uvxToml")
+        $templateText = $templateText.Replace("[mcp_servers.blender]`ncommand = `"uvx`"", "[mcp_servers.blender]`n$uvxToml")
+        Write-Host "[CODEX] blender MCP command -> $uvxPath"
+    }
     $configText = ""
     if (Test-Path -LiteralPath $CodexConfigPath) {
         $configText = Get-Content -LiteralPath $CodexConfigPath -Raw -Encoding UTF8
@@ -145,7 +94,7 @@ if ($InstallCodex) {
         $newConfigText = [regex]::Replace($configText, $managedPattern, $templateText + "`r`n")
     }
     else {
-        $managedNames = @("filesystem", "memory", "codex-sol", "codex-terra", "codex-luna")
+        $managedNames = @("filesystem", "memory", "blender", "codex-sol", "codex-terra", "codex-luna")
         $existingManaged = @(
             $managedNames | Where-Object {
                 $configText -match ("(?m)^\[mcp_servers\." + [regex]::Escape($_) + "\]\s*$")
@@ -175,7 +124,7 @@ if ($InstallCodex) {
 
 $HooksSrc = Join-Path $Root "hooks"
 $HookScript = Join-Path $HooksSrc "handoff-stop-check.py"
-if (-not $SkipHooks -and (Test-Path $HookScript)) {
+if ($InstallHooks -and -not $SkipHooks -and (Test-Path $HookScript)) {
     $HookDstDir = Join-Path $env:USERPROFILE ".cursor\hooks"
     $HooksJsonPath = Join-Path $env:USERPROFILE ".cursor\hooks.json"
     $TemplatePath = Join-Path $HooksSrc "hooks.template.json"
@@ -240,7 +189,9 @@ if ($InstallCodexMcp) {
             [Parameter(Mandatory = $true)]
             [string]$Command,
             [Parameter(Mandatory = $false)]
-            [string[]]$Arguments = @()
+            [string[]]$Arguments = @(),
+            [Parameter(Mandatory = $false)]
+            [string[]]$Env = @()
         )
 
         $DisplayCommand = (@($Command) + @($Arguments)) -join " "
@@ -255,8 +206,14 @@ if ($InstallCodexMcp) {
             return
         }
 
+        $envArgs = @()
+        foreach ($item in $Env) {
+            $envArgs += "--env"
+            $envArgs += $item
+        }
+
         Write-Host "[ADD] Codex MCP $Name -> $DisplayCommand"
-        & $CodexCommand.Path mcp add $Name -- $Command @Arguments
+        & $CodexCommand.Path mcp add $Name @envArgs -- $Command @Arguments
         if ($LASTEXITCODE -ne 0) {
             throw "Failed to add Codex MCP server: $Name"
         }
@@ -291,6 +248,25 @@ if ($InstallCodexMcp) {
         "mcp-server",
         "-c",
         'model="gpt-5.6-luna"'
+    )
+
+    $blenderCommand = "uvx"
+    $uvxCommand = Get-Command uvx -ErrorAction SilentlyContinue
+    if ($uvxCommand -and $uvxCommand.Source) {
+        $blenderCommand = $uvxCommand.Source
+    }
+    elseif (Test-Path -LiteralPath (Join-Path $env:USERPROFILE ".local\bin\uvx.exe")) {
+        $blenderCommand = Join-Path $env:USERPROFILE ".local\bin\uvx.exe"
+    }
+    Add-CodexMcpServer -Name "blender" -Command $blenderCommand -Arguments @(
+        "--python",
+        "3.11",
+        "blender-mcp"
+    ) -Env @(
+        "UV_PYTHON_PREFERENCE=only-managed",
+        "DISABLE_TELEMETRY=true",
+        "BLENDER_HOST=localhost",
+        "BLENDER_PORT=9876"
     )
 
     if ($WhatIf) {

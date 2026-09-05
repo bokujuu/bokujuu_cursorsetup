@@ -1,8 +1,8 @@
 # ループエンジニアリング（Cursor）
 
+現行方針: 通常作業はエージェントの内側ループを使います。本キットは旧Cursor環境の手動展開用で、グローバルにインストールしません。モデルと継続の判断は [model-routing.md](model-routing.md)。
 外側オーケストレータがエージェントを **反復呼び出し**し、各反復は **fresh context**。状態はチャットではなく **git / ファイル** に残す（Ralph パターン）。
 
-関連 skill: `ralph-loop`（外側ループ）、`anti-human-bottleneck`（ローカル自律と承認境界）、`repo-agent-bootstrap`（AGENTS / registry / verify）。
 
 テンプレ実体: [templates/loop-orchestration/](../templates/loop-orchestration/)
 

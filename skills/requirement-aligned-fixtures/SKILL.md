@@ -53,7 +53,9 @@ description: >-
 **原則**: 本 skill で Generation Spec と tier を先に決め、併用ツールは**実装層**に留める。
 API 手順の深掘りは `implement-with-practices`、帳票への載せ方は `excel-deliverable-quality`。
 
-## ワークフロー（この順を崩さない）
+## 設計の観点
+
+小さなfixtureでは生成仕様・カバレッジ・再現情報を既存テストやコメントにまとめてよい。別ファイルや全tierの作成を一律に要求しない。以下から目的に必要なものを選ぶ。
 
 1. **要件取り込み** — 一次情報を列挙する（スキーマ、制約、既存 verify、利用シナリオ）。不足は `要確認` と明示し推測で埋めない。
 2. **目的とボリューム階層** — [references/volume-tiers.md](references/volume-tiers.md) で tier を選ぶ（smoke / dev / stress / negative）。
@@ -64,7 +66,7 @@ API 手順の深掘りは `implement-with-practices`、帳票への載せ方は 
    ハンドメイドの大量コピペは避ける（smoke アンカーのみ静的 fixture 可）。
 7. **不変条件検証** — 件数・主キー・FK・集計・文字コード・ソート順を機械検証する（プロジェクトの verify があればそれを正とする）。
 8. **manifest** — seed・生成器バージョン・checksum・tier を同梱し、再現手順を 1 コマンドで書く。
-9. **サンプル監査** — 全体の 1〜5% を人間可読で spot check（ビジネス不整合が型検証をすり抜けないか）。
+9. **サンプル監査** — 主要グループと境界を代表する行を人間可読で spot check（ビジネス不整合が型検証をすり抜けないか）。
 
 表形式（CSV / Excel 素データ）の追加注意: [references/tabular-excel.md](references/tabular-excel.md)。
 
@@ -121,7 +123,7 @@ manifest には最低限:
 - 要件で指定された tier の行数・グループ比率が満たされている
 - カバレッジ行列の必須行がすべてデータ上で追跡可能（行 ID またはコメント列）
 - 不変条件検証が exit 0
-- manifest があり、README または skill-memory に再現手順がある
+- 生成データでは manifest または既存テストに seed・件数・再現手順がある。小さな静的fixtureでは入力自体を再現情報とする
 - `negative` データは正データとパス・ファイル名で混在しない
 
 ## メモ

@@ -8,6 +8,16 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"]
     },
+    "blender": {
+      "command": "uvx",
+      "args": ["--python", "3.11", "blender-mcp"],
+      "env": {
+        "UV_PYTHON_PREFERENCE": "only-managed",
+        "DISABLE_TELEMETRY": "true",
+        "BLENDER_HOST": "localhost",
+        "BLENDER_PORT": "9876"
+      }
+    },
     "codex-sol": {
       "command": "codex",
       "args": ["mcp-server", "-c", "model=\"gpt-5.6-sol\""]

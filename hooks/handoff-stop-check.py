@@ -68,7 +68,8 @@ def main() -> int:
     event = (sys.argv[1] if len(sys.argv) > 1 else "stop").strip().lower()
     data = _read_input()
 
-    roots = _workspace_roots(data)
+    roots = [root for root in _workspace_roots(data)
+             if (root / '.cursor' / 'handoff-recovery.local.md').is_file()]
     if not roots:
         print("{}")
         return 0
@@ -84,9 +85,8 @@ def main() -> int:
 
     if event == "subagentstop":
         msg = (
-            "Subagent finished. Parent must: read changed files, run repo verify/build, "
-            "update .cursor/plans todos if applicable, and reply with one integrated summary "
-            "(not only 'subagent completed'). Load agent-handoff-recovery if unsure."
+            "Subagent finished. Collect its result and check any unverified integration. "
+            "Reuse valid verification results; update existing progress if needed."
         )
         if hints:
             msg += " " + hints[0]
