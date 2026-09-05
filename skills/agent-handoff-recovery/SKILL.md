@@ -1,65 +1,16 @@
 ---
 name: agent-handoff-recovery
-description: >-
-  Detects agent failure patterns from instruction drift, plan/status mismatch,
-  skipped verification, subagent handoff gaps, or ambiguous multi-track scope.
-  Course-corrects by reconciling SoT, plan todos, and verify commands before
-  continuing. Use when work does not match expectations, todos stay pending,
-  background subagents finished without synthesis, a new session lacks context,
-  or the user asks why instructions did not land.
-disable-model-invocation: false
+description: 実際に指示ずれ、完了報告と成果物の不一致、引継ぎの欠落が起きたときに状態を復元する。通常の着手や単なる曖昧さでは起動しない。
 ---
 
-# Agent Handoff Recovery
+# 状態の復元
 
-## Purpose
+最新のユーザー依頼と現在の成果物を照合し、ずれた箇所から作業を再開する。
 
-Stop "keep coding on the wrong track" loops. Reconcile **track, SoT, plan status, and verification** before more edits.
+- 対象 repo の AGENTS.md、既存の進捗記録、git status / diff、直近の検証結果から、完了・未完了・未確認を区別する。
+- 古い計画より最新の依頼を優先する。計画ファイルが無くても復旧を進める。
+- 失敗している検証を直すための編集は進める。再検証は変更や不確かな結果に必要な範囲で行う。
+- 非同期処理は返されたIDで結果を回収し、失敗・実行中・完了を区別する。別担当が検証済みなら、未検証の結合部分だけ確認する。
+- 再開に必要な場合だけ、残作業と検証結果を既存の進捗記録に残す。状況と次の作業を短く報告する。
 
-Works with `anti-human-bottleneck` (recover autonomously; ask the user only when blocked) and `fable-style-reasoning` (anchor in plan + subagent synthesis in full mode).
-
-## Self-check triggers (any one → run recovery)
-
-| Signal | Typical cause |
-|--------|----------------|
-| User says expectations not met / instructions did not land | Scope or SoT drift |
-| Plan todos `pending`/`in_progress` but files look done (or reverse) | Session handoff gap |
-| Background `Task` / subagent finished; parent only confirmed | Missing synthesis |
-| Multiple tracks touched in one diff | Parallel scope bleed |
-| "Done" without running project verify/build | False completion |
-| New session; user did not attach plan/AGENTS | Context amnesia |
-| Vague user ask with no done criteria | Missing contract |
-
-## Recovery loop (mandatory order)
-
-1. **Stop implementation** — no new features until verify passes.
-2. **Identify track** — one primary per session.
-3. **Load SoT** — user rule → `AGENTS.md` → `.cursor/plans/*.plan.md` → project `.cursor/skills/*/SKILL.md`.
-4. **Reconcile state** — `git status`, plan todo YAML, last verify output.
-5. **Run verify** — from `.cursor/handoff-recovery.local.md` or `AGENTS.md`.
-6. **Report** — status block (Japanese for user-facing text).
-7. **Continue or ask** — one `AskQuestion` (2–4 options) only if still ambiguous.
-
-## Status block template
-
-```markdown
-## 状況整理
-
-- **トラック**: …
-- **SoT**: …（ファイルパス）
-- **Plan**: …（todo 名と status）
-- **検証**: …（コマンド + OK/NG/未実行）
-- **次**: …（1–3 項目）
-```
-
-## Subagent / multitask rules
-
-- Do not delegate full plan implementation to background subagents unless the parent synthesizes and verifies in the same session.
-- Multitask only when tracks are file-disjoint.
-- After `subagentStop`: read changes → verify → update plan todos → one integrated reply.
-- When `fable-style-reasoning` full mode is active: parent keeps `.cursor/plans/*.plan.md` anchor and re-sorts subagent output into fact / assumption / unknown before continuing (see that skill).
-
-## Reference
-
-- [reference.md](reference.md) — pattern catalog P1–P8
-- [project-extension-template.md](project-extension-template.md) — per-repo `.cursor/handoff-recovery.local.md`
+障害パターンの調査が必要なときだけ [reference.md](reference.md) を参照する。

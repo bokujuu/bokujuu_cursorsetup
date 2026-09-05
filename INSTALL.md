@@ -31,20 +31,19 @@ chmod +x scripts/install.sh
 
 `skills/` 配下が `~/.codex/skills/<skill名>/` にコピーされます（同名の既存skillは上書き）。
 
-インストール時には、単純な上書きに加えて管理対象の同期も行われます。
+Python 3.9+ を使い、`scripts/sync_skills.py` が配布を共通管理します。
 
-- `~/.codex/skills/.bokujuu-cursorsetup-managed.txt` が、このリポジトリで管理するskill名の一覧です。
-- marker に記録されたskillがrepoから消えている場合、そのskillのインストール先ディレクトリを削除します。
-- marker がまだ無い既存環境では、installer内のlegacy移行リスト名を初回だけ削除し、完了後にmarkerを作成します。
-- marker にないユーザー独自ディレクトリは削除しません（初回移行時のlegacy移行リスト名を除く）。
-
-Cursor / Codex は `.codex/skills` をグローバル skill として読み込みます。
+- 管理一覧は `~/.codex/skills/.bokujuu-cursorsetup-managed.txt`。
+- 上書き前の内容と退役スキルは `~/.codex/skill-archives/<日時>/<製品>/<skill>/` に退避します。復元時は必要なディレクトリを元の配置へ戻せます。
+- `archive/` はインストールしません。製品同梱・他者のスキルは削除しません。
+- Cursorは互換経路の `~/.codex/skills/` を読みます。既存の `.cursor/skills` / `.agents/skills` に同じ管理対象があれば同期します。
+- 事前確認は `./scripts/install.ps1 -WhatIf` または `bash scripts/install.sh --dry-run`。
 
 ### 2.1 Cursor Hooks（任意）
 
-`install.ps1` は `hooks/*.py`（`handoff-stop-check.py` と `knowledge-capture-nudge.py`）を `%USERPROFILE%\.cursor\hooks\` にコピーし、**既存の `hooks.json` が無い場合のみ** 新規作成します。既にある場合は [hooks/README.md](hooks/README.md) の手動マージを行ってください（`sessionStart` を含む）。
+`install.ps1 -InstallHooks` は `hooks/*.py`（`handoff-stop-check.py` と `knowledge-capture-nudge.py`）を `%USERPROFILE%\.cursor\hooks\` にコピーし、**既存の `hooks.json` が無い場合のみ** 新規作成します。既にある場合は [hooks/README.md](hooks/README.md) の手動マージを行ってください（`sessionStart` を含む）。
 
-Hook を入れない場合: `.\scripts\install.ps1 -SkipHooks`
+Hooksは既定では追加しません。既存フックもプロジェクト側で明示的に有効化した場合だけ通知します（[hooks/README.md](hooks/README.md)）。
 
 ## 3. User Rules を Cursor に反映
 
@@ -71,13 +70,13 @@ MCP は User Rules / `.cursorrules` では設定できません。Cursor と Cod
 
 ### 4.2 Codex CLI（ユーザー全体）
 
-Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。今回の完全な Codex 設定（Sol / Terra / Luna、filesystem、memory、`AGENTS.md` 同期）には次を使います。Cursor 側は変更しません。
+Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。今回の完全な Codex 設定（Sol / Terra / Luna、filesystem、memory、blender、`AGENTS.md` 同期）には次を使います。Cursor 側は変更しません。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodex -SkipHooks
 ```
 
-`codex-mcp.template.toml` の管理対象は Sol / Terra / Luna / filesystem / memory です。既存の `%USERPROFILE%\.codex\AGENTS.md` はバックアップ後、Cursor User Rules 原本と同一内容に更新されます。
+`codex-mcp.template.toml` の管理対象は Sol / Terra / Luna / filesystem / memory / blender です。既存の `%USERPROFILE%\.codex\AGENTS.md` はバックアップ後、Cursor User Rules 原本と同一内容に更新されます。
 
 既存の先行運用との互換性のため、`codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きしません。
 
@@ -102,7 +101,7 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
 
 `-InstallCodex` と `-InstallCodexMcp` を併用した場合、管理ブロック側の同名サーバーを優先し、`codex mcp add` は重複登録を行いません。
 
-雛形の既定: filesystem / memory / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
+雛形の既定: filesystem / memory / blender / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
 
 ## 5. 動作確認
 
@@ -118,14 +117,14 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
 2. **手動確認**
 
    - Cursor を再起動
-   - Agent で skill 名（例: `web-research-resolve`）が認識されるか確認
+   - Agent で skill 名（例: `power-query-refactor`）が認識されるか確認
    - 新規チャットで User Rules が効いているか確認
    - （任意）Settings → **Hooks** に handoff 用エントリが表示されるか確認
    - （任意）`agent-handoff-recovery` skill が「期待と違う」等で読み込まれるか確認
    - （任意）`japanese-technical-writing` で短い技術説明ドラフトを作成できるか確認
    - （任意）`natural-japanese` で「もっと自然な日本語に」「AIっぽさを取って」が動作するか確認（`uv` は任意。無い場合は手動チェックリスト）
    - （任意）`cognitive-rhythm-writing` で「緩急を付けて書いて」「平坦な文章を診断して」が動作するか確認
-   - （任意）`slide-narration-video` で「全画面スライド解説動画を作って」「Marp＋ナレーション」「対話形式の解説」が動作するか確認（依存 skill も install 済みであること）
+   - （任意）`slide-narration-video` で「全画面スライド解説動画を作って」「Marp＋ナレーション」「対話形式の解説」が動作するか確認
    - （任意）`voicevox-theater-video` で「VOICEVOX劇場」「立ち絵つき対話解説」が動作するか確認（親 `slide-narration-video` も install 済みであること）
    - （任意）`japanese-doc-review` で「全観点でレビューして」が動作するか確認
    - （任意）`repo-agent-bootstrap` が「AGENTS.mdをセットアップして」で読み込まれるか確認
@@ -148,3 +147,4 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
 | MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
 | filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |
 | Codex MCP（sol/terra/luna）が無い | 完全設定は `install.ps1 -InstallCodex -SkipHooks`、既存互換経路は `install.ps1 -InstallCodexMcp` または `install.sh --install-codex-mcp`。`codex mcp list` と Codex 再起動も確認 |
+| blender MCP が Codex に無い | 同上。Blender 側で MCP for Blender を Start し、ポート `9876` を確認 |

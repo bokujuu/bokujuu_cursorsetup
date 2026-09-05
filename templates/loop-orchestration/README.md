@@ -1,5 +1,6 @@
 # loop-orchestration テンプレート
 
+現行方針: 通常作業はエージェントの内側ループを使います。本キットは旧Cursor環境の手動展開用で、グローバルにインストールしません。モデルと継続の判断は [model-routing.md](../../docs/model-routing.md)。
 Cursor で **ループエンジニアリング**（外側オーケストレータ + fresh context + 検証ゲート）を再現するための一式です。`repo-agent-bootstrap` で整えた AGENTS.md / registry とセットで使います。
 
 ## 4 層スタック（推奨順）
@@ -57,6 +58,4 @@ Cursor で **ループエンジニアリング**（外側オーケストレー�
 
 ## 関連 skill
 
-- `ralph-loop` — 外側ループ（fresh context・durable state・observable verify）
-- `anti-human-bottleneck` — ローカル自律と承認境界（Ralph 必須依存ではない）
 - `repo-agent-bootstrap` — AGENTS.md / registry / verify

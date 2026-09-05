@@ -11,7 +11,7 @@
 |----------|--------|------|
 | 7 ペルソナ観点固定 | [Zenn: 7人の意地悪なQA](https://zenn.dev/nexta_/articles/be13a2395a5d2a) | `templates/project-skills/qa-multi-perspective/` |
 | Faceted prompting | [nrslib/takt](https://github.com/nrslib/takt) | `templates/loop-orchestration/facets/` |
-| 公式主骨 + 補助実践の層分け | [shotatykr Fable トレース](https://x.com/shotatykr/status/2074035238116769851) + [Anthropic System Prompts Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) | `skills/fable-style-reasoning/` |
+| 公式主骨 + 補助実践の層分け | [shotatykr Fable トレース](https://x.com/shotatykr/status/2074035238116769851) + [Anthropic System Prompts Fable 5](https://platform.claude.com/docs/en/release-notes/system-prompts) | 旧採用（2026-09-05配布終了。履歴はGit） |
 
 ## knowledge-base に残した参照（本 repo 非採用）
 

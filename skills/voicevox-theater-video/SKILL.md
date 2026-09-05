@@ -23,7 +23,7 @@ Updated: 2026/08/22 14:02
 1. [`../slide-narration-video/SKILL.md`](../slide-narration-video/SKILL.md) — 制作フロー・`narration_mode`・キュー SoT・**出典図の転載**
 2. [`../slide-narration-video/references/dialogue-writing.md`](../slide-narration-video/references/dialogue-writing.md) — 対話原稿
 3. [`../slide-narration-video/references/tts-pronunciation.md`](../slide-narration-video/references/tts-pronunciation.md) — 字幕＝`narration`、読み＝辞書→`tts_text`
-4. [`../japanese-technical-writing/SKILL.md`](../japanese-technical-writing/SKILL.md) — スライドの論理
+4. （構成の調整が必要な場合）[`../japanese-technical-writing/SKILL.md`](../japanese-technical-writing/SKILL.md) — スライドの論理
 5. （monologue 接続のみ）[`../cognitive-rhythm-writing/SKILL.md`](../cognitive-rhythm-writing/SKILL.md)
 
 `dialogue` の各台詞は親の `dialogue-writing` を主規範とする。JT はスライド論理・用語導入、cognitive-rhythm は monologue または場面接続だけを担当し、劇場側は密度・前提・メタ分離・画面合成を担当する。

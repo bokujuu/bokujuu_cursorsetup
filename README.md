@@ -4,8 +4,8 @@ Cursor / Codex 用の **グローバル設定一式** を配布する Private �
 
 - **User Rules 原本**: `user-rules/user-rule-cursor-communication.md`（コミュニケーション枠のみ。COM/VBA は `templates/project-rules/excel/` を各リポへ）
 - **グローバル Skills（自作）**: `skills/` → インストール先は `%USERPROFILE%\.codex\skills\`
-- **Cursor Hooks（任意）**: `hooks/` → `install.ps1` で `%USERPROFILE%\.cursor\hooks\` へ（handoff + knowledge-capture）
-- **MCP 雛形**: `mcp/mcp.template.json`（Cursor 用。filesystem / memory / Codex Sol・Terra・Luna。任意は `mcp.optional.json`）
+- **Cursor Hooks（任意）**: `hooks/` → `install.ps1 -InstallHooks` で `%USERPROFILE%\.cursor\hooks\` へ（handoff + knowledge-capture）
+- **MCP 雛形**: `mcp/mcp.template.json`（Cursor 用。filesystem / memory / blender / Codex Sol・Terra・Luna。任意は `mcp.optional.json`）
 - **Codex MCP 登録**: `install.ps1 -InstallCodexMcp` / `install.sh --install-codex-mcp`（ユーザー全体の `~/.codex/config.toml`）
 
 旧構成（`.cursor/commands`、古い MCP ドキュメント等）は **2026/06 時点で廃止** しました。
@@ -29,22 +29,18 @@ python scripts\verify_repo_setup.py
 
 Linux / Cloud: `bash scripts/install.sh` のあと `python3 scripts/verify_repo_setup.py`
 
-## 更新（この PC → GitHub）
+## 更新
 
-```powershell
-cd C:\CursorPJs\bokujuu_cursorsetup
-.\scripts\sync-from-local.ps1
-git add -A
-git status
-git commit -m "chore: ローカルから user-rules / skills を再同期"
-git push origin main
-```
+GitHubの最新版をfetchし、未コミット変更を保護して同期します。本repoを原本として `skills/` を編集し、install → verify の順で反映します。`sync-from-local.ps1` による逆同期は使いません。
+commit / push は依頼がある場合に行います。
+
+2026-09-05に全22スキルを監査し、4件を退役、18件を維持・軽量化しました。[全件の判断と検証範囲](docs/astra-skill-audit.md)。新スキルは追加していません。
 
 ## ルール索引
 
 - 適用の考え方: [docs/user-rules-guide.md](docs/user-rules-guide.md)
 - タスク別の組み合わせ: [docs/rule-index.md](docs/rule-index.md)
-- Grok / Composer の使い分け: [docs/model-routing.md](docs/model-routing.md)
+- Astra の運用・モデル選択: [docs/model-routing.md](docs/model-routing.md)
 - エージェント検証の高速化: [docs/fast-agent-test-loop.md](docs/fast-agent-test-loop.md)
 
 ## 注意

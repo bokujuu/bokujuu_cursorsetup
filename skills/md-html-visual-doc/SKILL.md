@@ -4,7 +4,7 @@ description: >-
   Agent→人間向けの視覚ドキュメントを、Markdown に選択的 HTML を混ぜて作る。
   フロー図・画像引用・折りたたみ・比較ビューが必要なとき、および「MD だと読みにくい」
   「HTML で見やすく」と言われたときに使う。アーキテクチャ長期図は対象リポジトリの `templates/structure-viz/`、
-  スライド動画は slide-narration-video、Cursor 対話ダッシュボードは canvas、
+  スライド動画は slide-narration-video、対話型表示は利用環境の可視化ツール、
   過去セッション掘り起こしは cursor-session-doc に委譲。
 disable-model-invocation: false
 ---
@@ -25,14 +25,14 @@ disable-model-invocation: false
 |------|--------|
 | リポ構造・依存の長期図 | 対象リポジトリの `templates/structure-viz/` |
 | Marp + TTS 解説動画 | `slide-narration-video` |
-| セッション内の対話型ダッシュボード | Cursor `canvas` skill |
+| セッション内の対話型ダッシュボード | 利用環境の対話型可視化ツール |
 | 散文の構成・文法だけ | `japanese-technical-writing` |
 | 過去セッション / transcript の取得・要約 | `cursor-session-doc`（本 skill はその結果を閲覧用に整形する） |
 | VisualCave 等のテーマ付き単体図 HTML の丸導入 | しない（パターンのみ [references/sources.md](references/sources.md)） |
 
 ## 成果物の型（重要度順に選ぶ）
 
-迷ったら上から採用する。
+目的を満たす最小の型を選ぶ。短い説明ならプレーンMDや利用環境のインライン図でよい。
 
 | 優先 | 型 | いつ | 出力 |
 |------|----|------|------|
@@ -79,7 +79,7 @@ disable-model-invocation: false
 npx --yes @mermaid-js/mermaid-cli@11.4.0 -i {成果物ディレクトリ}/flow.mmd -o {成果物ディレクトリ}/flow.svg -b transparent
 ```
 
-4. GitHub 等でフェンスが確実に描画される場合のみ、二次として ```mermaid を併記してよい（一次は画像）。
+4. Mermaid を描画できる環境ではフェンスをそのまま使い、不要な画像生成を省く。
 
 アーキテクチャの長期 SoT 図は本 skill ではなく、対象リポジトリの `templates/structure-viz/` を使う。
 

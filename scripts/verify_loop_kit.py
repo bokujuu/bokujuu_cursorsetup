@@ -57,14 +57,13 @@ REQUIRED_SNIPPETS: dict[Path, list[str]] = {
         "composer-2.5",
     ],
     REPO_ROOT / "docs" / "model-routing.md": [
-        "Grok 4.5",
-        "composer-2.5",
+        "GPT-6 Astra",
         "CURSOR_MODEL",
     ],
 }
 
 OPTIONAL_PATHS = [
-    REPO_ROOT / "skills" / "ralph-loop" / "references" / "operational-guide.md",
+    REPO_ROOT / "archive" / "pre-astra-20260905" / "skills" / "ralph-loop" / "references" / "operational-guide.md",
     REPO_ROOT / "docs" / "pr" / "010-loop-orchestration-kit.md",
 ]
 
