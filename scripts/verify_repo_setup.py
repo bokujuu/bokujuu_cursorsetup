@@ -60,7 +60,7 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
     if name_m:
         out["name"] = name_m.group(1).strip()
     desc_m = re.search(
-        r"^description:\s*>-\s*\n((?:[ \t].+\n?)+)",
+        r"^description:\s*[|>][+-]?[0-9]*[ \t]*\n((?:[ \t].+\n?)+)",
         block,
         re.M,
     )
@@ -254,6 +254,38 @@ def verify_retirement(errors: list[str], *, repo_only: bool) -> None:
     ok('retirement boundary checked')
 
 
+def verify_imozuru_upstream(errors: list[str]) -> None:
+    sources = REPO_ROOT / "skills" / "imozuru" / "references" / "sources.md"
+    script = REPO_ROOT / "scripts" / "update_imozuru.py"
+    test = REPO_ROOT / "scripts" / "test_update_imozuru.py"
+    if not script.is_file() or not test.is_file():
+        errors.append("Missing scripts/update_imozuru.py or scripts/test_update_imozuru.py")
+        return
+    if not sources.is_file():
+        errors.append("Missing skills/imozuru/references/sources.md")
+        return
+    text = sources.read_text(encoding="utf-8")
+    for needle in ("https://github.com/MaryCache/imozuru", "python scripts/update_imozuru.py"):
+        if needle not in text:
+            errors.append(f"imozuru sources.md missing update marker: {needle}")
+            return
+    result = subprocess.run(
+        [sys.executable, str(test)],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=False,
+    )
+    if result.returncode != 0:
+        errors.append("test_update_imozuru.py failed")
+        detail = (result.stderr or result.stdout or "").strip()
+        if detail:
+            errors.append(detail[:500])
+    else:
+        ok("imozuru upstream update procedure")
+
+
 def verify_loop_kit_subprocess(errors: list[str]) -> None:
     script = REPO_ROOT / "scripts" / "verify_loop_kit.py"
     if not script.is_file():
@@ -299,6 +331,7 @@ def main() -> int:
     verify_templates(errors)
     verify_installed_skills(errors, repo_only=args.repo_only)
     verify_retirement(errors, repo_only=args.repo_only)
+    verify_imozuru_upstream(errors)
     verify_loop_kit_subprocess(errors)
 
     if errors:

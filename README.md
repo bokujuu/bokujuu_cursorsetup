@@ -32,6 +32,9 @@ Linux / Cloud: `bash scripts/install.sh` のあと `python3 scripts/verify_repo_
 ## 更新
 
 GitHubの最新版をfetchし、未コミット変更を保護して同期します。本repoを原本として `skills/` を編集し、install → verify の順で反映します。`sync-from-local.ps1` による逆同期は使いません。
+
+imozuru の本文は手で直しません。本家 `main` を取り直すときは `python scripts/update_imozuru.py` のあと `.\scripts\install.ps1` です。手順は [INSTALL.md](INSTALL.md) の「imozuru を本家の最新にする」です。
+
 commit / push は依頼がある場合に行います。
 
 2026-09-05に全22スキルを監査し、4件を退役、18件を維持・軽量化しました。[全件の判断と検証範囲](docs/astra-skill-audit.md)。新スキルは追加していません。

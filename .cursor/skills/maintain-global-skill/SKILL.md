@@ -24,6 +24,7 @@ description: >-
    - `SKILL.md` frontmatter: `name:` はフォルダ名と一致
    - `description:` は長さではなく、発火条件・用途・主要な除外条件をモデルが判別できる最短の記述にする。trigger 語の羅列を目的にしない。body の責務を description で過大に宣言しない。近接 Skill との境界が曖昧な場合だけ除外条件を書く。同じ情報を言い換えて重複させない。`templates/project-skills/`（タスクカテゴリ）と `implement-with-practices`（ライブラリ/API 特化）の境界を守る
    - 外部取込みは `references/sources.md` に upstream URL を記載
+   - imozuru の更新は `python scripts/update_imozuru.py`。本家 `main` の `skills/imozuru/` を置き換え、`LICENSE` と `references/sources.md` だけこちらで足す。手コピーや本文の改変はしない
 3. **一覧反映** — [MANIFEST.md](../../../MANIFEST.md) の skills 表に行追加。[docs/rule-index.md](../../../docs/rule-index.md) にユーザー向け行を追加（必要時）。[INSTALL.md](../../../INSTALL.md) の動作確認項目を追加（任意 skill の場合は「任意」明記）
 4. **インストール**
 
