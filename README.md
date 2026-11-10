@@ -5,7 +5,7 @@ Cursor / Codex 用の **グローバル設定一式** を配布する Private �
 - **User Rules 原本**: `user-rules/user-rule-cursor-communication.md`（コミュニケーション枠のみ。COM/VBA は `templates/project-rules/excel/` を各リポへ）
 - **グローバル Skills（自作）**: `skills/` → インストール先は `%USERPROFILE%\.codex\skills\`
 - **Cursor Hooks（任意）**: `hooks/` → `install.ps1 -InstallHooks` で `%USERPROFILE%\.cursor\hooks\` へ（handoff + knowledge-capture）
-- **MCP 雛形**: `mcp/mcp.template.json`（Cursor 用。filesystem / memory / blender / Codex Sol・Terra・Luna。任意は `mcp.optional.json`）
+- **MCP 雛形**: `mcp/mcp.template.json`（Cursor 用。filesystem / memory / blender。任意は `mcp.optional.json`。GPT-5.6 の Sol / Terra / Luna は含めない）
 - **Codex MCP 登録**: `install.ps1 -InstallCodexMcp` / `install.sh --install-codex-mcp`（ユーザー全体の `~/.codex/config.toml`）
 
 旧構成（`.cursor/commands`、古い MCP ドキュメント等）は **2026/06 時点で廃止** しました。

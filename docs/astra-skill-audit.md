@@ -67,7 +67,7 @@ SKILL.md本体の合計ファイルサイズは181,715→92,678 bytes（約49%�
 - `python scripts/verify_loop_kit.py`: OK（旧手動キットの整合性）。
 - 変更Pythonの `python -m py_compile`、Git Bashの `bash -n scripts/install.sh`、`git diff --check`: OK。
 
-Codexのローカルmodel設定は既に `gpt-6-astra` でした。User Rules原本を短く調整し、CodexのAGENTS.mdへバックアップ付きで反映しました。配置済みCursorフックも更新済みです。既存のSol/Terra/Luna MCPは開始前の変更を維持しています。
+Codexのローカルmodel設定は既に `gpt-6-astra` でした。User Rules原本を短く調整し、CodexのAGENTS.mdへバックアップ付きで反映しました。配置済みCursorフックも更新済みです。既存のSol/Terra/Luna MCPは開始前の変更を維持しています。2026/11/10 に雛形から外しました。
 
 残る手動反映は、Cursor SettingsのUser Rulesへの [原本](../user-rules/user-rule-cursor-communication.md) の貼り直しと、両製品の新しいタスクでの読込み確認です。既に進行中の会話から旧スキルの内容が消えるわけではありません。コミット・pushは未実施です。
 

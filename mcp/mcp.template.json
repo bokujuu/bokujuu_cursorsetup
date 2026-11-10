@@ -17,18 +17,6 @@
         "BLENDER_HOST": "localhost",
         "BLENDER_PORT": "9876"
       }
-    },
-    "codex-sol": {
-      "command": "codex",
-      "args": ["mcp-server", "-c", "model=\"gpt-5.6-sol\""]
-    },
-    "codex-terra": {
-      "command": "codex",
-      "args": ["mcp-server", "-c", "model=\"gpt-5.6-terra\""]
-    },
-    "codex-luna": {
-      "command": "codex",
-      "args": ["mcp-server", "-c", "model=\"gpt-5.6-luna\""]
     }
   }
 }

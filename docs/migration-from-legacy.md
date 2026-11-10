@@ -27,9 +27,9 @@ PR #3 以前の **`.cursor/` 配下一式**は廃止しました。`origin/main`
 
 | 項目 | 旧 | 新 |
 |------|-----|-----|
-| 同梱 | `playwright` / `serena` をデフォルト同梱 | テンプレは filesystem / memory / Codex×3（Sol・Terra・Luna）。任意は `mcp/mcp.optional.json` |
+| 同梱 | `playwright` / `serena` をデフォルト同梱 | テンプレは filesystem / memory / blender。任意は `mcp/mcp.optional.json` |
 | context7 | テンプレ同梱だった時期あり | **非同梱**（不要のため削除） |
-| Codex | 単一 `codex` エントリ、または未同梱 | `codex-sol` / `codex-terra` / `codex-luna`（`codex mcp-server -c model=...`） |
+| Codex | 単一 `codex` エントリ、または未同梱 | いったん Sol / Terra / Luna を同梱した。2026/11/10 に GPT-5.6 を呼ばないため雛形から外した |
 | GitHub PAT | プレースホルダ表記が不統一 | `Bearer YOUR_GITHUB_PAT_HERE`（optional・`mcp.json` は gitignore） |
 | filesystem ルート | `"."` | テンプレ同様。**プロジェクト絶対パスへの差し替えを推奨**（[mcp/README.md](../mcp/README.md)） |
 
@@ -47,3 +47,4 @@ git reset --hard origin/main
 ## 更新履歴
 
 - 2026/06/01 16:30: 初版（新構成への整合ドキュメント）
+- 2026/11/10 23:25: `codex-sol` / `codex-terra` / `codex-luna` を雛形とインストーラから削除

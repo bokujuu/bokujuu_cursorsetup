@@ -52,6 +52,31 @@ codex_mcp_add_if_missing() {
   codex mcp add "${name}" -- "$@"
 }
 
+remove_retired_gpt56_mcp() {
+  local config="${CODEX_HOME:-$HOME}/.codex/config.toml"
+  if [[ ! -f "${config}" ]]; then
+    echo "[SKIP] Codex config not found: ${config}"
+    return
+  fi
+  python3 - "${config}" <<'PY'
+import pathlib
+import re
+import sys
+
+path = pathlib.Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+pattern = re.compile(
+    r"(?m)^\[mcp_servers\.codex-(?:sol|terra|luna)\](?:\r?\n(?!\[|# END bokujuu-cursorsetup)[^\r\n]*)*"
+)
+new = pattern.sub("", text)
+if new == text:
+    print("[SKIP] Codex MCP already absent: codex-sol, codex-terra, codex-luna")
+else:
+    path.write_text(new, encoding="utf-8", newline="")
+    print("[REMOVE] Codex MCP codex-sol, codex-terra, codex-luna from " + str(path))
+PY
+}
+
 if [[ "${install_codex_mcp}" == true ]]; then
   if ! command -v codex >/dev/null 2>&1; then
     echo "[ERROR] codex command not found. Add Codex CLI to PATH before using --install-codex-mcp." >&2
@@ -70,9 +95,7 @@ if [[ "${install_codex_mcp}" == true ]]; then
   fi
 
   codex_mcp_add_if_missing "memory" npx -y @modelcontextprotocol/server-memory
-  codex_mcp_add_if_missing "codex-sol" codex mcp-server -c 'model="gpt-5.6-sol"'
-  codex_mcp_add_if_missing "codex-terra" codex mcp-server -c 'model="gpt-5.6-terra"'
-  codex_mcp_add_if_missing "codex-luna" codex mcp-server -c 'model="gpt-5.6-luna"'
+  remove_retired_gpt56_mcp
 
   uvx_cmd="$(command -v uvx 2>/dev/null || true)"
   if [[ -z "${uvx_cmd}" && -x "${HOME}/.local/bin/uvx" ]]; then
