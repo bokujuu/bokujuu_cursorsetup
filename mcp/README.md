@@ -42,7 +42,7 @@ Codex は Cursor の `mcp.json` を読みません。Codex のグローバル MC
 
 ### 完全設定（推奨）
 
-Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、blender、Codex `AGENTS.md` を設定するには次を実行します。
+Cursor 側を変更せずに、filesystem、memory、blender、Codex `AGENTS.md` を設定するには次を実行します。GPT-5.6 の Sol / Terra / Luna は登録しません。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodex -SkipHooks
@@ -53,11 +53,11 @@ Cursor 側を変更せずに、Sol / Terra / Luna、filesystem、memory、blende
 - `%USERPROFILE%\.codex\config.toml`: `mcp/codex-mcp.template.toml` の管理ブロックを追加・更新
 - `%USERPROFILE%\.codex\AGENTS.md`: `user-rules/user-rule-cursor-communication.md` を完全コピー（既存ファイルは日時付きバックアップ）
 
-Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。Sol / Terra / Luna はレビュー用の別 Codex セッションとして呼び出すため、MCPツール承認を `default_tools_approval_mode = "approve"` にしています。filesystem / memory / blender は追加の承認設定を持たず、クライアントの既定承認に従います。blender は Cursor 側と同じ `uvx --python 3.11 blender-mcp`（ホスト `localhost:9876`）です。GUI から起動する Codex 向けに、`install.ps1 -InstallCodex` は見つかった `uvx` の絶対パスへ置き換えます。
+Cursor の `%USERPROFILE%\.cursor\mcp.json`、Cursor の hooks、Cursor User Rules は変更しません。filesystem / memory / blender は追加の承認設定を持たず、クライアントの既定承認に従います。blender は Cursor 側と同じ `uvx --python 3.11 blender-mcp`（ホスト `localhost:9876`）です。GUI から起動する Codex 向けに、`install.ps1 -InstallCodex` は見つかった `uvx` の絶対パスへ置き換えます。管理ブロックに残っている `codex-sol` / `codex-terra` / `codex-luna` は外します。
 
 ### 既存互換経路
 
-先行運用との互換性のため、公式の `codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きせず、filesystem は root を指定した場合だけ登録します。
+先行運用との互換性のため、公式の `codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きせず、filesystem は root を指定した場合だけ登録します。`codex-sol` / `codex-terra` / `codex-luna` が残っていれば、`config.toml` のその節だけを削除します。`codex mcp remove` はファイル全体を書き直すため使いません。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodexMcp
@@ -103,13 +103,10 @@ codex mcp list
 | filesystem | ローカルファイル | ルートは絶対パス推奨 |
 | memory | セッション間メモ | |
 | blender | Blender シーン操作（`blender-mcp`） | アドオン側で Start MCP Server が必要。Cursor と同時起動は公式非推奨 |
-| codex-sol | Codex MCP（GPT-5.6 Sol 既定） | 旗艦・難しいエージェント作業 |
-| codex-terra | Codex MCP（GPT-5.6 Terra 既定） | バランス・高ボリューム |
-| codex-luna | Codex MCP（GPT-5.6 Luna 既定） | 軽量・日常作業 |
 
-各 Codex エントリは既存の `codex mcp-server` 起動をベースに、`-c model="gpt-5.6-..."` で既定モデルだけ分けています。呼び出し時の `model` 引数で上書きも可能です。Codex 用の TOML 正本は `mcp/codex-mcp.template.toml` です。
+Codex 用の TOML 正本は `mcp/codex-mcp.template.toml` です。
 
-**削除したもの**: `context7`（ライブラリ docs 用。不要のため template から外した）
+**削除したもの**: `context7`（ライブラリ docs 用。不要のため template から外した）。`codex-sol` / `codex-terra` / `codex-luna`（GPT-5.6 を MCP から呼ばないため外した）
 
 ## 任意サーバー（optional）
 

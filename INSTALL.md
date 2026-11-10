@@ -70,15 +70,15 @@ MCP は User Rules / `.cursorrules` では設定できません。Cursor と Cod
 
 ### 4.2 Codex CLI（ユーザー全体）
 
-Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。今回の完全な Codex 設定（Sol / Terra / Luna、filesystem、memory、blender、`AGENTS.md` 同期）には次を使います。Cursor 側は変更しません。
+Codex のグローバル設定は `~/.codex/config.toml`（Windows は `%USERPROFILE%\.codex\config.toml`）です。filesystem、memory、blender、`AGENTS.md` 同期には次を使います。Cursor 側は変更しません。GPT-5.6 の Sol / Terra / Luna は登録しません。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodex -SkipHooks
 ```
 
-`codex-mcp.template.toml` の管理対象は Sol / Terra / Luna / filesystem / memory / blender です。既存の `%USERPROFILE%\.codex\AGENTS.md` はバックアップ後、Cursor User Rules 原本と同一内容に更新されます。
+`codex-mcp.template.toml` の管理対象は filesystem / memory / blender です。既存の `%USERPROFILE%\.codex\AGENTS.md` はバックアップ後、Cursor User Rules 原本と同一内容に更新されます。管理ブロックの更新時に、残っている `codex-sol` / `codex-terra` / `codex-luna` は外します。
 
-既存の先行運用との互換性のため、`codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きしません。
+既存の先行運用との互換性のため、`codex mcp add` を使う登録経路も残しています。これは MCP 登録だけを行い、`AGENTS.md` は同期しません。既存の同名サーバーは上書きしません。`codex-sol` / `codex-terra` / `codex-luna` が残っていれば外します。
 
 ```powershell
 .\scripts\install.ps1 -InstallCodexMcp
@@ -101,7 +101,7 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
 
 `-InstallCodex` と `-InstallCodexMcp` を併用した場合、管理ブロック側の同名サーバーを優先し、`codex mcp add` は重複登録を行いません。
 
-雛形の既定: filesystem / memory / blender / **codex-sol・codex-terra・codex-luna**（GPT-5.6）。`context7` は含めません。
+雛形の既定: filesystem / memory / blender。`context7` と GPT-5.6 の `codex-sol` / `codex-terra` / `codex-luna` は含めません。
 
 ## 5. 動作確認
 
@@ -146,5 +146,5 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
 | ルールが古い / 長すぎる | [user-rules-guide.md](docs/user-rules-guide.md) の 1 ファイル運用を確認 |
 | MCP 認証エラー | `mcp.json` のトークン・URL を確認（`Bearer` 形式） |
 | filesystem が変なパスを見る | `mcp.template.json` の `"."` をプロジェクト絶対パスへ変更 |
-| Codex MCP（sol/terra/luna）が無い | 完全設定は `install.ps1 -InstallCodex -SkipHooks`、既存互換経路は `install.ps1 -InstallCodexMcp` または `install.sh --install-codex-mcp`。`codex mcp list` と Codex 再起動も確認 |
+| Codex の Sol / Terra / Luna が残っている | 雛形には含めない。`install.ps1 -InstallCodex` または `-InstallCodexMcp`（Linux は `install.sh --install-codex-mcp`）で外す。Cursor は `%USERPROFILE%\.cursor\mcp.json` から三つのエントリを削除して再起動する |
 | blender MCP が Codex に無い | 同上。Blender 側で MCP for Blender を Start し、ポート `9876` を確認 |

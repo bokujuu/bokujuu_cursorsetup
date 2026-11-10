@@ -180,6 +180,8 @@ def verify_codex_mcp_installers(errors: list[str]) -> None:
         errors.append("install.sh: missing blender MCP registration")
 
     toml_path = REPO_ROOT / "mcp" / "codex-mcp.template.toml"
+    cursor_template = REPO_ROOT / "mcp" / "mcp.template.json"
+    template_text = ""
     if toml_path.is_file():
         toml_text = toml_path.read_text(encoding="utf-8")
         if "[mcp_servers.blender]" not in toml_text or "blender-mcp" not in toml_text:
@@ -188,6 +190,31 @@ def verify_codex_mcp_installers(errors: list[str]) -> None:
             ok("codex-mcp.template.toml blender MCP")
     else:
         errors.append("Missing mcp/codex-mcp.template.toml")
+        toml_text = ""
+
+    if cursor_template.is_file():
+        template_text = cursor_template.read_text(encoding="utf-8")
+    else:
+        errors.append("Missing mcp/mcp.template.json")
+
+    retired_models = ("gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna")
+    for label, body in (
+        ("install.ps1", powershell_text),
+        ("install.sh", shell_text),
+        ("codex-mcp.template.toml", toml_text),
+        ("mcp.template.json", template_text),
+    ):
+        for model_name in retired_models:
+            if model_name in body:
+                errors.append(f"{label}: retired model still present: {model_name}")
+    if r"mcp_servers\.codex-" not in powershell_text:
+        errors.append("install.ps1: missing textual removal of retired GPT-5.6 servers")
+    if r"mcp_servers\.codex-" not in shell_text:
+        errors.append("install.sh: missing textual removal of retired GPT-5.6 servers")
+    if "codex mcp remove" in powershell_text or "codex mcp remove" in shell_text:
+        errors.append("installers must not call codex mcp remove; it rewrites the whole config")
+    if not any(model_name in powershell_text or model_name in shell_text or model_name in toml_text or model_name in template_text for model_name in retired_models):
+        ok("GPT-5.6 Sol/Terra/Luna MCP removed from templates and installers")
 
 
 def verify_hooks(errors: list[str]) -> None:

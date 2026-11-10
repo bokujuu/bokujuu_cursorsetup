@@ -135,8 +135,8 @@
 
 | ファイル | 内容 |
 |----------|------|
-| `mcp.template.json` | Cursor 用の最小構成の雛形（filesystem / memory / blender / codex-sol・terra・luna）。context7 は非同梱 |
-| `codex-mcp.template.toml` | Codex グローバル `config.toml` 用の管理対象（filesystem / memory / blender / codex-sol・terra・luna） |
+| `mcp.template.json` | Cursor 用の最小構成の雛形（filesystem / memory / blender）。context7 と GPT-5.6 の Sol / Terra / Luna は非同梱 |
+| `codex-mcp.template.toml` | Codex グローバル `config.toml` 用の管理対象（filesystem / memory / blender）。GPT-5.6 の Sol / Terra / Luna は非同梱 |
 | `mcp.optional.json` | excel / github / playwright / serena（任意） |
 | `README.md` | Cursor / Codex への適用手順・グローバル vs プロジェクト配置・セキュリティ注意 |
 

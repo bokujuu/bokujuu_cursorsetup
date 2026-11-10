@@ -20,6 +20,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
+$RetiredCodexMcpPattern = '(?m)^\[mcp_servers\.codex-(?:sol|terra|luna)\](?:\r?\n(?!\[|# END bokujuu-cursorsetup)[^\r\n]*)*'
 $syncArgs = @()
 if ($WhatIf) { $syncArgs += "--dry-run" }
 & python (Join-Path $Root "scripts\sync_skills.py") @syncArgs
@@ -94,7 +95,7 @@ if ($InstallCodex) {
         $newConfigText = [regex]::Replace($configText, $managedPattern, $templateText + "`r`n")
     }
     else {
-        $managedNames = @("filesystem", "memory", "blender", "codex-sol", "codex-terra", "codex-luna")
+        $managedNames = @("filesystem", "memory", "blender")
         $existingManaged = @(
             $managedNames | Where-Object {
                 $configText -match ("(?m)^\[mcp_servers\." + [regex]::Escape($_) + "\]\s*$")
@@ -111,6 +112,8 @@ if ($InstallCodex) {
             $newConfigText = $configText.TrimEnd() + "`r`n`r`n" + $templateText + "`r`n"
         }
     }
+
+    $newConfigText = [regex]::Replace($newConfigText, $RetiredCodexMcpPattern, "")
 
     if ($WhatIf) {
         Write-Host "[WHATIF] Would write Codex MCP configuration"
@@ -219,6 +222,29 @@ if ($InstallCodexMcp) {
         }
     }
 
+    function Remove-RetiredGpt56McpSections {
+        $CodexConfigPath = Join-Path $env:USERPROFILE ".codex\config.toml"
+        if (-not (Test-Path -LiteralPath $CodexConfigPath)) {
+            Write-Host "[SKIP] Codex config not found: $CodexConfigPath"
+            return
+        }
+
+        $configText = Get-Content -LiteralPath $CodexConfigPath -Raw -Encoding UTF8
+        $strippedText = [regex]::Replace($configText, $RetiredCodexMcpPattern, "")
+        if ($strippedText -eq $configText) {
+            Write-Host "[SKIP] Codex MCP already absent: codex-sol, codex-terra, codex-luna"
+            return
+        }
+        if ($WhatIf) {
+            Write-Host "[WHATIF] Would remove codex-sol, codex-terra, codex-luna from $CodexConfigPath"
+            return
+        }
+
+        $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText($CodexConfigPath, $strippedText, $utf8NoBom)
+        Write-Host "[REMOVE] Codex MCP codex-sol, codex-terra, codex-luna from $CodexConfigPath"
+    }
+
     if ($FilesystemRoot) {
         Add-CodexMcpServer -Name "filesystem" -Command "npx" -Arguments @(
             "-y",
@@ -234,21 +260,7 @@ if ($InstallCodexMcp) {
         "-y",
         "@modelcontextprotocol/server-memory"
     )
-    Add-CodexMcpServer -Name "codex-sol" -Command "codex" -Arguments @(
-        "mcp-server",
-        "-c",
-        'model="gpt-5.6-sol"'
-    )
-    Add-CodexMcpServer -Name "codex-terra" -Command "codex" -Arguments @(
-        "mcp-server",
-        "-c",
-        'model="gpt-5.6-terra"'
-    )
-    Add-CodexMcpServer -Name "codex-luna" -Command "codex" -Arguments @(
-        "mcp-server",
-        "-c",
-        'model="gpt-5.6-luna"'
-    )
+    Remove-RetiredGpt56McpSections
 
     $blenderCommand = "uvx"
     $uvxCommand = Get-Command uvx -ErrorAction SilentlyContinue
