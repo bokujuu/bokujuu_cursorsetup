@@ -34,6 +34,7 @@
 | `power-query-refactor` | Power Query M の編集方針（挙動保持・配置原則・notes・Table.Buffer）。帳票品質は `excel-deliverable-quality`、COM export/import は各リポへ委譲。設計源: [bokujuu/powerquery_refactor](https://github.com/bokujuu/powerquery_refactor)。設計: [docs/pr/016-power-query-refactor.md](docs/pr/016-power-query-refactor.md) |
 | `md-html-visual-doc` | Agent→人間向けの視覚ドキュメント（Markdown + 選択的 HTML）。Companion HTML / 事前レンダ図 / `<details>` 等。スライドは `slide-narration-video`、transcript は `cursor-session-doc` に委譲。外部 VisualCave 等は丸導入せずパターンのみ。設計: [docs/pr/017-md-html-visual-doc.md](docs/pr/017-md-html-visual-doc.md) |
 | `eli5` | 大きな絵と少ない言葉の HTML で、知らない人向けに説明する（`/eli5`）。本文は [anthropics/claude-plugins-community eli5](https://github.com/anthropics/claude-plugins-community/tree/main/eli5) の原文。設計: [docs/pr/019-eli5.md](docs/pr/019-eli5.md) |
+| `imozuru` | 知らない分野を用語・人・媒体から原文へたどり、要約せず保存する（`/imozuru`、watch）。本文は [MaryCache/imozuru](https://github.com/MaryCache/imozuru) の原文。設計: [docs/pr/020-imozuru.md](docs/pr/020-imozuru.md) |
 
 ## hooks/（任意・Windows）
 
@@ -116,6 +117,7 @@
 | `verify_loop_kit.py` | loop-orchestration テンプレ同梱検証 |
 | `verify_non_interactive_hang_kit.py` | non-interactive-hang テンプレ同梱 + test_watchdog |
 | `sdk-smoke.ps1` | CLI + TS SDK + Python async スモーク |
+| `update_imozuru.py` | [MaryCache/imozuru](https://github.com/MaryCache/imozuru) の `main` から `skills/imozuru/` を取り直す。`LICENSE` と `references/sources.md` 以外は手で直さない |
 
 
 ## docs/

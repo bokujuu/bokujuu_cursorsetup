@@ -45,6 +45,18 @@ Python 3.9+ を使い、`scripts/sync_skills.py` が配布を共通管理しま�
 
 Hooksは既定では追加しません。既存フックもプロジェクト側で明示的に有効化した場合だけ通知します（[hooks/README.md](hooks/README.md)）。
 
+### 2.2 imozuru を本家の最新にする
+
+`skills/imozuru/` は [MaryCache/imozuru](https://github.com/MaryCache/imozuru) の `main` を同梱した写しです。更新は手でコピーせず、本家を取得してから配布します。
+
+```powershell
+python scripts\update_imozuru.py
+.\scripts\install.ps1
+python scripts\verify_repo_setup.py
+```
+
+Linux / macOS / WSL では `python3 scripts/update_imozuru.py` のあと `bash scripts/install.sh` です。`references/sources.md` のコミットが、取得した `main` の SHA になります。`SKILL.md` は書き換えません。差分をこのリポジトリへ commit してから、次の install がその写しを配ります。
+
 ## 3. User Rules を Cursor に反映
 
 **推奨運用** — 詳細は [docs/user-rules-guide.md](docs/user-rules-guide.md):
@@ -132,6 +144,7 @@ filesystem のルートを指定しない場合は、ファイルアクセスを
    - （任意）`power-query-refactor` が「M を整理」「コメント追加」「Table.Buffer」「再計算抑制」で読み込まれるか確認
    - （任意）`md-html-visual-doc` で「MD だと読みにくい比較・ギャラリーを HTML で見やすく」が動作し、相対リンクと再生成情報を含む成果になるか確認
    - （任意）`eli5` で「/eli5」または「超簡単な絵で説明して」が動作し、大きな絵と少ない言葉の HTML になるか確認
+   - （任意）`imozuru` で「芋づる式に調べて」「/imozuru」が動作し、原文を要約せず `~/research/<話題>/` に保存するか確認
    - （任意）`requirement-aligned-fixtures` が「ダミーデータを作って」「fixture を設計して」で読み込まれるか確認
 
 ## 旧構成から移行した場合

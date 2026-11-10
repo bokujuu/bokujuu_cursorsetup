@@ -26,6 +26,7 @@
 | **構造・依存の可視化** | `templates/structure-viz/` → 対象リポの `docs/` または静的サイト |
 | **人間向けの視覚ドキュメント（MD + HTML）** | skill `md-html-visual-doc` → 文章の論理は `japanese-technical-writing`。スライド動画は `slide-narration-video`、transcript は `cursor-session-doc` |
 | **超簡単な絵解説（ELI5）** | skill `eli5` → 大きな絵と少ない言葉の HTML。比較表・手順ギャラリーは `md-html-visual-doc`、スライド動画は `slide-narration-video` |
+| **知らない分野の原文調査（芋づる）** | skill `imozuru`。調べている間は要約しない。配置判断は `abstract-source-patterns`、技術文書の執筆は `japanese-technical-writing` |
 | **日本語技術文書（作成・改稿）** | skill `japanese-technical-writing` |
 | **日本語の自然さ・AI臭さ（仕事文書・リライト）** | skill `natural-japanese` → 技術文書の型・常体は `japanese-technical-writing` を先に。読み物の緩急は `cognitive-rhythm-writing`。指摘のみは `japanese-doc-review` |
 | **日本語の読み物・解説文の緩急（認知リズム）** | skill `cognitive-rhythm-writing` → 技術文書の土台は `japanese-technical-writing` |
@@ -47,6 +48,7 @@
 | `cursor-session-doc` | ctx が使えないときの jsonl 要約。履歴検索の正は `ctx` |
 | `md-html-visual-doc` | Agent→人間向け MD + 選択的 HTML（比較ビュー・ギャラリー・フロー画像） |
 | `eli5` | 知らない人向けの大きな絵＋少ない言葉の HTML（`/eli5`）。upstream 原文 |
+| `imozuru` | 用語・人・媒体から原文をたどって保存する（`/imozuru`、`/imozuru watch`）。upstream 原文。本家の更新は `python scripts/update_imozuru.py` |
 | `implement-with-practices` | 既存repo-local手順の再利用・更新。自動のスキル新設はしない |
 | `repo-agent-bootstrap` | repo固有の入口と手順の整備。スキル・registry新設は必要時のみ |
 | `japanese-doc-review` | 日本語文書の根拠ある指摘。通常は全観点、固定形式は指定時のみ |
